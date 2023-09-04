@@ -6,7 +6,6 @@ import Linkedin from "@/components/Icons/Linkedin"
 import Instagram from "@/components/Icons/Instagram"
 import Underline from "@/components/Graphics/Underline"
 import Arrow from "@/components/Graphics/Arrow"
-
 export default function Footer() {
   return (
     <footer id="contact" className="mt-24 grid gap-16">
