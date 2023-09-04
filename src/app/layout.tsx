@@ -1,15 +1,15 @@
-import "./globals.css";
+import "./globals.css"
 // import type { Metadata } from 'next'
-import { Poppins } from "next/font/google";
-import localFont from "next/font/local";
+import { Poppins } from "next/font/google"
+import localFont from "next/font/local"
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar"
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
   variable: "--font-poppins",
-});
+})
 
 const sunset = localFont({
   src: [
@@ -30,7 +30,7 @@ const sunset = localFont({
     },
   ],
   variable: "--font-sunset",
-});
+})
 
 // export const metadata: Metadata = {
 //   title: 'Create Next App',
@@ -40,7 +40,7 @@ const sunset = localFont({
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
@@ -51,5 +51,5 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  );
+  )
 }
