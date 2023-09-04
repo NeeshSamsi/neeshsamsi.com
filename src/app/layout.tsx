@@ -1,8 +1,36 @@
-import './globals.css'
+import "./globals.css";
 // import type { Metadata } from 'next'
-import { Poppins } from 'next/font/google'
+import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 
-const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "500"]  })
+import Navbar from "@/components/Navbar";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-poppins",
+});
+
+const sunset = localFont({
+  src: [
+    {
+      path: "../assets/fonts/sunset-serial-light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/sunset-serial-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/sunset-serial-medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--font-sunset",
+});
 
 // export const metadata: Metadata = {
 //   title: 'Create Next App',
@@ -12,11 +40,16 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "500"]  })
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body
+        className={`${poppins.variable} ${sunset.variable} mx-auto max-w-screen-xl bg-dark font-sans text-light`}
+      >
+        <Navbar />
+        {children}
+      </body>
     </html>
-  )
+  );
 }

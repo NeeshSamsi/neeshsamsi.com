@@ -1,12 +1,17 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
-const config: Config = {
+export default {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      sans: ["var(--font-poppins)", ...defaultTheme.fontFamily.sans],
+      serif: ["var(--font-sunset)", ...defaultTheme.fontFamily.serif],
+    },
     extend: {
       colors: {
         dark: "#1D3557",
@@ -14,9 +19,8 @@ const config: Config = {
         lighter: "#B8E0E1",
         brand: "#F4A430",
         accent: "#25BBC5",
-      }
+      },
     },
   },
   plugins: [],
-}
-export default config
+} satisfies Config;
