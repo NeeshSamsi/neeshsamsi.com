@@ -1,4 +1,4 @@
-import { cn } from "@/app/lib/utils"
+import { cn } from "@/lib/utils"
 import Underline from "@/components/Graphics/Underline"
 
 export default function Headline({
