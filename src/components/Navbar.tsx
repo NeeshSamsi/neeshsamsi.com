@@ -8,11 +8,11 @@ export default function Navbar() {
     },
     {
       text: "Work",
-      path: "/work",
+      path: "/#work",
     },
     {
       text: "About",
-      path: "/about",
+      path: "/#about",
     },
     {
       text: "Contact",
