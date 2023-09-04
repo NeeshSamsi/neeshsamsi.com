@@ -16,7 +16,7 @@ export default function Navbar() {
     },
     {
       text: "Contact",
-      path: "/contact",
+      path: "/#contact",
     },
   ]
 
