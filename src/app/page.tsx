@@ -37,7 +37,7 @@ export default function Home() {
               />
             </span>{" "}
             and{" "}
-            <span className="underline decoration-accent underline-offset-8">
+            <span className="underline decoration-accent underline-offset-[6px]">
               Functional
             </span>{" "}
             Experiences on the Web
