@@ -11,7 +11,7 @@ export default function Headline({
   return (
     <h2 className={cn("relative font-serif", className)}>
       <span>{text}</span>
-      <Underline className="absolute bottom-0 left-0 h-fit w-full" />
+      <Underline className="absolute bottom-0 left-0 -z-10 h-fit w-full" />
     </h2>
   )
 }
