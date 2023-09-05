@@ -21,15 +21,15 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="flex items-center justify-between py-8 text-lg">
+    <nav className="flex flex-col items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8 sm:text-lg">
       <Link
         href="/"
-        className="font-serif text-2xl font-medium transition-colors hover:text-lighter"
+        className="font-serif text-xl font-medium transition-colors hover:text-lighter sm:text-2xl"
       >
         Neesh Samsi
       </Link>
 
-      <ul className="flex items-center justify-between gap-8 font-light">
+      <ul className="flex items-start justify-between gap-4 font-light sm:items-center sm:gap-8">
         {navLinks.map(({ text, path }) => (
           <li key={path} className="transition-colors hover:text-lighter">
             <Link href={path}>{text}</Link>
