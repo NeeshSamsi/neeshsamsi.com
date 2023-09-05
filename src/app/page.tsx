@@ -84,7 +84,7 @@ export default function Home() {
       <section id="about" className="pt-24">
         <Headline text="About us" />
 
-        <div className="grid grid-cols-[repeat(3,40ch)] gap-x-12 gap-y-16">
+        <div className="grid grid-cols-1 justify-items-center gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-[repeat(3,40ch)]">
           {Array.from({ length: 5 }).map((_el, i) => (
             <AboutCard
               key={i}
