@@ -8,7 +8,7 @@ import Underline from "@/components/Graphics/Underline"
 import Arrow from "@/components/Graphics/Arrow"
 export default function Footer() {
   return (
-    <footer id="contact" className="mt-24 grid gap-16">
+    <footer id="contact" className="mb-8 mt-24 grid gap-16">
       <div className="flex w-full items-center justify-evenly rounded-xl bg-light py-10 text-dark">
         <div className="grid gap-4">
           <Image
@@ -62,7 +62,7 @@ export default function Footer() {
           </a>
         </div>
       </div>
-      <p className="text-center">
+      <p className="text-center font-light">
         Copyright © {new Date().getFullYear()} Avaneesh Samsi. All rights
         reserved.
       </p>
