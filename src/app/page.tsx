@@ -12,8 +12,8 @@ import Image from "next/image"
 export default function Home() {
   return (
     <>
-      <main className="grid items-center gap-10 pt-12 md:grid-cols-[1.3fr,1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
-        <div className="text-xl font-light text-lighter xl:text-2xl">
+      <main className="grid items-center justify-items-center gap-10 pt-8 sm:justify-items-start sm:pt-12 md:grid-cols-[1.3fr,1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
+        <div className="text-base font-light text-lighter sm:text-xl xl:text-2xl">
           <p className="mb-2 flex items-center gap-2 lg:mb-3">
             <span>Hi</span>
             <Image
@@ -25,7 +25,7 @@ export default function Home() {
             />
             <span>I&apos;m Neesh!</span>
           </p>
-          <h1 className="mb-2 max-w-[18ch] font-serif text-4xl leading-[1.4] text-light lg:mb-4 xl:text-5xl xl:leading-[1.3]">
+          <h1 className="mb-2 max-w-[18ch] font-serif text-3xl leading-[1.4] text-light sm:text-4xl sm:leading-[1.5] lg:mb-4 xl:text-5xl xl:leading-[1.3]">
             I Create{" "}
             <span className="relative">
               Captivating
@@ -42,17 +42,17 @@ export default function Home() {
             conceptualise and Next.js & Typescript to bring my designs to life.
           </p>
 
-          <div className="flex items-center gap-4 text-base lg:gap-6 xl:text-lg">
+          <div className="flex items-center gap-4 text-sm sm:text-base lg:gap-6 xl:text-lg">
             <Button element="link" href="#work" type="solid" theme="brand">
               <span>See my work</span>
               <ArrowLongRightIcon
-                className="aspect-square w-6"
+                className="aspect-square w-5 sm:w-6"
                 strokeWidth={2}
               />
             </Button>
             <Button element="link" href="#contact" type="outline" theme="light">
               <span>Get in touch</span>
-              <ChatBubbleLeftRightIcon className="aspect-square w-6" />
+              <ChatBubbleLeftRightIcon className="aspect-square w-5 sm:w-6" />
             </Button>
           </div>
         </div>

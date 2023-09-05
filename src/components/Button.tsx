@@ -4,13 +4,13 @@ import Link from "next/link"
 import { cva, VariantProps } from "class-variance-authority"
 
 const buttonStyles = cva(
-  "flex items-center gap-3 px-3 py-2 rounded-md font-normal transition-colors",
+  "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
   {
     variants: {
       type: {
         solid: "font-medium",
-        outline: "",
-        text: "",
+        outline: "font-normal",
+        text: "font-normal",
       },
       theme: {
         brand: "",
