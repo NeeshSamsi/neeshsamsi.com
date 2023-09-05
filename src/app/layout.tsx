@@ -39,10 +39,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body
-        className={`${poppins.variable} ${sunset.variable} mx-auto max-w-screen-xl bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
-      >
+    <html
+      lang="en"
+      className={`${poppins.variable} ${sunset.variable} scroll-smooth bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
+    >
+      <body className="mx-auto max-w-screen-xl px-8">
         <Navbar />
         {children}
         <Footer />

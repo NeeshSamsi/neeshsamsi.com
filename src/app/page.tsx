@@ -12,24 +12,24 @@ import Image from "next/image"
 export default function Home() {
   return (
     <>
-      <main className="flex items-center justify-between gap-8 pt-4">
-        <div className="text-2xl font-light text-lighter">
-          <p className="mb-3 flex items-center gap-2">
+      <main className="grid items-center gap-10 pt-12 md:grid-cols-[1.3fr,1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
+        <div className="text-xl font-light text-lighter xl:text-2xl">
+          <p className="mb-2 flex items-center gap-2 lg:mb-3">
             <span>Hi</span>
             <Image
               src="/wave.png"
               alt="Wave emoji"
               height={48}
               width={48}
-              className="aspect-square w-7 object-cover"
+              className="aspect-square w-5 object-cover xl:w-7"
             />
             <span>I&apos;m Neesh!</span>
           </p>
-          <h1 className="mb-4 max-w-[18ch] font-serif text-5xl leading-[1.3] text-light">
+          <h1 className="mb-2 max-w-[18ch] font-serif text-4xl leading-[1.4] text-light lg:mb-4 xl:text-5xl xl:leading-[1.3]">
             I Create{" "}
             <span className="relative">
               Captivating
-              <UnderlineFancy className="absolute -bottom-2 left-0 -z-10 h-fit w-fit text-accent" />
+              <UnderlineFancy className="absolute -bottom-2 left-0 -z-10 w-full text-accent xl:-bottom-1" />
             </span>{" "}
             and{" "}
             <span className="underline decoration-accent underline-offset-8">
@@ -37,12 +37,12 @@ export default function Home() {
             </span>{" "}
             Experiences on the Web
           </h1>
-          <p className="mb-8 max-w-[40ch]">
-            I am a passionate UI/UX designer & developer. <br />I use Figma to
+          <p className="mb-6 max-w-[40ch]">
+            I am a passionate UI/UX designer & developer. I use Figma to
             conceptualise and Next.js & Typescript to bring my designs to life.
           </p>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 text-base lg:gap-6 xl:text-lg">
             <Button element="link" href="#work" type="solid" theme="brand">
               <span>See my work</span>
               <ArrowLongRightIcon
@@ -61,14 +61,14 @@ export default function Home() {
           alt="Profile picture of Avaneesh Samsi"
           width={1100}
           height={1188}
-          className="w-[25vw]"
+          className="w-[30vh] object-cover lg:w-full"
         />
       </main>
 
       <section id="work" className="pt-12">
         <Headline text="My work" className="mb-10 w-fit text-[2.75rem]" />
 
-        <div className="grid grid-cols-2 gap-x-8 gap-y-8">
+        <div className="grid grid-cols-2 gap-x-12 gap-y-16">
           {Array.from({ length: 3 }).map((_el, i) => (
             <ProjectCard
               key={i}
@@ -84,7 +84,7 @@ export default function Home() {
       <section id="about" className="pt-24">
         <Headline text="About us" className="mb-10 w-fit text-[2.75rem]" />
 
-        <div className="grid grid-cols-[repeat(3,40ch)] gap-x-8 gap-y-8">
+        <div className="grid grid-cols-[repeat(3,40ch)] gap-x-12 gap-y-16">
           {Array.from({ length: 5 }).map((_el, i) => (
             <AboutCard
               key={i}

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { cva, VariantProps } from "class-variance-authority"
 
 const buttonStyles = cva(
-  "text-lg flex items-center gap-3 px-3 py-2 rounded-md font-normal transition-colors",
+  "flex items-center gap-3 px-3 py-2 rounded-md font-normal transition-colors",
   {
     variants: {
       type: {
