@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import Underline from "@/components/Graphics/Underline"
+import Image from "next/image"
 
 export default function Headline({
   className,
@@ -16,7 +16,13 @@ export default function Headline({
       )}
     >
       <span>{text}</span>
-      <Underline className="absolute -bottom-1 left-0 -z-10 h-fit w-full xl:-bottom-3" />
+      <Image
+        src="/underline.png"
+        alt=""
+        width={356}
+        height={22}
+        className="absolute -bottom-1 left-0 -z-10 h-fit w-full xl:-bottom-3"
+      />
     </h2>
   )
 }

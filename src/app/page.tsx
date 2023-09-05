@@ -1,6 +1,5 @@
 import AboutCard from "@/components/AboutCard"
 import Button from "@/components/Button"
-import UnderlineFancy from "@/components/Graphics/UnderlineFancy"
 import Headline from "@/components/Headline"
 import ProjectCard from "@/components/ProjectCard"
 import {
@@ -29,7 +28,13 @@ export default function Home() {
             I Create{" "}
             <span className="relative">
               Captivating
-              <UnderlineFancy className="absolute -bottom-2 left-0 -z-10 w-full text-accent xl:-bottom-1" />
+              <Image
+                src="/fancy-underline.png"
+                alt=""
+                width={494}
+                height={34}
+                className="absolute -bottom-1 left-0 -z-10 w-full text-accent"
+              />
             </span>{" "}
             and{" "}
             <span className="underline decoration-accent underline-offset-8">
