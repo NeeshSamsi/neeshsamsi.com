@@ -65,10 +65,10 @@ export default function Home() {
         />
       </main>
 
-      <section id="work" className="pt-12">
-        <Headline text="My work" className="mb-10 w-fit text-[2.75rem]" />
+      <section id="work" className="max-w-lg pt-24 md:max-w-none md:pt-12">
+        <Headline text="My work" />
 
-        <div className="grid grid-cols-2 gap-x-12 gap-y-16">
+        <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">
           {Array.from({ length: 3 }).map((_el, i) => (
             <ProjectCard
               key={i}
@@ -82,7 +82,7 @@ export default function Home() {
       </section>
 
       <section id="about" className="pt-24">
-        <Headline text="About us" className="mb-10 w-fit text-[2.75rem]" />
+        <Headline text="About us" />
 
         <div className="grid grid-cols-[repeat(3,40ch)] gap-x-12 gap-y-16">
           {Array.from({ length: 5 }).map((_el, i) => (

@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${sunset.variable} scroll-smooth bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
+      className={`${poppins.variable} ${sunset.variable} overscroll-x-none scroll-smooth bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
     >
       <body className="mx-auto max-w-screen-xl px-8">
         <Navbar />

@@ -22,14 +22,18 @@ export default function ProjectCard({
   tags,
 }: Props) {
   return (
-    <div className="space-y-4 text-lg text-lighter">
-      <div className="relative aspect-video w-full">
-        <Image src={src} alt={alt} fill className="rounded-xl object-cover" />
+    <div className="space-y-4 text-sm text-lighter sm:text-base lg:space-y-6 lg:text-lg xl:text-xl">
+      <div className="space-y-3 lg:space-y-4">
+        <div className="relative aspect-video w-full">
+          <Image src={src} alt={alt} fill className="rounded-xl object-cover" />
+        </div>
+        <p>{tags}</p>
+        <h3 className="font-serif text-xl leading-tight text-light sm:text-[28px] xl:text-[32px]">
+          {title}
+        </h3>
+        <p>{description}</p>
       </div>
-      <p>{tags}</p>
-      <h3 className="font-serif text-[32px] text-light">{title}</h3>
-      <p>{description}</p>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         <Button element="link" href="/" type="solid" theme="light">
           <span>Read more</span>
           <ArrowLongRightIcon className="aspect-square w-6" strokeWidth={2} />
