@@ -10,6 +10,7 @@ export const Work = defineDocumentType(() => ({
     title: { type: "string", required: true },
     description: { type: "string", required: true },
     tags: { type: "string", required: true },
+    liveUrl: { type: "string", required: false },
     published: { type: "boolean", default: false, required: true },
     updatedAt: { type: "date", required: true },
   },
