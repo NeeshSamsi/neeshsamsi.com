@@ -16,7 +16,7 @@ export const Work = defineDocumentType(() => ({
   computedFields: {
     slug: {
       type: "string",
-      resolve: (work) => `/work/${work._raw.flattenedPath}`,
+      resolve: (work) => work._raw.flattenedPath.replace("work/", ""),
     },
   },
 }))
