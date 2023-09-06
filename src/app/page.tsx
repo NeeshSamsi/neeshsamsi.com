@@ -47,7 +47,7 @@ export default function Home() {
             conceptualise and Next.js & Typescript to bring my designs to life.
           </p>
 
-          <div className="flex items-center gap-4 text-sm sm:text-base lg:gap-6 xl:text-lg">
+          <div className="flex items-center gap-4 text-sm sm:text-base lg:gap-6 lg:text-lg xl:text-xl">
             <Button element="link" href="#work" type="solid" theme="brand">
               <span>See my work</span>
               <ArrowLongRightIcon
