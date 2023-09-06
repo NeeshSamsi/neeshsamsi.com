@@ -1,10 +1,10 @@
 import "./globals.css"
-// import type { Metadata } from 'next'
 import { Poppins } from "next/font/google"
 import localFont from "next/font/local"
 
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import { Metadata } from "next"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -32,6 +32,29 @@ const sunset = localFont({
   ],
   variable: "--font-sunset",
 })
+
+export const metadata: Metadata = {
+  title: {
+    default: "Neesh Samsi",
+    template: `%s | Neesh Samsi`,
+  },
+  description: "",
+  openGraph: {
+    url: "https://neeshsamsi.com",
+    siteName: "Neesh Samsi",
+    type: "website",
+  },
+  twitter: {
+    title: "Neesh Samsi",
+    description: "",
+    creator: "@neeshsamsi",
+    card: "summary",
+  },
+  themeColor: "#1D3557",
+  alternates: {
+    canonical: "https://neeshsamsi.com/",
+  },
+}
 
 export default function RootLayout({
   children,
