@@ -1,3 +1,5 @@
+const { withContentlayer } = require("next-contentlayer")
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -6,6 +8,11 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   redirects: async () => [
+    {
+      source: "/work",
+      destination: "/#work",
+      permanent: true,
+    },
     {
       source: "/instagram",
       destination: "https://instagram.com/neeshsamsi",
@@ -22,6 +29,6 @@ const nextConfig = {
       permanent: true,
     },
   ],
-};
+}
 
-module.exports = nextConfig;
+module.exports = withContentlayer(nextConfig)
