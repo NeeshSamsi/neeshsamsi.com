@@ -33,7 +33,7 @@ export default function Home() {
                 alt=""
                 width={494}
                 height={34}
-                className="absolute -bottom-1 left-0 -z-10 w-full text-accent"
+                className="absolute -bottom-1 left-0 -z-10 w-full text-accent xl:-bottom-2"
               />
             </span>{" "}
             and{" "}
