@@ -6,6 +6,7 @@ export const Work = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     image: { type: "string", required: true },
+    imageAlt: { type: "string", required: true },
     title: { type: "string", required: true },
     description: { type: "string", required: true },
     tags: { type: "string", required: true },
