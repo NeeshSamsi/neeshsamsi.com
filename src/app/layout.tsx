@@ -40,6 +40,8 @@ export const metadata: Metadata = {
   },
   description: "",
   openGraph: {
+    title: "Neesh Samsi",
+    description: "",
     url: "https://neeshsamsi.com",
     siteName: "Neesh Samsi",
     type: "website",
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
   },
   themeColor: "#1D3557",
   alternates: {
-    canonical: "https://neeshsamsi.com/",
+    canonical: "/",
   },
 }
 
