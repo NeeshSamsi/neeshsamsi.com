@@ -27,7 +27,7 @@ export default function Home() {
           <h1 className="mb-2 max-w-[18ch] font-serif text-3xl leading-[1.4] text-light sm:text-4xl sm:leading-[1.5] lg:mb-4 xl:text-5xl xl:leading-[1.3]">
             I Create{" "}
             <span className="relative">
-              Captivating
+              Intuitive
               <Image
                 src="/fancy-underline.png"
                 alt=""
@@ -37,7 +37,7 @@ export default function Home() {
               />
             </span>{" "}
             and{" "}
-            <span className="underline decoration-accent underline-offset-[6px]">
+            <span className="underline decoration-accent decoration-[3px] underline-offset-[6px]">
               Functional
             </span>{" "}
             Experiences on the Web
