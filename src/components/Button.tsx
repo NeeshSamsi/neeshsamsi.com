@@ -71,7 +71,11 @@ export default function Button({
         throw new Error("`href` is a required prop when element is Link")
 
       if (href.startsWith("http")) {
-        return <a {...{ href, className }}>{children}</a>
+        return (
+          <a {...{ href, className }} target="_blank">
+            {children}
+          </a>
+        )
       } else {
         return <Link {...{ href, className }}>{children}</Link>
       }
