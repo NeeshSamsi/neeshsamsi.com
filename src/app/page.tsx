@@ -6,9 +6,31 @@ import {
   ArrowLongRightIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline"
+import { allWorks } from "contentlayer/generated"
 import Image from "next/image"
 
 export default function Home() {
+  const works = allWorks
+    .filter((work) => work.published)
+    .map(
+      ({
+        _id,
+        _raw,
+        body,
+        published,
+        type,
+        updatedAt,
+        image,
+        imageAlt,
+        ...rest
+      }) => {
+        return {
+          ...rest,
+          image: { src: image, alt: imageAlt },
+        }
+      },
+    )
+
   return (
     <>
       <main className="grid items-center justify-items-center gap-10 pt-8 sm:justify-items-start sm:pt-12 md:grid-cols-[1.3fr,1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
@@ -73,17 +95,17 @@ export default function Home() {
       <section id="work" className="max-w-lg pt-24 md:max-w-none md:pt-12">
         <Headline text="My work" />
 
-        <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">
-          {Array.from({ length: 3 }).map((_el, i) => (
-            <ProjectCard
-              key={i}
-              image={{ src: "/footer-neesh.png", alt: "" }}
-              tags="Musician, UI UX, Visual design, Web development"
-              title="Website Redesign for the Yogesh Samsi"
-              description="Revamping Yogesh Samsi’s online presence with consistent branding, better structure and clear goals for user when landing on the website."
-            />
-          ))}
-        </div>
+        {works.length > 0 ? (
+          <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">
+            {works.map((work, i) => (
+              <ProjectCard key={i} {...work} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm md:text-base lg:text-lg xl:text-xl">
+            No work to showcase.
+          </p>
+        )}
       </section>
 
       <section id="about" className="pt-24">
