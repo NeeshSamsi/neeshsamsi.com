@@ -26,7 +26,7 @@ export default function ProjectCard({
   liveUrl,
 }: Props) {
   return (
-    <div className="space-y-4 text-sm text-lighter sm:text-base lg:space-y-6 lg:text-lg xl:text-xl">
+    <div className="flex flex-col justify-between space-y-4 text-sm text-lighter sm:text-base lg:space-y-6 lg:text-lg xl:text-xl">
       <div className="space-y-3 lg:space-y-4">
         <div className="relative aspect-video w-full">
           <Image src={src} alt={alt} fill className="rounded-xl object-cover" />
