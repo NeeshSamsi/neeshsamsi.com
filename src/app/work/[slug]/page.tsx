@@ -1,9 +1,9 @@
 import { type Metadata } from "next"
 
 import { notFound } from "next/navigation"
+import NextImage, { ImageProps } from "next/image"
 import { useMDXComponent } from "next-contentlayer/hooks"
 import { allWorks } from "contentlayer/generated"
-import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 
@@ -65,11 +65,12 @@ export default function Work({ params }: Props) {
   } = work
 
   const MDXContent = useMDXComponent(code)
+  const mdxComponents = { Image }
 
   return (
-    <main className="mt-12 space-y-6 md:space-y-8">
+    <main className="mt-12 space-y-16 md:space-y-20">
       <div className="relative aspect-video w-full">
-        <Image
+        <NextImage
           src={image}
           alt={imageAlt}
           fill
@@ -97,9 +98,13 @@ export default function Work({ params }: Props) {
         )}
       </div>
 
-      <article className="prose prose-sm sm:prose-base md:prose-lg xl:prose-xl marker:lighter prose-headings:text-light prose-headings:font-serif prose-headings:font-normal prose-img:rounded-xl prose-img:w-full prose-img:aspect-video text-light">
-        <MDXContent />
+      <article className="prose prose-sm mx-auto text-light sm:prose-base md:prose-lg xl:prose-xl marker:text-lighter prose-headings:font-serif prose-headings:font-normal prose-headings:text-light prose-img:aspect-video prose-img:w-full prose-img:max-w-none prose-img:rounded-xl prose-img:object-cover">
+        <MDXContent components={mdxComponents} />
       </article>
     </main>
   )
+}
+
+function Image(props: ImageProps) {
+  return <NextImage {...props} />
 }
