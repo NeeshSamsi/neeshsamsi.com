@@ -11,7 +11,13 @@ import Image from "next/image"
 
 export default function Home() {
   const works = allWorks
-    .filter((work) => work.published)
+    // Remove template file
+    .filter((work) => work.slug !== "template")
+    // Remove drafts in prod
+    .filter((work) =>
+      process.env.NODE_ENV === "production" ? work.published : true,
+    )
+    // Parse out unnecessary data
     .map(
       ({
         _id,
