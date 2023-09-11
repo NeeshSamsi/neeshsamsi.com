@@ -34,6 +34,7 @@ const sunset = localFont({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://neeshsamsi.com"),
   title: {
     default: "Neesh Samsi",
     template: `%s | Neesh Samsi`,
