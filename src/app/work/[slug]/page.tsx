@@ -1,9 +1,10 @@
 import { type Metadata } from "next"
+import { type ReactNode } from "react"
 
 import { notFound } from "next/navigation"
-import NextImage, { ImageProps } from "next/image"
-import { useMDXComponent } from "next-contentlayer/hooks"
 import { allWorks } from "contentlayer/generated"
+import NextImage, { type ImageProps } from "next/image"
+import { useMDXComponent } from "next-contentlayer/hooks"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 
@@ -65,7 +66,25 @@ export default function Work({ params }: Props) {
   } = work
 
   const MDXContent = useMDXComponent(code)
-  const mdxComponents = { Image }
+  const mdxComponents = {
+    Image,
+    H2: ({ children }: { children: ReactNode }) => {
+      if (!children) throw new Error("No children in H2.")
+      if (typeof children !== "string") throw new Error("No children in H2.")
+
+      const arr = children.split(" ")
+      const first = arr[0]
+      arr.shift()
+      const rest = arr.join(" ")
+
+      return (
+        <h2>
+          <span className="font-medium text-brand">{first} </span>
+          <span>{rest}</span>
+        </h2>
+      )
+    },
+  }
 
   return (
     <main className="mt-12 space-y-16 md:space-y-20">
