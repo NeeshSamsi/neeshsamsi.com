@@ -44,7 +44,7 @@ export function generateMetadata({ params }: Props) {
       images: [image],
     },
     alternates: {
-      canonical: slug,
+      canonical: `/work/${slug}`,
     },
   } satisfies Metadata
 }
