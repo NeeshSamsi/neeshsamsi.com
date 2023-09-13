@@ -1,10 +1,12 @@
 import "./globals.css"
+
+import { type Metadata } from "next"
+import config from "@/lib/config"
+
 import { Poppins } from "next/font/google"
 import localFont from "next/font/local"
-
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import { Metadata } from "next"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -33,27 +35,29 @@ const sunset = localFont({
   variable: "--font-sunset",
 })
 
+const { url, siteName, twitter: creator, themeColor, description } = config
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://neeshsamsi.com"),
+  metadataBase: new URL(url),
   title: {
-    default: "Neesh Samsi",
-    template: `%s | Neesh Samsi`,
+    default: siteName,
+    template: `%s | ${siteName}`,
   },
-  description: "",
+  description,
   openGraph: {
-    title: "Neesh Samsi",
-    description: "",
-    url: "https://neeshsamsi.com",
-    siteName: "Neesh Samsi",
+    title: siteName,
+    description,
+    url,
+    siteName,
     type: "website",
   },
   twitter: {
-    title: "Neesh Samsi",
-    description: "",
-    creator: "@neeshsamsi",
+    title: siteName,
+    description,
+    creator,
     card: "summary",
   },
-  themeColor: "#1D3557",
+  themeColor,
   alternates: {
     canonical: "/",
   },
