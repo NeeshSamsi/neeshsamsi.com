@@ -45,7 +45,7 @@ export default function Home() {
   return (
     <>
       <main className="grid items-center justify-items-center gap-10 pt-8 sm:justify-items-start sm:pt-12 md:grid-cols-[1.3fr,1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
-        <div className="group text-base font-light text-lighter sm:text-xl xl:text-2xl">
+        <div className="group/main text-base font-light text-lighter sm:text-xl xl:text-2xl">
           <p className="mb-2 flex items-center gap-2 lg:mb-3">
             <span>Hi</span>
             <Image
@@ -54,7 +54,7 @@ export default function Home() {
               height={48}
               width={48}
               sizes="(min-width: 1280px) 28px, 20px"
-              className="animate-wave group-hover:animate-wave-y aspect-square w-5 object-cover xl:w-7"
+              className="animate-wave group-hover/main:animate-wave-y aspect-square w-5 object-cover xl:w-7"
             />
             <span>I&apos;m Neesh!</span>
           </p>
@@ -88,11 +88,11 @@ export default function Home() {
               href="#work"
               type="solid"
               theme="brand"
-              className="group"
+              className="group/icon"
             >
               <span>See my work</span>
               <ArrowLongRightIcon
-                className="aspect-square w-5 transition-all group-hover:translate-x-0.5 sm:w-6"
+                className="aspect-square w-5 transition-all group-hover/icon:translate-x-0.5 sm:w-6"
                 strokeWidth={2}
               />
             </Button>
