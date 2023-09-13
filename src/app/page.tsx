@@ -1,6 +1,6 @@
-import { type Metadata } from "next"
-
 import Image from "next/image"
+
+import config from "@/lib/config"
 import { allWorks } from "contentlayer/generated"
 
 import {
@@ -39,6 +39,8 @@ export default function Home() {
         }
       },
     )
+
+  const { about } = config
 
   return (
     <>
@@ -124,14 +126,8 @@ export default function Home() {
         <Headline text="About us" />
 
         <div className="grid grid-cols-1 justify-items-center gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-[repeat(3,40ch)]">
-          {Array.from({ length: 5 }).map((_el, i) => (
-            <AboutCard
-              key={i}
-              heading="Heading"
-              paragraphs={[
-                "Lorem ipsum dolor sit amet consectetur. Augue duis ornare risus eget purus habitant. Faucibus eu nunc nisl quis hendrerit at. Sit tempor quis elementum ultricies eget sagittis. Morbi aliquet sagittis id auctor rutrum diam diam et. Cursus.",
-              ]}
-            />
+          {about.map((card, i) => (
+            <AboutCard key={i} {...card} />
           ))}
         </div>
       </section>
