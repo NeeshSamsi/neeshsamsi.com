@@ -48,6 +48,7 @@ export default function Home() {
               alt="Wave emoji"
               height={48}
               width={48}
+              sizes="(min-width: 1280px) 28px, 20px"
               className="aspect-square w-5 object-cover xl:w-7"
             />
             <span>I&apos;m Neesh!</span>
@@ -61,6 +62,7 @@ export default function Home() {
                 alt=""
                 width={494}
                 height={34}
+                sizes="(min-width: 1280px) 165px, (min-width: 640px) 123px, 103px"
                 className="absolute -bottom-1 left-0 -z-10 w-full text-accent xl:-bottom-2"
               />
             </span>{" "}
@@ -94,6 +96,7 @@ export default function Home() {
           alt="Profile picture of Avaneesh Samsi"
           width={1100}
           height={1188}
+          sizes="(min-width: 1360px) 560px, (min-width: 1040px) calc(40vw + 24px), 16.81vw"
           className="w-[30vh] object-cover lg:w-full"
         />
       </main>

@@ -16,6 +16,7 @@ export default function Footer() {
             className="mb-4 aspect-square w-60 rounded-xl object-cover md:w-48 lg:w-60"
             height={480}
             width={480}
+            sizes="(min-width: 1040px) 240px, (min-width: 780px) 192px, 240px"
           />
           <p className="relative mb-6 w-fit font-serif text-2xl sm:text-[2rem] md:text-2xl lg:text-[2rem]">
             Avaneesh Samsi
@@ -24,6 +25,7 @@ export default function Footer() {
               alt=""
               width={356}
               height={22}
+              sizes="(min-width: 1040px) 240px, (min-width: 780px) 180px, (min-width: 640px) 240px, 180px"
               className="absolute -bottom-3 left-0 h-fit w-full"
             />
           </p>
@@ -56,6 +58,7 @@ export default function Footer() {
               alt="Doodled arrow"
               width={231}
               height={63}
+              sizes="(min-width: 1040px) 112px, (min-width: 640px) 64px, 40px"
               className="w-10 sm:w-16 lg:w-28"
             />
           </p>
