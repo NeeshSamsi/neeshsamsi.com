@@ -49,14 +49,24 @@ export default function ProjectCard({
           href={`/work/${slug}`}
           type="solid"
           theme="light"
+          className="group"
         >
           <span>Read more</span>
-          <ArrowLongRightIcon className="aspect-square w-6" strokeWidth={2} />
+          <ArrowLongRightIcon
+            className="aspect-square w-6 transition-all group-hover:translate-x-0.5"
+            strokeWidth={2}
+          />
         </Button>
         {liveUrl && (
-          <Button element="link" href={liveUrl} type="text" theme="light">
+          <Button
+            element="link"
+            href={liveUrl}
+            type="text"
+            theme="light"
+            className="group"
+          >
             <span>Visit live site</span>
-            <ArrowTopRightOnSquareIcon className="aspect-square w-6" />
+            <ArrowTopRightOnSquareIcon className="aspect-square w-6 transition-all group-hover:-translate-y-[0.1rem] group-hover:translate-x-[0.1rem]" />
           </Button>
         )}
       </div>
