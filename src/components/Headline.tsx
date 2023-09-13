@@ -11,7 +11,7 @@ export default function Headline({
   return (
     <h2
       className={cn(
-        "relative mb-10 w-fit font-serif text-3xl sm:text-4xl xl:text-[2.75rem]",
+        "relative mb-14 w-fit font-serif text-3xl sm:text-4xl xl:text-[2.75rem]",
         className,
       )}
     >
