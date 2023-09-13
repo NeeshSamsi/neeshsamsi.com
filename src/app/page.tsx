@@ -54,6 +54,7 @@ export default function Home() {
               height={48}
               width={48}
               sizes="(min-width: 1280px) 28px, 20px"
+              priority
               className="animate-wave group-hover/main:animate-wave-y aspect-square w-5 object-cover xl:w-7"
             />
             <span>I&apos;m Neesh!</span>
@@ -67,6 +68,7 @@ export default function Home() {
                 alt=""
                 width={494}
                 height={34}
+                priority
                 sizes="(min-width: 1280px) 165px, (min-width: 640px) 123px, 103px"
                 className="absolute -bottom-1 left-0 -z-10 w-full text-accent xl:-bottom-2"
               />
@@ -124,7 +126,7 @@ export default function Home() {
         {works.length > 0 ? (
           <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">
             {works.map((work, i) => (
-              <ProjectCard key={i} {...work} />
+              <ProjectCard key={i} {...work} priority={i < 2} />
             ))}
           </div>
         ) : (
