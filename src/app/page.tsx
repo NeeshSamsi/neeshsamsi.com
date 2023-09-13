@@ -1,13 +1,16 @@
-import AboutCard from "@/components/AboutCard"
-import Button from "@/components/Button"
-import Headline from "@/components/Headline"
-import ProjectCard from "@/components/ProjectCard"
+import { type Metadata } from "next"
+
+import Image from "next/image"
+import { allWorks } from "contentlayer/generated"
+
 import {
   ArrowLongRightIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline"
-import { allWorks } from "contentlayer/generated"
-import Image from "next/image"
+import AboutCard from "@/components/AboutCard"
+import Button from "@/components/Button"
+import Headline from "@/components/Headline"
+import ProjectCard from "@/components/ProjectCard"
 
 export default function Home() {
   const works = allWorks
