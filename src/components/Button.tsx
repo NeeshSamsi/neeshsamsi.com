@@ -2,6 +2,7 @@ import { type ReactNode } from "react"
 import Link from "next/link"
 
 import { cva, VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
 
 const buttonStyles = cva(
   "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
@@ -51,6 +52,7 @@ interface Props extends VariantProps<typeof buttonStyles> {
   element: "link" | "button"
   children: ReactNode
   href?: string
+  className?: string
 }
 
 export default function Button({
@@ -59,12 +61,15 @@ export default function Button({
   theme,
   children,
   href,
+  className,
 }: Props) {
-  const className = buttonStyles({ type, theme })
+  const styles = buttonStyles({ type, theme })
+
+  const classes = cn(styles, className)
 
   switch (element) {
     case "button":
-      return <button {...{ className }}>{children}</button>
+      return <button {...{ className: classes }}>{children}</button>
 
     case "link":
       if (!href)
@@ -72,12 +77,12 @@ export default function Button({
 
       if (href.startsWith("http")) {
         return (
-          <a {...{ href, className }} target="_blank">
+          <a {...{ href, className: classes }} target="_blank">
             {children}
           </a>
         )
       } else {
-        return <Link {...{ href, className }}>{children}</Link>
+        return <Link {...{ href, className: classes }}>{children}</Link>
       }
   }
 }
