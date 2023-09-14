@@ -22,7 +22,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props) {
   const work = allWorks.find(({ slug }) => params.slug === slug)
 
-  if (!work || !work.published) {
+  if (!work || (process.env.NODE_ENV !== "development" && !work.published)) {
     return {
       title: "404 - Not Found",
       description: "This page was not found.",
@@ -55,7 +55,8 @@ export default function Work({ params }: Props) {
 
   const work = allWorks.find((work) => work.slug === slug)
 
-  if (!work || !work.published) notFound()
+  if (!work || (process.env.NODE_ENV !== "development" && !work.published))
+    notFound()
 
   const {
     title,
