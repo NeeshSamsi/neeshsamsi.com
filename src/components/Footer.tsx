@@ -7,7 +7,7 @@ import Instagram from "@/components/Icons/Instagram"
 
 export default function Footer() {
   return (
-    <footer id="contact" className="mb-8 mt-24 grid gap-16">
+    <footer id="contact" className="group mb-8 mt-24 grid gap-16">
       <div className="flex w-full flex-col items-center justify-evenly gap-10 rounded-xl bg-light px-6 py-6 text-dark md:flex-row md:gap-6 lg:px-12 lg:py-10">
         <div className="grid justify-items-center sm:justify-items-start">
           <Image
@@ -59,7 +59,7 @@ export default function Footer() {
               width={231}
               height={63}
               sizes="(min-width: 1040px) 112px, (min-width: 640px) 64px, 40px"
-              className="w-10 sm:w-16 lg:w-28"
+              className="w-10 transition-all duration-300 group-hover:-translate-y-2 group-hover:translate-x-2 group-hover:-rotate-3 sm:w-16 lg:w-28"
             />
           </p>
           <a
