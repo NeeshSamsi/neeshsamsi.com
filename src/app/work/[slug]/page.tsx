@@ -1,10 +1,11 @@
 import { type Metadata } from "next"
 import { type ReactNode } from "react"
 
-import { notFound } from "next/navigation"
 import { allWorks } from "contentlayer/generated"
-import NextImage, { type ImageProps } from "next/image"
+import { notFound } from "next/navigation"
+import NextImage from "next/image"
 import { useMDXComponent } from "next-contentlayer/hooks"
+import Image from "@/components/ImagePreview"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 
@@ -93,11 +94,12 @@ export default function Work({ params }: Props) {
           src={image}
           alt={imageAlt}
           fill
+          sizes="(min-width: 1360px) 1216px, calc(94.23vw - 47px)"
           className="h-full w-full rounded-3xl object-cover"
         />
       </div>
 
-      <div className="mt-8 md:mt-12 space-y-3 md:space-y-6">
+      <div className="mt-8 space-y-3 md:mt-12 md:space-y-6">
         <h1 className="font-serif text-2xl font-medium sm:text-3xl md:text-4xl xl:text-5xl">
           {title}
         </h1>
@@ -117,13 +119,20 @@ export default function Work({ params }: Props) {
         )}
       </div>
 
-      <article className="mt-12 md:mt-16 prose mx-auto text-light prose-base md:prose-lg xl:prose-xl marker:text-lighter prose-headings:font-serif prose-headings:font-normal prose-headings:text-light prose-img:aspect-video prose-img:w-full prose-img:max-w-none prose-img:rounded-xl prose-img:object-cover">
+      <article className="prose prose-base mx-auto mt-12 text-light md:prose-lg xl:prose-xl marker:text-lighter prose-headings:font-serif prose-headings:font-normal prose-headings:text-light prose-img:w-full prose-img:max-w-none prose-img:rounded-xl prose-img:object-cover md:mt-16">
         <MDXContent components={mdxComponents} />
+        {liveUrl && (
+          <div className="not-prose mt-6 w-fit text-base md:mt-10 md:text-lg xl:text-xl">
+            <Button element="link" href={liveUrl} type="solid" theme="light">
+              Visit live site
+              <ArrowTopRightOnSquareIcon
+                className="aspect-square w-6"
+                strokeWidth={2}
+              />
+            </Button>
+          </div>
+        )}
       </article>
     </main>
   )
-}
-
-function Image(props: ImageProps) {
-  return <NextImage {...props} />
 }
