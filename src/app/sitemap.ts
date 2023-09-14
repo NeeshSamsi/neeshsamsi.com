@@ -1,10 +1,19 @@
-import { MetadataRoute } from "next"
+import { type MetadataRoute } from "next"
+
+import config from "@/lib/config"
+import { allWorks } from "contentlayer/generated"
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const workUrls = allWorks.map((work) => ({
+    url: `${config.url}/work/${work.slug}`,
+    lastModified: new Date(work.updatedAt),
+  }))
+
   return [
     {
-      url: "https://neeshsamsi.com/",
+      url: config.url,
       lastModified: new Date(),
     },
+    ...workUrls,
   ]
 }
