@@ -12,7 +12,7 @@ export default function Image(props: ImageProps) {
   return (
     <div
       onClick={() => setIsOpen(true)}
-      className="pointer-events-none lg:pointer-events-auto"
+      className="pointer-events-none lg:pointer-events-auto lg:cursor-zoom-in"
     >
       <NextImage
         {...props}
