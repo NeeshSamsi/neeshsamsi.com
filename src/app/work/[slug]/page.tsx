@@ -94,6 +94,7 @@ export default function Work({ params }: Props) {
           src={image}
           alt={imageAlt}
           fill
+          priority
           sizes="(min-width: 1360px) 1216px, calc(94.23vw - 47px)"
           className="h-full w-full rounded-3xl object-cover"
         />
