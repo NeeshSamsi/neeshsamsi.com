@@ -55,7 +55,7 @@ export default function Home() {
               width={48}
               sizes="(min-width: 1280px) 28px, 20px"
               priority
-              className="animate-wave group-hover/main:animate-wave-y aspect-square w-5 object-cover xl:w-7"
+              className="aspect-square w-5 animate-wave object-cover group-hover/main:animate-wave-y xl:w-7"
             />
             <span>I&apos;m Neesh!</span>
           </p>
@@ -115,6 +115,7 @@ export default function Home() {
           alt="Profile picture of Avaneesh Samsi"
           width={1100}
           height={1188}
+          priority
           sizes="(min-width: 1360px) 560px, (min-width: 1040px) calc(40vw + 24px), 16.81vw"
           className="w-[30vh] object-cover lg:w-full"
         />
