@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteName,
     description,
-    images: ["/hero.png"],
+    images: ["/og.png"],
     url,
     siteName,
     type: "website",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     title: siteName,
     description,
-    images: ["/hero.png"],
+    images: ["/og.png"],
     creator,
     card: "summary",
   },
