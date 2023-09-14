@@ -54,7 +54,7 @@ export default function ProjectCard({
           theme="light"
           className="group"
         >
-          <span>Read more</span>
+          <span>Full project</span>
           <ArrowLongRightIcon
             className="aspect-square w-6 transition-all group-hover:translate-x-0.5"
             strokeWidth={2}
