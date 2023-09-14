@@ -7,6 +7,7 @@ import { Poppins } from "next/font/google"
 import localFont from "next/font/local"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import Script from "next/script"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -75,6 +76,13 @@ export default function RootLayout({
       lang="en"
       className={`${poppins.variable} ${sunset.variable} overscroll-x-none scroll-smooth bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
     >
+      {process.env.NODE_ENV === "production" && (
+        <Script
+          strategy="lazyOnload"
+          src="https://umami.neeshsamsi.com/script.js"
+          data-website-id="6a4f158b-409d-4cdb-a2f0-3c081e73e846"
+        />
+      )}
       <body className="mx-auto max-w-screen-xl px-8">
         <Navbar />
         {children}
