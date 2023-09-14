@@ -3,6 +3,8 @@
 # Contentlayer build output
 .contentlayer
 
+.unlighthouse
+
 # dependencies
 /node_modules
 /.pnp
