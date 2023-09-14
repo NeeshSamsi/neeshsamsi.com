@@ -87,7 +87,7 @@ export default function Work({ params }: Props) {
   }
 
   return (
-    <main className="mt-12 space-y-16 md:space-y-20">
+    <main className="mt-6">
       <div className="relative aspect-video w-full">
         <NextImage
           src={image}
@@ -97,7 +97,7 @@ export default function Work({ params }: Props) {
         />
       </div>
 
-      <div className="space-y-2 md:space-y-4">
+      <div className="mt-8 md:mt-12 space-y-3 md:space-y-6">
         <h1 className="font-serif text-2xl font-medium sm:text-3xl md:text-4xl xl:text-5xl">
           {title}
         </h1>
@@ -117,7 +117,7 @@ export default function Work({ params }: Props) {
         )}
       </div>
 
-      <article className="prose prose-sm mx-auto text-light sm:prose-base md:prose-lg xl:prose-xl marker:text-lighter prose-headings:font-serif prose-headings:font-normal prose-headings:text-light prose-img:aspect-video prose-img:w-full prose-img:max-w-none prose-img:rounded-xl prose-img:object-cover">
+      <article className="mt-12 md:mt-16 prose mx-auto text-light prose-base md:prose-lg xl:prose-xl marker:text-lighter prose-headings:font-serif prose-headings:font-normal prose-headings:text-light prose-img:aspect-video prose-img:w-full prose-img:max-w-none prose-img:rounded-xl prose-img:object-cover">
         <MDXContent components={mdxComponents} />
       </article>
     </main>
