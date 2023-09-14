@@ -1,12 +1,13 @@
-import { MetadataRoute } from "next"
+import { type MetadataRoute } from "next"
+import config from "@/lib/config"
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "",
+      // disallow: "",
     },
-    sitemap: "https://neeshsamsi.com/sitemap.xml",
+    sitemap: `${config.url}/sitemap.xml`,
   }
 }
