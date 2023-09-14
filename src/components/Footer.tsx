@@ -33,18 +33,21 @@ export default function Footer() {
             <a
               href="https://github.com/neeshsamsi"
               className="text-dark transition-opacity hover:opacity-80"
+              aria-label="Social link - Github"
             >
               <Github />
             </a>
             <a
               href="https://linkedin.com/neeshsamsi"
               className="text-dark transition-opacity hover:opacity-80"
+              aria-label="Social link - Linkedin"
             >
               <Linkedin />
             </a>
             <a
               href="https://instagram.com/neeshsamsi"
               className="text-dark transition-opacity hover:opacity-80"
+              aria-label="Social link - Instagram"
             >
               <Instagram />
             </a>
