@@ -22,7 +22,7 @@ export default function Headline({
         width={356}
         height={22}
         sizes="(min-width: 1280px) 174px, (min-width: 640px) 142px, 118px"
-        className="absolute -bottom-1 left-0 -z-10 h-fit w-full xl:-bottom-3"
+        className="absolute -bottom-1 left-0 -z-10 h-3 w-full xl:-bottom-3"
       />
     </h2>
   )
