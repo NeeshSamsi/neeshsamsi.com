@@ -2,7 +2,7 @@ const config = {
   url:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://neeshsamsi.com",
+      : "https://www.neeshsamsi.com",
   siteName: "Neesh Samsi",
   twitter: "@neeshsamsi",
   themeColor: "#1D3557",
