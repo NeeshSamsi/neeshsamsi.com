@@ -29,6 +29,23 @@ const config = {
       ],
     },
   ],
+
+  reviews: [
+    {
+      image: "/reviews/parth.jpg",
+      name: "Parth Phalke",
+      title: "Director, Srot Foundation",
+      quote:
+        "Your support and suggestions were excellent, resulting in a website we love. We were impressed by your prompt responses and modifications. We'll definitely hire you for future projects.",
+    },
+    // {
+    //   image: "/reviews/garima.jpg",
+    //   name: "Garima Arya",
+    //   title: "Founder, Kalakulam Academy",
+    //   quote:
+    //     "Your support and suggestions were excellent, resulting in a website we love.",
+    // },
+  ],
 }
 
 export default config
