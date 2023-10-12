@@ -18,7 +18,7 @@ type Props = {
   priority?: boolean
 }
 
-export default function ProjectCard({
+export default function Project({
   slug,
   image: { src, alt },
   title,
