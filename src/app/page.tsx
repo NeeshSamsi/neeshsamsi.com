@@ -7,10 +7,11 @@ import {
   ArrowLongRightIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline"
-import AboutCard from "@/components/AboutCard"
 import Button from "@/components/Button"
 import Headline from "@/components/Headline"
-import ProjectCard from "@/components/ProjectCard"
+import Project from "@/components/Project"
+import Review from "@/components/Review"
+import About from "@/components/About"
 
 export default function Home() {
   const works = allWorks
@@ -45,7 +46,7 @@ export default function Home() {
       },
     )
 
-  const { about } = config
+  const { about, reviews } = config
 
   return (
     <>
@@ -132,7 +133,7 @@ export default function Home() {
         {works.length > 0 ? (
           <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">
             {works.map((work, i) => (
-              <ProjectCard key={i} {...work} priority={i < 2} />
+              <Project key={i} {...work} priority={i < 2} />
             ))}
           </div>
         ) : (
@@ -142,16 +143,28 @@ export default function Home() {
         )}
       </section>
 
-      {/* <section id="testimonials" className="mt-24">
+      <section id="reviews-and-feedback" className="mt-24">
         <Headline text="Reviews & feedback" />
-      </section> */}
+
+        {reviews.length > 0 ? (
+          <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-3">
+            {reviews.map((review, i) => (
+              <Review key={i} {...review} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm md:text-base lg:text-lg xl:text-xl">
+            No reviews or feedback.
+          </p>
+        )}
+      </section>
 
       <section id="about" className="mt-24">
         <Headline text="About us" />
 
-        <div className="grid grid-cols-1 justify-items-center gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-[repeat(3,40ch)]">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-3">
           {about.map((card, i) => (
-            <AboutCard key={i} {...card} />
+            <About key={i} {...card} />
           ))}
         </div>
       </section>
