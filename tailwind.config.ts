@@ -21,6 +21,9 @@ export default {
         brand: "#F4A430",
         accent: "#25BBC5",
       },
+      spacing: {
+        18: "4.5rem",
+      },
       animation: {
         wave: "wave-rotate 1s ease-in-out infinite",
         "wave-y":
@@ -35,6 +38,9 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-0.3rem)" },
         },
+      },
+      screens: {
+        xs: "360px",
       },
     },
   },
