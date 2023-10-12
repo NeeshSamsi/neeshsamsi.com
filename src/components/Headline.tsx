@@ -15,14 +15,16 @@ export default function Headline({
         className,
       )}
     >
-      <span>{text}</span>
+      <span className="xs:no-underline underline decoration-brand underline-offset-4">
+        {text}
+      </span>
       <Image
         src="/underline.png"
         alt=""
         width={356}
         height={22}
         sizes="(min-width: 1280px) 174px, (min-width: 640px) 142px, 118px"
-        className="absolute -bottom-1 left-0 -z-10 h-3 w-full xl:-bottom-3"
+        className="xs:block absolute -bottom-1 left-0 -z-10 hidden h-3 w-full xl:-bottom-3"
       />
     </h2>
   )
