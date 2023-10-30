@@ -1,6 +1,6 @@
 import "./globals.css"
 
-import { type Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import config from "@/lib/config"
 
 import { Poppins } from "next/font/google"
@@ -38,6 +38,13 @@ const sunset = localFont({
 
 const { url, siteName, twitter: creator, themeColor, description } = config
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(url),
   title: {
@@ -60,7 +67,6 @@ export const metadata: Metadata = {
     creator,
     card: "summary",
   },
-  themeColor,
   alternates: {
     canonical: "/",
   },
