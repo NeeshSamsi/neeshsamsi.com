@@ -11,21 +11,21 @@ const config = {
 
   about: [
     {
-      heading: "Heading",
+      heading: "Why Design?",
       paragraphs: [
-        "Lorem ipsum dolor sit amet consectetur. Augue duis ornare risus eget purus habitant. Faucibus eu nunc nisl quis hendrerit at. Sit tempor quis elementum ultricies eget sagittis. Morbi aliquet sagittis id auctor rutrum diam diam et. Cursus.",
+        "Design is a powerful medium that goes beyond creativity. It's about solving problems. Good design stays invisible, bad design gets noticed. I'm fascinated by the intersection of beauty and functionality, and I believe in creating designs that not only look good but also feel intuitive.",
       ],
     },
     {
-      heading: "Heading",
+      heading: "Philosophy & Expertise",
       paragraphs: [
-        "Lorem ipsum dolor sit amet consectetur. Augue duis ornare risus eget purus habitant. Faucibus eu nunc nisl quis hendrerit at. Sit tempor quis elementum ultricies eget sagittis. Morbi aliquet sagittis id auctor rutrum diam diam et. Cursus.",
+        "My approach is rooted in collaboration and continuous improvement. I am proficient in using Figma for wireframing, high-fidelity and basic prototyping. I am also comfortable building in web technologies like Javascript & React using Next.js & Astro.",
       ],
     },
     {
-      heading: "Heading",
+      heading: "Let's Create Together",
       paragraphs: [
-        "Lorem ipsum dolor sit amet consectetur. Augue duis ornare risus eget purus habitant. Faucibus eu nunc nisl quis hendrerit at. Sit tempor quis elementum ultricies eget sagittis. Morbi aliquet sagittis id auctor rutrum diam diam et. Cursus.",
+        "As I continue to learn and evolve, I'm excited about the possibility of collaborating on projects that push boundaries. Ready to elevate your digital presence? Let's connect and explore the exciting possibilities of design!",
       ],
     },
   ],
