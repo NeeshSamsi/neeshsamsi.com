@@ -61,7 +61,8 @@ export default function Work({ params }: Props) {
   const {
     title,
     tags,
-    liveUrl,
+    ctaText,
+    ctaUrl,
     image,
     imageAlt,
     body: { code },
@@ -108,10 +109,10 @@ export default function Work({ params }: Props) {
         <p className="text-base font-light text-lighter sm:text-lg md:text-xl xl:text-2xl">
           {tags}
         </p>
-        {liveUrl && (
+        {ctaText && ctaUrl && (
           <div className="w-fit text-sm md:text-base xl:text-lg">
-            <Button element="link" href={liveUrl} type="outline" theme="light">
-              Visit live site
+            <Button element="link" href={ctaUrl} type="outline" theme="light">
+              {ctaText}
               <ArrowTopRightOnSquareIcon
                 className="aspect-square w-5"
                 strokeWidth={2}
@@ -123,10 +124,10 @@ export default function Work({ params }: Props) {
 
       <article className="prose prose-base mx-auto mt-12 text-light md:prose-lg xl:prose-xl marker:text-lighter prose-headings:font-serif prose-headings:font-normal prose-headings:text-light prose-a:font-normal prose-a:text-lighter prose-a:underline-offset-2 prose-a:transition-colors hover:prose-a:text-brand prose-img:w-full prose-img:max-w-none prose-img:rounded-xl prose-img:object-cover md:mt-16">
         <MDXContent components={mdxComponents} />
-        {liveUrl && (
+        {ctaText && ctaUrl && (
           <div className="not-prose mx-auto mt-6 w-fit text-base md:mt-10 md:text-lg xl:text-xl">
-            <Button element="link" href={liveUrl} type="solid" theme="light">
-              Visit live site
+            <Button element="link" href={ctaUrl} type="solid" theme="light">
+              {ctaText}
               <ArrowTopRightOnSquareIcon
                 className="aspect-square w-6"
                 strokeWidth={2}

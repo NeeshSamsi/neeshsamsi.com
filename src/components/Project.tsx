@@ -14,7 +14,8 @@ type Props = {
   title: string
   description: string
   tags: string
-  liveUrl?: string
+  ctaText?: string
+  ctaUrl?: string
   priority?: boolean
 }
 
@@ -24,7 +25,8 @@ export default function Project({
   title,
   description,
   tags,
-  liveUrl,
+  ctaText,
+  ctaUrl,
   priority,
 }: Props) {
   return (
@@ -60,15 +62,15 @@ export default function Project({
             strokeWidth={2}
           />
         </Button>
-        {liveUrl && (
+        {ctaText && ctaUrl && (
           <Button
             element="link"
-            href={liveUrl}
+            href={ctaUrl}
             type="text"
             theme="light"
             className="group"
           >
-            <span>Visit live site</span>
+            <span>{ctaText}</span>
             <ArrowTopRightOnSquareIcon className="aspect-square w-6 transition-all group-hover:-translate-y-[0.1rem] group-hover:translate-x-[0.1rem]" />
           </Button>
         )}
