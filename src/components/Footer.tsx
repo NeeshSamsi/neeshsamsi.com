@@ -38,7 +38,7 @@ export default function Footer() {
               <Github />
             </a>
             <a
-              href="https://linkedin.com/neeshsamsi"
+              href="https://linkedin.com/in/neeshsamsi"
               className="text-dark transition-opacity hover:opacity-80"
               aria-label="Social link - Linkedin"
             >

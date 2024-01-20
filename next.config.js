@@ -31,7 +31,7 @@ const nextConfig = {
     },
     {
       source: "/linkedin",
-      destination: "https://linkedin.com/neeshsamsi",
+      destination: "https://linkedin.com/in/neeshsamsi",
       permanent: true,
     },
   ],
