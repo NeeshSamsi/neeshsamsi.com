@@ -1,10 +1,11 @@
 import Link from "next/link"
 
 export default function Navbar() {
-  const navLinks = [
+  const navLinks: { text: string; path: string; external?: boolean }[] = [
     {
-      text: "Home",
-      path: "/",
+      text: "Notes",
+      path: "https://inquisit.blog/authors/neesh",
+      external: true,
     },
     {
       text: "Work",
@@ -30,9 +31,13 @@ export default function Navbar() {
       </Link>
 
       <ul className="flex items-start justify-between gap-4 font-light sm:items-center sm:gap-8">
-        {navLinks.map(({ text, path }) => (
+        {navLinks.map(({ text, path, external }) => (
           <li key={path} className="transition-colors hover:text-lighter">
-            <Link href={path}>{text}</Link>
+            {external ? (
+              <a href={path}>{text}</a>
+            ) : (
+              <Link href={path}>{text}</Link>
+            )}
           </li>
         ))}
       </ul>
