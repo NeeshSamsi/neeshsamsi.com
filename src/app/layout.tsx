@@ -39,10 +39,10 @@ const sunset = localFont({
 const { url, siteName, twitter: creator, themeColor, description } = config
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor
+  themeColor,
 }
 
 export const metadata: Metadata = {
@@ -86,7 +86,7 @@ export default function RootLayout({
         <Script
           strategy="lazyOnload"
           src="https://umami.neeshsamsi.com/script.js"
-          data-website-id="6a4f158b-409d-4cdb-a2f0-3c081e73e846"
+          data-website-id="ef19b7b1-86fc-4268-8cce-d335db78dff8"
         />
       )}
       <body className="mx-auto max-w-screen-xl px-8">
