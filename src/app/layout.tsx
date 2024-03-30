@@ -86,7 +86,7 @@ export default function RootLayout({
         <Script
           strategy="lazyOnload"
           src="https://umami.neeshsamsi.com/script.js"
-          data-website-id="ef19b7b1-86fc-4268-8cce-d335db78dff8"
+          data-website-id="c98851cd-fce3-401d-aae0-6249488c14e1"
         />
       )}
       <body className="mx-auto max-w-screen-xl px-8">
