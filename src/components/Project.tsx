@@ -4,6 +4,7 @@ import {
   ArrowLongRightIcon,
   ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline"
+import Link from "next/link"
 
 type Props = {
   slug: string
@@ -32,16 +33,19 @@ export default function Project({
   return (
     <div className="flex flex-col justify-between space-y-4 text-sm text-lighter sm:text-base lg:space-y-6 lg:text-lg xl:text-xl">
       <div className="space-y-3 lg:space-y-4">
-        <div className="relative aspect-video w-full">
+        <Link
+          href={`/work/${slug}`}
+          className="relative block aspect-video w-full overflow-hidden rounded-xl"
+        >
           <Image
             src={src}
             alt={alt}
             fill
             priority={priority}
             sizes="(min-width: 1360px) 584px, (min-width: 780px) 43.21vw, (min-width: 620px) 512px, calc(92vw - 40px)"
-            className="rounded-xl object-cover"
+            className="object-cover transition-transform duration-300 hover:scale-105"
           />
-        </div>
+        </Link>
         <p>{tags}</p>
         <h3 className="font-serif text-xl leading-tight text-light sm:text-[28px] xl:text-[32px]">
           {title}
