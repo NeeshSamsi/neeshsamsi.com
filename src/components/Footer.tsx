@@ -1,9 +1,7 @@
 import Image from "next/image"
 
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import Github from "@/components/Icons/Github"
-import Linkedin from "@/components/Icons/Linkedin"
-import Instagram from "@/components/Icons/Instagram"
+import { YouTube, Github, Linkedin, Instagram } from "@/components/Icons"
 
 export default function Footer() {
   return (
@@ -30,6 +28,13 @@ export default function Footer() {
             />
           </p>
           <div className="flex items-center justify-center gap-4 md:justify-start">
+            <a
+              href="https://youtube.com/@neeshsamsi"
+              className="text-dark transition-opacity hover:opacity-80"
+              aria-label="Social link - YouTube"
+            >
+              <YouTube />
+            </a>
             <a
               href="https://github.com/neeshsamsi"
               className="text-dark transition-opacity hover:opacity-80"
