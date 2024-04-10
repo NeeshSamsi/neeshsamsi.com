@@ -3,6 +3,8 @@
 # Contentlayer build output
 .contentlayer
 
+.env
+
 .unlighthouse
 
 # dependencies
