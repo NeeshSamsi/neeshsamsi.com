@@ -58,11 +58,9 @@ export default config({
         }),
         ctaText: fields.text({
           label: "Secondary CTA Text",
-          validation: { isRequired: true },
         }),
         ctaLink: fields.url({
           label: "Secondary CTA Link",
-          validation: { isRequired: true },
         }),
         updatedAt: fields.date({
           label: "Updated At",
@@ -73,6 +71,7 @@ export default config({
           label: "Content",
           components: {},
           options: {
+            heading: [2, 3, 4, 5, 6],
             table: false,
             code: false,
             codeBlock: false,
