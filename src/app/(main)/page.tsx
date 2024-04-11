@@ -1,8 +1,7 @@
-import Image from "next/image"
-
 import config from "@/lib/config"
-import { allWorks } from "contentlayer/generated"
+import reader from "@/lib/keystatic"
 
+import Image from "next/image"
 import {
   ArrowLongRightIcon,
   ChatBubbleLeftRightIcon,
@@ -13,40 +12,24 @@ import Project from "@/components/Project"
 import Review from "@/components/Review"
 import About from "@/components/About"
 
-export default function Home() {
-  const works = allWorks
-    // Remove template file
-    .filter((work) => work.slug !== "template")
-    // Remove drafts in prod
+export default async function Home() {
+  const clientwork = await reader.collections.clientwork.all()
+  const reviews = await reader.collections.reviews.all()
+
+  if (!clientwork) throw new Error("Invalid Client Work Collection.")
+  if (!reviews) throw new Error("Invalid Reviews Collection.")
+
+  const parsedClientWork = clientwork
     .filter((work) =>
-      process.env.NODE_ENV === "production" ? work.published : true,
+      process.env.NODE_ENV === "production" ? work.entry.published : true,
     )
-    // Srot by latest updated
     .sort(
       (a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-    )
-    // Parse out unnecessary data
-    .map(
-      ({
-        _id,
-        _raw,
-        body,
-        published,
-        type,
-        updatedAt,
-        image,
-        imageAlt,
-        ...rest
-      }) => {
-        return {
-          ...rest,
-          image: { src: image, alt: imageAlt },
-        }
-      },
+        new Date(b.entry.updatedAt).getTime() -
+        new Date(a.entry.updatedAt).getTime(),
     )
 
-  const { about, reviews } = config
+  const { about } = config
 
   return (
     <>
@@ -128,12 +111,12 @@ export default function Home() {
       </main>
 
       <section id="work" className="mt-24">
-        <Headline text="My work" />
+        <Headline text="Client Work" />
 
-        {works.length > 0 ? (
+        {parsedClientWork.length > 0 ? (
           <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">
-            {works.map((work, i) => (
-              <Project key={i} {...work} priority={i < 2} />
+            {parsedClientWork.map(({ slug, entry }, i) => (
+              <Project key={i} slug={slug} {...entry} priority={i < 2} />
             ))}
           </div>
         ) : (
@@ -148,8 +131,8 @@ export default function Home() {
 
         {reviews.length > 0 ? (
           <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-3">
-            {reviews.map((review, i) => (
-              <Review key={i} {...review} />
+            {reviews.map(({ slug, entry }) => (
+              <Review key={slug} slug={slug} {...entry} />
             ))}
           </div>
         ) : (

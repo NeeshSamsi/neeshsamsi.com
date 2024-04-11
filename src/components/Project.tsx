@@ -1,3 +1,4 @@
+import type { ClientWork } from "@/lib/keystatic"
 import Image from "next/image"
 import Button from "@/components/Button"
 import {
@@ -6,28 +7,19 @@ import {
 } from "@heroicons/react/24/outline"
 import Link from "next/link"
 
-type Props = {
-  slug: string
-  image: {
-    src: string
-    alt: string
-  }
-  title: string
-  description: string
-  tags: string
-  ctaText?: string
-  ctaUrl?: string
+type Props = ClientWork & {
   priority?: boolean
 }
 
 export default function Project({
   slug,
-  image: { src, alt },
+  image,
+  imageAlt,
   title,
   description,
   tags,
   ctaText,
-  ctaUrl,
+  ctaLink,
   priority,
 }: Props) {
   return (
@@ -38,8 +30,8 @@ export default function Project({
           className="relative block aspect-video w-full overflow-hidden rounded-xl"
         >
           <Image
-            src={src}
-            alt={alt}
+            src={image}
+            alt={imageAlt}
             fill
             priority={priority}
             sizes="(min-width: 1360px) 584px, (min-width: 780px) 43.21vw, (min-width: 620px) 512px, calc(92vw - 40px)"
@@ -66,10 +58,10 @@ export default function Project({
             strokeWidth={2}
           />
         </Button>
-        {ctaText && ctaUrl && (
+        {ctaText && ctaLink && (
           <Button
             element="link"
-            href={ctaUrl}
+            href={ctaLink}
             type="text"
             theme="light"
             className="group"
