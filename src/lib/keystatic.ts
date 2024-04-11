@@ -1,4 +1,4 @@
-import { Entry, createReader } from "@keystatic/core/reader"
+import { type Entry, createReader } from "@keystatic/core/reader"
 import keystaticConfig from "../../keystatic.config"
 
 export type ClientWork = Entry<
