@@ -1,11 +1,9 @@
 import { type Metadata } from "next"
-import { type ReactNode } from "react"
 
-import { allWorks } from "contentlayer/generated"
+import reader from "@/lib/keystatic"
 import { notFound } from "next/navigation"
+
 import NextImage from "next/image"
-import { useMDXComponent } from "next-contentlayer/hooks"
-import Image from "@/components/ImagePreview"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 
@@ -15,21 +13,29 @@ type Props = {
   }
 }
 
-export function generateStaticParams() {
-  return allWorks.map(({ slug }) => ({ slug }))
+export async function generateStaticParams() {
+  const slugs = await reader.collections.clientwork.list()
+
+  return slugs
 }
 
-export function generateMetadata({ params }: Props) {
-  const work = allWorks.find(({ slug }) => params.slug === slug)
+export async function generateMetadata({ params }: Props) {
+  const { slug } = params
 
-  if (!work || (process.env.NODE_ENV !== "development" && !work.published)) {
+  const clientwork = await reader.collections.clientwork.read(slug, {
+    resolveLinkedFiles: true,
+  })
+
+  if (!clientwork) throw new Error(`Invalid Client Work - ${slug}`)
+
+  if (process.env.NODE_ENV === "production" && clientwork.published === false) {
     return {
       title: "404 - Not Found",
       description: "This page was not found.",
     } satisfies Metadata
   }
 
-  const { title, description, image, slug } = work
+  const { title, description, image } = clientwork
 
   return {
     title,
@@ -43,6 +49,8 @@ export function generateMetadata({ params }: Props) {
       title,
       description,
       images: [image],
+      card: "summary",
+      creator: "@neeshsamsi",
     },
     alternates: {
       canonical: `/work/${slug}`,
@@ -50,44 +58,20 @@ export function generateMetadata({ params }: Props) {
   } satisfies Metadata
 }
 
-export default function Work({ params }: Props) {
+export default async function Work({ params }: Props) {
   const { slug } = params
 
-  const work = allWorks.find((work) => work.slug === slug)
+  const clientwork = await reader.collections.clientwork.read(slug, {
+    resolveLinkedFiles: true,
+  })
 
-  if (!work || (process.env.NODE_ENV !== "development" && !work.published))
+  if (!clientwork) throw new Error(`Invalid Client Work - ${slug}`)
+
+  if (process.env.NODE_ENV === "production" && clientwork.published === false) {
     notFound()
-
-  const {
-    title,
-    tags,
-    ctaText,
-    ctaUrl,
-    image,
-    imageAlt,
-    body: { code },
-  } = work
-
-  const MDXContent = useMDXComponent(code)
-  const mdxComponents = {
-    Image,
-    H2: ({ children }: { children: ReactNode }) => {
-      if (!children) throw new Error("No children in H2.")
-      if (typeof children !== "string") throw new Error("No children in H2.")
-
-      const arr = children.split(" ")
-      const first = arr[0]
-      arr.shift()
-      const rest = arr.join(" ")
-
-      return (
-        <h2>
-          <span className="font-medium text-brand">{first} </span>
-          <span>{rest}</span>
-        </h2>
-      )
-    },
   }
+
+  const { image, imageAlt, title, tags, ctaText, ctaLink, content } = clientwork
 
   return (
     <main className="mt-6">
@@ -109,9 +93,9 @@ export default function Work({ params }: Props) {
         <p className="text-base font-light text-lighter sm:text-lg md:text-xl xl:text-2xl">
           {tags}
         </p>
-        {ctaText && ctaUrl && (
+        {ctaText && ctaLink && (
           <div className="w-fit text-sm md:text-base xl:text-lg">
-            <Button element="link" href={ctaUrl} type="outline" theme="light">
+            <Button element="link" href={ctaLink} type="outline" theme="light">
               {ctaText}
               <ArrowTopRightOnSquareIcon
                 className="aspect-square w-5"
@@ -123,10 +107,10 @@ export default function Work({ params }: Props) {
       </div>
 
       <article className="prose prose-base mx-auto mt-12 text-light md:prose-lg xl:prose-xl marker:text-lighter prose-headings:font-serif prose-headings:font-normal prose-headings:text-light prose-a:font-normal prose-a:text-lighter prose-a:underline-offset-2 prose-a:transition-colors hover:prose-a:text-brand prose-img:w-full prose-img:max-w-none prose-img:rounded-xl prose-img:object-cover md:mt-16">
-        <MDXContent components={mdxComponents} />
-        {ctaText && ctaUrl && (
+        {/* <MDXContent components={mdxComponents} /> */}
+        {ctaText && ctaLink && (
           <div className="not-prose mx-auto mt-6 w-fit text-base md:mt-10 md:text-lg xl:text-xl">
-            <Button element="link" href={ctaUrl} type="solid" theme="light">
+            <Button element="link" href={ctaLink} type="solid" theme="light">
               {ctaText}
               <ArrowTopRightOnSquareIcon
                 className="aspect-square w-6"
