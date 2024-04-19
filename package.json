@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -21,8 +21,8 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "eslint": "9.0.0",
-    "eslint-config-next": "14.2.1",
-    "next": "14.2.1",
+    "eslint-config-next": "14.2.2",
+    "next": "14.2.2",
     "postcss": "8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
