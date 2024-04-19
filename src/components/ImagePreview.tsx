@@ -6,7 +6,7 @@ import NextImage, { type ImageProps } from "next/image"
 import { Dialog } from "@headlessui/react"
 import { XCircleIcon } from "@heroicons/react/24/outline"
 
-export default function Image(props: ImageProps) {
+export default function ImagePreview(props: ImageProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   return (
