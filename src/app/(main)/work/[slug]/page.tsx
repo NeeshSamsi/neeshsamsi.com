@@ -3,9 +3,12 @@ import { type Metadata } from "next"
 import reader from "@/lib/keystatic"
 import { notFound } from "next/navigation"
 
+import { MDXRemote } from "next-mdx-remote/rsc"
 import NextImage from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
+import ImageWithPreview from "@/components/ImagePreview"
+import { Suspense } from "react"
 
 type Props = {
   params: {
@@ -107,7 +110,44 @@ export default async function Work({ params }: Props) {
       </div>
 
       <article className="prose prose-base mx-auto mt-12 text-light md:prose-lg xl:prose-xl marker:text-lighter prose-headings:font-serif prose-headings:font-normal prose-headings:text-light prose-a:font-normal prose-a:text-lighter prose-a:underline-offset-2 prose-a:transition-colors hover:prose-a:text-brand prose-img:w-full prose-img:max-w-none prose-img:rounded-xl prose-img:object-cover md:mt-16">
-        {/* <MDXContent components={mdxComponents} /> */}
+        <Suspense fallback={<p>Loading...</p>}>
+          <MDXRemote
+            source={content}
+            components={{
+              H2(props) {
+                const arr = props.text.split(" ")
+                const first = arr[0]
+                arr.shift()
+                const rest = arr.join(" ")
+
+                return (
+                  <h2>
+                    <span className="font-medium text-brand">{first} </span>
+                    <span>{rest}</span>
+                  </h2>
+                )
+              },
+              ImageWithPreview(props: {
+                readonly image: string
+                readonly alt: string
+                readonly width: number | null
+                readonly height: number | null
+              }) {
+                const { image, alt, width, height } = props
+
+                return (
+                  <ImageWithPreview
+                    src={image}
+                    alt={alt}
+                    width={width!}
+                    height={height!}
+                  />
+                )
+              },
+            }}
+          />
+        </Suspense>
+
         {ctaText && ctaLink && (
           <div className="not-prose mx-auto mt-6 w-fit text-base md:mt-10 md:text-lg xl:text-xl">
             <Button element="link" href={ctaLink} type="solid" theme="light">
