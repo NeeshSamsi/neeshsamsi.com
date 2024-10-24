@@ -14,7 +14,9 @@ export default function SliceSimulatorPage({
 
   return (
     <SliceSimulator>
-      <SliceZone slices={slices} components={components} />
+      <div className="bg-dark py-24">
+        <SliceZone slices={slices} components={components} />
+      </div>
     </SliceSimulator>
   )
 }
