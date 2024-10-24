@@ -141,6 +141,17 @@ interface SettingsDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   themeColor: prismic.KeyTextField
+
+  /**
+   * OG Image field in *Site Settings*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.ogImage
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  ogImage: prismic.ImageField<never>
 }
 
 /**

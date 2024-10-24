@@ -108,6 +108,17 @@
           "label": "Theme Color",
           "placeholder": ""
         }
+      },
+      "ogImage": {
+        "type": "Image",
+        "config": {
+          "label": "OG Image",
+          "constraint": {
+            "width": 1200,
+            "height": 630
+          },
+          "thumbnails": []
+        }
       }
     }
   }
