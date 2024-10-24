@@ -489,6 +489,21 @@ type HeroSliceVariation = HeroSliceDefault
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>
 
 /**
+ * Primary content in *ImageWithPreview → Default → Primary*
+ */
+export interface ImageWithPreviewSliceDefaultPrimary {
+  /**
+   * Image field in *ImageWithPreview → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_with_preview.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>
+}
+
+/**
  * Default variation for ImageWithPreview Slice
  *
  * - **API ID**: `default`
@@ -497,7 +512,7 @@ export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>
  */
 export type ImageWithPreviewSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Record<string, never>,
+  Simplify<ImageWithPreviewSliceDefaultPrimary>,
   never
 >
 
@@ -603,6 +618,7 @@ declare module "@prismicio/client" {
       HeroSliceVariation,
       HeroSliceDefault,
       ImageWithPreviewSlice,
+      ImageWithPreviewSliceDefaultPrimary,
       ImageWithPreviewSliceVariation,
       ImageWithPreviewSliceDefault,
       RichTextSlice,

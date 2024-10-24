@@ -1,5 +1,6 @@
 import { Content } from "@prismicio/client"
 import { SliceComponentProps } from "@prismicio/react"
+import InteractiveContent from "./InteractiveContent"
 
 /**
  * Props for `ImageWithPreview`.
@@ -11,14 +12,17 @@ export type ImageWithPreviewProps =
  * Component for "ImageWithPreview" Slices.
  */
 const ImageWithPreview = ({ slice }: ImageWithPreviewProps): JSX.Element => {
+  const {
+    primary: { image },
+  } = slice
+
   return (
-    <section
+    <div
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
-      Placeholder component for image_with_preview (variation: {slice.variation}
-      ) Slices
-    </section>
+      <InteractiveContent image={image} />
+    </div>
   )
 }
 
