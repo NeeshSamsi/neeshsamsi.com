@@ -375,6 +375,21 @@ export type WorkDocument<Lang extends string = string> =
 export type AllDocumentTypes = PageDocument | SettingsDocument | WorkDocument
 
 /**
+ * Primary content in *Heading → Default → Primary*
+ */
+export interface HeadingSliceDefaultPrimary {
+  /**
+   * Text field in *Heading → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: heading.default.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  text: prismic.KeyTextField
+}
+
+/**
  * Default variation for Heading Slice
  *
  * - **API ID**: `default`
@@ -383,7 +398,7 @@ export type AllDocumentTypes = PageDocument | SettingsDocument | WorkDocument
  */
 export type HeadingSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Record<string, never>,
+  Simplify<HeadingSliceDefaultPrimary>,
   never
 >
 
@@ -565,6 +580,7 @@ declare module "@prismicio/client" {
       WorkDocumentDataSlicesSlice,
       AllDocumentTypes,
       HeadingSlice,
+      HeadingSliceDefaultPrimary,
       HeadingSliceVariation,
       HeadingSliceDefault,
       HeroSlice,

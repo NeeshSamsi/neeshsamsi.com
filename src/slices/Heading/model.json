@@ -11,7 +11,15 @@
       "version": "initial",
       "description": "Default",
       "imageUrl": "",
-      "primary": {},
+      "primary": {
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Text",
+            "placeholder": ""
+          }
+        }
+      },
       "items": {}
     }
   ]
