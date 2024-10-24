@@ -1,0 +1,16 @@
+{
+  "id": "image_with_preview",
+  "type": "SharedSlice",
+  "name": "ImageWithPreview",
+  "description": "ImageWithPreview",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": ""
+    }
+  ]
+}
