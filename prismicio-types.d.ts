@@ -519,6 +519,21 @@ export type ImageWithPreviewSlice = prismic.SharedSlice<
 >
 
 /**
+ * Primary content in *RichText → Default → Primary*
+ */
+export interface RichTextSliceDefaultPrimary {
+  /**
+   * Content field in *RichText → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: rich_text.default.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField
+}
+
+/**
  * Default variation for RichText Slice
  *
  * - **API ID**: `default`
@@ -527,7 +542,7 @@ export type ImageWithPreviewSlice = prismic.SharedSlice<
  */
 export type RichTextSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Record<string, never>,
+  Simplify<RichTextSliceDefaultPrimary>,
   never
 >
 
@@ -591,6 +606,7 @@ declare module "@prismicio/client" {
       ImageWithPreviewSliceVariation,
       ImageWithPreviewSliceDefault,
       RichTextSlice,
+      RichTextSliceDefaultPrimary,
       RichTextSliceVariation,
       RichTextSliceDefault,
     }
