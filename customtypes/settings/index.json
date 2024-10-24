@@ -1,0 +1,114 @@
+{
+  "format": "custom",
+  "id": "settings",
+  "label": "Site Settings",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "navLinks": {
+        "type": "Group",
+        "config": {
+          "label": "Navigation Links",
+          "repeat": true,
+          "fields": {
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "select": null,
+                "allowText": true
+              }
+            }
+          }
+        }
+      },
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "Email",
+          "placeholder": ""
+        }
+      },
+      "youtube": {
+        "type": "Link",
+        "config": {
+          "label": "YouTube",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "select": null,
+          "allowText": false
+        }
+      },
+      "github": {
+        "type": "Link",
+        "config": {
+          "label": "GitHub",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "select": null,
+          "allowText": false
+        }
+      },
+      "linkedin": {
+        "type": "Link",
+        "config": {
+          "label": "LinkedIn",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "select": null,
+          "allowText": false
+        }
+      },
+      "instagram": {
+        "type": "Link",
+        "config": {
+          "label": "Instagram",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "select": null,
+          "allowText": false
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title (Default)",
+          "placeholder": ""
+        }
+      },
+      "description": {
+        "type": "Text",
+        "config": {
+          "label": "Description (Default)",
+          "placeholder": ""
+        }
+      },
+      "twitter": {
+        "type": "Text",
+        "config": {
+          "label": "Twitter",
+          "placeholder": ""
+        }
+      },
+      "siteName": {
+        "type": "Text",
+        "config": {
+          "label": "Site Name",
+          "placeholder": ""
+        }
+      },
+      "themeColor": {
+        "type": "Text",
+        "config": {
+          "label": "Theme Color",
+          "placeholder": ""
+        }
+      }
+    }
+  }
+}
