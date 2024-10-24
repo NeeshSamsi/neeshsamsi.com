@@ -4,7 +4,7 @@ import type * as prismic from "@prismicio/client"
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
-type HomeDocumentDataSlicesSlice = never
+type HomeDocumentDataSlicesSlice = HeroSlice
 
 /**
  * Content for Home documents
@@ -244,6 +244,33 @@ export type SettingsDocument<Lang extends string = string> =
 
 export type AllDocumentTypes = HomeDocument | SettingsDocument
 
+/**
+ * Default variation for Hero Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type HeroSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>
+
+/**
+ * Slice variation for *Hero*
+ */
+type HeroSliceVariation = HeroSliceDefault
+
+/**
+ * Hero Shared Slice
+ *
+ * - **API ID**: `hero`
+ * - **Description**: Hero
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -272,6 +299,9 @@ declare module "@prismicio/client" {
       SettingsDocumentData,
       SettingsDocumentDataNavLinksItem,
       AllDocumentTypes,
+      HeroSlice,
+      HeroSliceVariation,
+      HeroSliceDefault,
     }
   }
 }
