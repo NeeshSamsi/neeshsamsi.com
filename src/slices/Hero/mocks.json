@@ -2,7 +2,28 @@
 	{
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
-		"primary": {},
+		"primary": {
+			"name": {
+				"__TYPE__": "FieldContent",
+				"value": "dig",
+				"type": "Text"
+			},
+			"description": {
+				"__TYPE__": "FieldContent",
+				"value": "pine",
+				"type": "Text"
+			},
+			"workCta": {
+				"__TYPE__": "FieldContent",
+				"value": "settlers",
+				"type": "Text"
+			},
+			"contactCta": {
+				"__TYPE__": "FieldContent",
+				"value": "industry",
+				"type": "Text"
+			}
+		},
 		"items": []
 	}
 ]

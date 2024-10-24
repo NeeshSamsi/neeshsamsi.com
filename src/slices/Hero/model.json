@@ -11,7 +11,36 @@
       "version": "initial",
       "description": "Default",
       "imageUrl": "",
-      "primary": {},
+      "primary": {
+        "name": {
+          "type": "Text",
+          "config": {
+            "label": "Hi I'm ..",
+            "placeholder": ""
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Description",
+            "placeholder": ""
+          }
+        },
+        "workCta": {
+          "type": "Text",
+          "config": {
+            "label": "Work CTA",
+            "placeholder": ""
+          }
+        },
+        "contactCta": {
+          "type": "Text",
+          "config": {
+            "label": "Contact CTA",
+            "placeholder": ""
+          }
+        }
+      },
       "items": {}
     }
   ]

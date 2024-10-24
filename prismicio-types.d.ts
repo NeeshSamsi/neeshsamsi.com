@@ -245,6 +245,51 @@ export type SettingsDocument<Lang extends string = string> =
 export type AllDocumentTypes = PageDocument | SettingsDocument
 
 /**
+ * Primary content in *Hero → Default → Primary*
+ */
+export interface HeroSliceDefaultPrimary {
+  /**
+   * Hi I'm .. field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.name
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  name: prismic.KeyTextField
+
+  /**
+   * Description field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  description: prismic.KeyTextField
+
+  /**
+   * Work CTA field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.workCta
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  workCta: prismic.KeyTextField
+
+  /**
+   * Contact CTA field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.contactCta
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  contactCta: prismic.KeyTextField
+}
+
+/**
  * Default variation for Hero Slice
  *
  * - **API ID**: `default`
@@ -253,7 +298,7 @@ export type AllDocumentTypes = PageDocument | SettingsDocument
  */
 export type HeroSliceDefault = prismic.SharedSliceVariation<
   "default",
-  Record<string, never>,
+  Simplify<HeroSliceDefaultPrimary>,
   never
 >
 
@@ -300,6 +345,7 @@ declare module "@prismicio/client" {
       SettingsDocumentDataNavLinksItem,
       AllDocumentTypes,
       HeroSlice,
+      HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
     }
