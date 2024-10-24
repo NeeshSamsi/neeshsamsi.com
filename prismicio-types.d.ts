@@ -87,7 +87,18 @@ interface SettingsDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  instagram: prismic.LinkField /**
+  instagram: prismic.LinkField
+
+  /**
+   * Footer Image field in *Site Settings*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.footerImage
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  footerImage: prismic.ImageField<never> /**
    * Title (Default) field in *Site Settings*
    *
    * - **Field Type**: Text

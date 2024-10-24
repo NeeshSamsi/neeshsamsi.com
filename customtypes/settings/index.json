@@ -71,6 +71,17 @@
           "select": null,
           "allowText": false
         }
+      },
+      "footerImage": {
+        "type": "Image",
+        "config": {
+          "label": "Footer Image",
+          "constraint": {
+            "width": 240,
+            "height": 240
+          },
+          "thumbnails": []
+        }
       }
     },
     "SEO & Metadata": {
