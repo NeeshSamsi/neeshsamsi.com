@@ -4,49 +4,49 @@ import type * as prismic from "@prismicio/client"
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
-type HomeDocumentDataSlicesSlice = HeroSlice
+type PageDocumentDataSlicesSlice = HeroSlice
 
 /**
- * Content for Home documents
+ * Content for Page documents
  */
-interface HomeDocumentData {
+interface PageDocumentData {
   /**
-   * Slice Zone field in *Home*
+   * Slice Zone field in *Page*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: home.slices[]
+   * - **API ID Path**: page.slices[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
-  slices: prismic.SliceZone<HomeDocumentDataSlicesSlice> /**
-   * Meta Title field in *Home*
+  slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
+   * Meta Title field in *Page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: home.meta_title
+   * - **API ID Path**: page.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   meta_title: prismic.KeyTextField
 
   /**
-   * Meta Description field in *Home*
+   * Meta Description field in *Page*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: home.meta_description
+   * - **API ID Path**: page.meta_description
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   meta_description: prismic.KeyTextField
 
   /**
-   * Meta Image field in *Home*
+   * Meta Image field in *Page*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: home.meta_image
+   * - **API ID Path**: page.meta_image
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#image
    */
@@ -54,16 +54,16 @@ interface HomeDocumentData {
 }
 
 /**
- * Home document from Prismic
+ * Page document from Prismic
  *
- * - **API ID**: `home`
- * - **Repeatable**: `false`
+ * - **API ID**: `page`
+ * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type HomeDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>
+export type PageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>
 
 /**
  * Item in *Site Settings → Navigation Links*
@@ -242,7 +242,7 @@ export type SettingsDocument<Lang extends string = string> =
     Lang
   >
 
-export type AllDocumentTypes = HomeDocument | SettingsDocument
+export type AllDocumentTypes = PageDocument | SettingsDocument
 
 /**
  * Default variation for Hero Slice
@@ -292,9 +292,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
-      HomeDocument,
-      HomeDocumentData,
-      HomeDocumentDataSlicesSlice,
+      PageDocument,
+      PageDocumentData,
+      PageDocumentDataSlicesSlice,
       SettingsDocument,
       SettingsDocumentData,
       SettingsDocumentDataNavLinksItem,
