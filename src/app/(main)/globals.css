@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.link-underline {
+  position: relative;
+}
+
 .link-underline::after {
   content: "";
   position: absolute;

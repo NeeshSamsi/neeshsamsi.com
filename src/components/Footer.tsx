@@ -74,9 +74,7 @@ export default function Footer() {
             href="mailto:avaneeshsamsi@gmail.com"
             className="flex items-center gap-1 justify-self-start text-lg transition-opacity hover:opacity-80 sm:gap-3 sm:text-2xl lg:text-[1.75rem]"
           >
-            <span className="link-underline relative transition-all">
-              avaneeshsamsi@gmail.com
-            </span>
+            <span className="link-underline">avaneeshsamsi@gmail.com</span>
             <ArrowTopRightOnSquareIcon
               className="aspect-square w-5 sm:w-7"
               strokeWidth={2}
