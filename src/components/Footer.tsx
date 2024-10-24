@@ -11,7 +11,7 @@ export default async function Footer() {
   } = await client.getSingle("settings")
 
   return (
-    <footer id="contact" className="group mb-8 mt-24 grid gap-16">
+    <footer id="contact" className="wrapper group mb-8 mt-24 grid gap-16">
       <div className="flex w-full flex-col items-center justify-evenly gap-10 rounded-xl bg-light px-6 py-6 text-dark md:flex-row md:gap-6 lg:px-12 lg:py-10">
         <div className="grid justify-items-center sm:justify-items-start">
           <PrismicNextImage

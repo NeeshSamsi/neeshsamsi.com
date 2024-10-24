@@ -105,7 +105,7 @@ export default function RootLayout({
           data-website-id="c98851cd-fce3-401d-aae0-6249488c14e1"
         />
       )}
-      <body className="mx-auto max-w-screen-xl px-8">
+      <body>
         <Navbar />
         {children}
         <Footer />

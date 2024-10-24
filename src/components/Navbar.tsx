@@ -8,7 +8,7 @@ export default async function Navbar() {
   } = await client.getSingle("settings")
 
   return (
-    <nav className="flex flex-col items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8 sm:text-lg">
+    <nav className="wrapper flex flex-col items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8 sm:text-lg">
       <Link
         href="/"
         className="font-serif text-xl font-medium transition-colors hover:text-lighter sm:text-2xl"
