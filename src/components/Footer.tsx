@@ -1,19 +1,22 @@
-import Image from "next/image"
+import { client } from "@/lib/prismic"
 
+import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { YouTube, Github, Linkedin, Instagram } from "@/components/Icons"
+import { PrismicNextImage, PrismicNextLink } from "@prismicio/next"
 
-export default function Footer() {
+export default async function Footer() {
+  const {
+    data: { footerImage, email, youtube, github, linkedin, instagram },
+  } = await client.getSingle("settings")
+
   return (
     <footer id="contact" className="group mb-8 mt-24 grid gap-16">
       <div className="flex w-full flex-col items-center justify-evenly gap-10 rounded-xl bg-light px-6 py-6 text-dark md:flex-row md:gap-6 lg:px-12 lg:py-10">
         <div className="grid justify-items-center sm:justify-items-start">
-          <Image
-            src="/footer-neesh.png"
-            alt="Smiling portrait of Avaneesh Samsi"
+          <PrismicNextImage
+            field={footerImage}
             className="mb-4 aspect-square w-60 rounded-xl object-cover md:w-48 lg:w-60"
-            height={480}
-            width={480}
             sizes="(min-width: 1040px) 240px, (min-width: 780px) 192px, 240px"
           />
           <p className="relative mb-6 w-fit font-serif text-2xl sm:text-[2rem] md:text-2xl lg:text-[2rem]">
@@ -28,34 +31,34 @@ export default function Footer() {
             />
           </p>
           <div className="flex items-center justify-center gap-4 md:justify-start">
-            <a
-              href="https://youtube.com/@neeshsamsi"
+            <PrismicNextLink
+              field={youtube}
               className="text-dark transition-opacity hover:opacity-80"
               aria-label="Social link - YouTube"
             >
               <YouTube />
-            </a>
-            <a
-              href="https://github.com/neeshsamsi"
+            </PrismicNextLink>
+            <PrismicNextLink
+              field={github}
               className="text-dark transition-opacity hover:opacity-80"
-              aria-label="Social link - Github"
+              aria-label="Social link - GitHub"
             >
               <Github />
-            </a>
-            <a
-              href="https://linkedin.com/in/neeshsamsi"
+            </PrismicNextLink>
+            <PrismicNextLink
+              field={linkedin}
               className="text-dark transition-opacity hover:opacity-80"
-              aria-label="Social link - Linkedin"
+              aria-label="Social link - LinkedIn"
             >
               <Linkedin />
-            </a>
-            <a
-              href="https://instagram.com/neeshsamsi"
+            </PrismicNextLink>
+            <PrismicNextLink
+              field={instagram}
               className="text-dark transition-opacity hover:opacity-80"
               aria-label="Social link - Instagram"
             >
               <Instagram />
-            </a>
+            </PrismicNextLink>
           </div>
         </div>
         <div className="grid gap-1 sm:gap-4 lg:gap-6">
@@ -71,10 +74,10 @@ export default function Footer() {
             />
           </p>
           <a
-            href="mailto:avaneeshsamsi@gmail.com"
+            href={`mailto:${email}`}
             className="flex items-center gap-1 justify-self-start text-lg transition-opacity hover:opacity-80 sm:gap-3 sm:text-2xl lg:text-[1.75rem]"
           >
-            <span className="link-underline">avaneeshsamsi@gmail.com</span>
+            <span className="link-underline">{email}</span>
             <ArrowTopRightOnSquareIcon
               className="aspect-square w-5 sm:w-7"
               strokeWidth={2}
