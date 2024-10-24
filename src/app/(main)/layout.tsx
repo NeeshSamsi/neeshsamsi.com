@@ -1,13 +1,15 @@
 import "./globals.css"
 
 import type { Metadata, Viewport } from "next"
-import config from "@/lib/config"
+import config, { url } from "@/lib/config"
 
+import Script from "next/script"
 import { Poppins } from "next/font/google"
 import localFont from "next/font/local"
+
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import Script from "next/script"
+import { client } from "@/lib/prismic"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -36,40 +38,54 @@ const sunset = localFont({
   variable: "--font-sunset",
 })
 
-const { url, siteName, twitter: creator, themeColor, description } = config
+const { siteName, twitter: creator, themeColor, description } = config
 
 export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
   themeColor,
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(url),
-  title: {
-    default: siteName,
-    template: `%s | ${siteName}`,
-  },
-  description,
-  openGraph: {
-    title: siteName,
+export async function generateMetadata() {
+  const {
+    data: { title, description, ogImage, siteName, twitter, themeColor },
+  } = await client.getSingle("settings")
+
+  if (
+    !title ||
+    !description ||
+    !ogImage.url ||
+    !siteName ||
+    !twitter ||
+    !themeColor
+  ) {
+    throw new Error("Invalid Site Settings")
+  }
+
+  return {
+    metadataBase: new URL(url),
+    title: {
+      default: title,
+      template: `%s | ${siteName}`,
+    },
     description,
-    images: ["/og.png"],
-    url,
-    siteName,
-    type: "website",
-  },
-  twitter: {
-    title: siteName,
-    description,
-    images: ["/og.png"],
-    creator,
-    card: "summary",
-  },
-  alternates: {
-    canonical: "/",
-  },
+    openGraph: {
+      title,
+      description,
+      images: [ogImage.url],
+      url,
+      siteName,
+      type: "website",
+    },
+    twitter: {
+      title: siteName,
+      description,
+      images: [ogImage.url],
+      creator,
+      card: "summary",
+    },
+    alternates: {
+      canonical: "/",
+    },
+  } satisfies Metadata
 }
 
 export default function RootLayout({

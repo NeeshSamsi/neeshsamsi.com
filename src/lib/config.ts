@@ -1,3 +1,8 @@
+export const url =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://www.neeshsamsi.com"
+
 const config = {
   url:
     process.env.NODE_ENV === "development"

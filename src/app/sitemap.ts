@@ -1,6 +1,6 @@
 import { type MetadataRoute } from "next"
 
-import config from "@/lib/config"
+import { url } from "@/lib/config"
 import reader from "@/lib/keystatic"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -13,13 +13,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       process.env.NODE_ENV === "production" ? work.entry.published : true,
     )
     .map((work) => ({
-      url: `${config.url}/work/${work.slug}`,
+      url: `${url}/work/${work.slug}`,
       lastModified: new Date(work.entry.updatedAt),
     }))
 
   return [
     {
-      url: config.url,
+      url,
       lastModified: new Date(),
     },
     ...workUrls,
