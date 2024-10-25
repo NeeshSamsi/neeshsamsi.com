@@ -242,10 +242,7 @@ export type SettingsDocument<Lang extends string = string> =
     Lang
   >
 
-type WorkDocumentDataSlicesSlice =
-  | RichTextSlice
-  | HeadingSlice
-  | ImageWithPreviewSlice
+type WorkDocumentDataSlicesSlice = RichTextSlice
 
 /**
  * Content for Client Work documents
@@ -375,48 +372,6 @@ export type WorkDocument<Lang extends string = string> =
 export type AllDocumentTypes = PageDocument | SettingsDocument | WorkDocument
 
 /**
- * Primary content in *Heading → Default → Primary*
- */
-export interface HeadingSliceDefaultPrimary {
-  /**
-   * Text field in *Heading → Default → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: heading.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  text: prismic.KeyTextField
-}
-
-/**
- * Default variation for Heading Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type HeadingSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<HeadingSliceDefaultPrimary>,
-  never
->
-
-/**
- * Slice variation for *Heading*
- */
-type HeadingSliceVariation = HeadingSliceDefault
-
-/**
- * Heading Shared Slice
- *
- * - **API ID**: `heading`
- * - **Description**: Heading
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type HeadingSlice = prismic.SharedSlice<"heading", HeadingSliceVariation>
-
-/**
  * Primary content in *Hero → Default → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -487,51 +442,6 @@ type HeroSliceVariation = HeroSliceDefault
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>
-
-/**
- * Primary content in *ImageWithPreview → Default → Primary*
- */
-export interface ImageWithPreviewSliceDefaultPrimary {
-  /**
-   * Image field in *ImageWithPreview → Default → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: image_with_preview.default.primary.image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>
-}
-
-/**
- * Default variation for ImageWithPreview Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type ImageWithPreviewSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<ImageWithPreviewSliceDefaultPrimary>,
-  never
->
-
-/**
- * Slice variation for *ImageWithPreview*
- */
-type ImageWithPreviewSliceVariation = ImageWithPreviewSliceDefault
-
-/**
- * ImageWithPreview Shared Slice
- *
- * - **API ID**: `image_with_preview`
- * - **Description**: ImageWithPreview
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type ImageWithPreviewSlice = prismic.SharedSlice<
-  "image_with_preview",
-  ImageWithPreviewSliceVariation
->
 
 /**
  * Primary content in *RichText → Default → Primary*
@@ -609,18 +519,10 @@ declare module "@prismicio/client" {
       WorkDocumentData,
       WorkDocumentDataSlicesSlice,
       AllDocumentTypes,
-      HeadingSlice,
-      HeadingSliceDefaultPrimary,
-      HeadingSliceVariation,
-      HeadingSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
-      ImageWithPreviewSlice,
-      ImageWithPreviewSliceDefaultPrimary,
-      ImageWithPreviewSliceVariation,
-      ImageWithPreviewSliceDefault,
       RichTextSlice,
       RichTextSliceDefaultPrimary,
       RichTextSliceVariation,

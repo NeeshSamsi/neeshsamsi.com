@@ -70,12 +70,6 @@
           "choices": {
             "rich_text": {
               "type": "SharedSlice"
-            },
-            "heading": {
-              "type": "SharedSlice"
-            },
-            "image_with_preview": {
-              "type": "SharedSlice"
             }
           }
         }

@@ -18,7 +18,7 @@
             "label": "Content",
             "placeholder": "",
             "allowTargetBlank": true,
-            "multi": "paragraph,heading3,heading4,heading5,heading6,strong,em,list-item,o-list-item,hyperlink"
+            "multi": "paragraph,heading3,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item,image,embed,heading2,preformatted"
           }
         }
       },
