@@ -252,15 +252,15 @@ type WorkDocumentDataSlicesSlice =
  */
 interface WorkDocumentData {
   /**
-   * Description field in *Client Work*
+   * Cover Image field in *Client Work*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: work.description
+   * - **API ID Path**: work.image
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
-  description: prismic.KeyTextField
+  image: prismic.ImageField<never>
 
   /**
    * Title field in *Client Work*
@@ -274,15 +274,15 @@ interface WorkDocumentData {
   title: prismic.TitleField
 
   /**
-   * Cover Image field in *Client Work*
+   * Description field in *Client Work*
    *
-   * - **Field Type**: Image
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: work.image
+   * - **API ID Path**: work.description
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  image: prismic.ImageField<never>
+  description: prismic.KeyTextField
 
   /**
    * Tags field in *Client Work*

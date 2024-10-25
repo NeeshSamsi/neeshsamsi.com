@@ -6,17 +6,21 @@
   "status": true,
   "json": {
     "Main": {
-      "description": {
-        "type": "Text",
-        "config": {
-          "label": "Description",
-          "placeholder": ""
-        }
-      },
       "uid": {
         "type": "UID",
         "config": {
           "label": "UID"
+        }
+      },
+      "image": {
+        "type": "Image",
+        "config": {
+          "label": "Cover Image",
+          "constraint": {
+            "width": 1280,
+            "height": 720
+          },
+          "thumbnails": []
         }
       },
       "title": {
@@ -28,12 +32,11 @@
           "single": "heading1"
         }
       },
-      "image": {
-        "type": "Image",
+      "description": {
+        "type": "Text",
         "config": {
-          "label": "Cover Image",
-          "constraint": {},
-          "thumbnails": []
+          "label": "Description",
+          "placeholder": ""
         }
       },
       "tags": {
