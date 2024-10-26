@@ -53,10 +53,12 @@ export default async function Page({ params }: { params: Params }) {
           </PrismicNextLink>
         )}
       </div>
+
+      <article>
+        <SliceZone slices={page.data.slices} components={components} />
+      </article>
     </main>
   )
-
-  return <SliceZone slices={page.data.slices} components={components} />
 }
 
 export async function generateMetadata({
