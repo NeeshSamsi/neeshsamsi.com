@@ -38,7 +38,7 @@ export default async function Page({ params }: { params: Params }) {
         <p className="text-base font-light text-lighter sm:text-lg md:text-xl xl:text-2xl">
           {tags}
         </p>
-        {cta && (
+        {cta.text && (
           <PrismicNextLink
             field={cta}
             className="inline-block w-fit text-sm md:text-base xl:text-lg"
