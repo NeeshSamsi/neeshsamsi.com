@@ -1,7 +1,7 @@
 import "./globals.css"
 
 import type { Metadata, Viewport } from "next"
-import config, { url } from "@/lib/config"
+import { url } from "@/lib/config"
 
 import Script from "next/script"
 import { Poppins } from "next/font/google"
@@ -38,10 +38,17 @@ const sunset = localFont({
   variable: "--font-sunset",
 })
 
-const { siteName, twitter: creator, themeColor, description } = config
+export async function generateViewport() {
+  const {
+    data: { themeColor },
+  } = await client.getSingle("settings")
+  if (!themeColor) {
+    throw new Error("Invalid Site Settings")
+  }
 
-export const viewport: Viewport = {
-  themeColor,
+  return {
+    themeColor,
+  } satisfies Viewport
 }
 
 export async function generateMetadata() {
@@ -79,7 +86,7 @@ export async function generateMetadata() {
       title: siteName,
       description,
       images: [ogImage.url],
-      creator,
+      creator: twitter,
       card: "summary",
     },
     alternates: {

@@ -1,21 +1,15 @@
 import { type MetadataRoute } from "next"
 
 import { url } from "@/lib/config"
-import reader from "@/lib/keystatic"
+import { client } from "@/lib/prismic"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const clientwork = await reader.collections.clientwork.all()
+  const work = await client.getAllByType("work")
 
-  if (!clientwork) throw new Error("Invalid Client Work Collection.")
-
-  const workUrls = clientwork
-    .filter((work) =>
-      process.env.NODE_ENV === "production" ? work.entry.published : true,
-    )
-    .map((work) => ({
-      url: `${url}/work/${work.slug}`,
-      lastModified: new Date(work.entry.updatedAt),
-    }))
+  const workUrls = work.map(({ uid, data: { pubDate } }) => ({
+    url: `${url}/work/${uid}`,
+    lastModified: new Date(pubDate!),
+  }))
 
   return [
     {

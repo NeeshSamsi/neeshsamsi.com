@@ -1,4 +1,3 @@
-import { ReviewEntry } from "@/lib/keystatic"
 import { Content } from "@prismicio/client"
 import { PrismicNextImage } from "@prismicio/next"
 
