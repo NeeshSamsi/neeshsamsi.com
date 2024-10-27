@@ -17,6 +17,12 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "reviews": {
+              "type": "SharedSlice"
+            },
+            "work": {
+              "type": "SharedSlice"
+            },
             "hero": {
               "type": "SharedSlice"
             }

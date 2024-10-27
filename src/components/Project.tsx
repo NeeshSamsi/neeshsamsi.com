@@ -1,25 +1,28 @@
-import type { ClientWork } from "@/lib/keystatic"
+import { asText, type Content } from "@prismicio/client"
 import Image from "next/image"
+import Link from "next/link"
 import Button from "@/components/Button"
 import {
   ArrowLongRightIcon,
   ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline"
-import Link from "next/link"
+import { PrismicNextImage, PrismicNextLink } from "@prismicio/next"
 
-type Props = ClientWork & {
+type Props = Omit<
+  Content.WorkDocumentData,
+  "meta_image" | "meta_title" | "meta_description" | "pubDate" | "slices"
+> & {
+  slug: string
   priority?: boolean
 }
 
 export default function Project({
   slug,
   image,
-  imageAlt,
   title,
   description,
   tags,
-  ctaText,
-  ctaLink,
+  cta,
   priority,
 }: Props) {
   return (
@@ -29,9 +32,8 @@ export default function Project({
           href={`/work/${slug}`}
           className="relative block aspect-video w-full overflow-hidden rounded-xl"
         >
-          <Image
-            src={image}
-            alt={imageAlt}
+          <PrismicNextImage
+            field={image}
             fill
             priority={priority}
             sizes="(min-width: 1360px) 584px, (min-width: 780px) 43.21vw, (min-width: 620px) 512px, calc(92vw - 40px)"
@@ -40,7 +42,7 @@ export default function Project({
         </Link>
         <p>{tags}</p>
         <h3 className="font-serif text-xl leading-tight text-light sm:text-[28px] xl:text-[32px]">
-          {title}
+          {asText(title)}
         </h3>
         <p>{description}</p>
       </div>
@@ -58,17 +60,18 @@ export default function Project({
             strokeWidth={2}
           />
         </Button>
-        {ctaText && ctaLink && (
-          <Button
-            element="link"
-            href={ctaLink}
-            type="text"
-            theme="light"
-            className="group"
-          >
-            <span>{ctaText}</span>
-            <ArrowTopRightOnSquareIcon className="aspect-square w-6 transition-all group-hover:-translate-y-[0.1rem] group-hover:translate-x-[0.1rem]" />
-          </Button>
+        {cta.text && (
+          <PrismicNextLink field={cta}>
+            <Button
+              element="button"
+              type="text"
+              theme="light"
+              className="group"
+            >
+              <span>{cta.text}</span>
+              <ArrowTopRightOnSquareIcon className="aspect-square w-6 transition-all group-hover:-translate-y-[0.1rem] group-hover:translate-x-[0.1rem]" />
+            </Button>
+          </PrismicNextLink>
         )}
       </div>
     </div>

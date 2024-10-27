@@ -4,7 +4,7 @@ import type * as prismic from "@prismicio/client"
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
-type PageDocumentDataSlicesSlice = HeroSlice
+type PageDocumentDataSlicesSlice = ReviewsSlice | WorkSlice | HeroSlice
 
 /**
  * Content for Page documents
@@ -444,6 +444,103 @@ type HeroSliceVariation = HeroSliceDefault
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>
 
 /**
+ * Item in *Reviews → Default → Primary → Reviews*
+ */
+export interface ReviewsSliceDefaultPrimaryReviewsItem {
+  /**
+   * Avatar field in *Reviews → Default → Primary → Reviews*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: reviews.default.primary.reviews[].avatar
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  avatar: prismic.ImageField<never>
+
+  /**
+   * Name field in *Reviews → Default → Primary → Reviews*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: reviews.default.primary.reviews[].name
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  name: prismic.KeyTextField
+
+  /**
+   * Designation field in *Reviews → Default → Primary → Reviews*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: reviews.default.primary.reviews[].designation
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  designation: prismic.KeyTextField
+
+  /**
+   * Review field in *Reviews → Default → Primary → Reviews*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: reviews.default.primary.reviews[].review
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  review: prismic.KeyTextField
+}
+
+/**
+ * Primary content in *Reviews → Default → Primary*
+ */
+export interface ReviewsSliceDefaultPrimary {
+  /**
+   * Section Heading field in *Reviews → Default → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: reviews.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.TitleField
+
+  /**
+   * Reviews field in *Reviews → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: reviews.default.primary.reviews[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  reviews: prismic.GroupField<Simplify<ReviewsSliceDefaultPrimaryReviewsItem>>
+}
+
+/**
+ * Default variation for Reviews Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ReviewsSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ReviewsSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *Reviews*
+ */
+type ReviewsSliceVariation = ReviewsSliceDefault
+
+/**
+ * Reviews Shared Slice
+ *
+ * - **API ID**: `reviews`
+ * - **Description**: Reviews
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ReviewsSlice = prismic.SharedSlice<"reviews", ReviewsSliceVariation>
+
+/**
  * Primary content in *RichText → Default → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
@@ -488,6 +585,48 @@ export type RichTextSlice = prismic.SharedSlice<
   RichTextSliceVariation
 >
 
+/**
+ * Primary content in *Work → Default → Primary*
+ */
+export interface WorkSliceDefaultPrimary {
+  /**
+   * Section Heading field in *Work → Default → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: work.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.TitleField
+}
+
+/**
+ * Default variation for Work Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type WorkSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<WorkSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *Work*
+ */
+type WorkSliceVariation = WorkSliceDefault
+
+/**
+ * Work Shared Slice
+ *
+ * - **API ID**: `work`
+ * - **Description**: Work
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type WorkSlice = prismic.SharedSlice<"work", WorkSliceVariation>
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -523,10 +662,19 @@ declare module "@prismicio/client" {
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      ReviewsSlice,
+      ReviewsSliceDefaultPrimaryReviewsItem,
+      ReviewsSliceDefaultPrimary,
+      ReviewsSliceVariation,
+      ReviewsSliceDefault,
       RichTextSlice,
       RichTextSliceDefaultPrimary,
       RichTextSliceVariation,
       RichTextSliceDefault,
+      WorkSlice,
+      WorkSliceDefaultPrimary,
+      WorkSliceVariation,
+      WorkSliceDefault,
     }
   }
 }

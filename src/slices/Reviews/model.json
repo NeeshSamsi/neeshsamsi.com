@@ -1,0 +1,69 @@
+{
+  "id": "reviews",
+  "type": "SharedSlice",
+  "name": "Reviews",
+  "description": "Reviews",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Section Heading",
+            "placeholder": "",
+            "allowTargetBlank": false,
+            "single": "heading2"
+          }
+        },
+        "reviews": {
+          "type": "Group",
+          "config": {
+            "label": "Reviews",
+            "repeat": true,
+            "fields": {
+              "avatar": {
+                "type": "Image",
+                "config": {
+                  "label": "Avatar",
+                  "constraint": {
+                    "width": 80,
+                    "height": 80
+                  },
+                  "thumbnails": []
+                }
+              },
+              "name": {
+                "type": "Text",
+                "config": {
+                  "label": "Name",
+                  "placeholder": ""
+                }
+              },
+              "designation": {
+                "type": "Text",
+                "config": {
+                  "label": "Designation",
+                  "placeholder": ""
+                }
+              },
+              "review": {
+                "type": "Text",
+                "config": {
+                  "label": "Review",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
