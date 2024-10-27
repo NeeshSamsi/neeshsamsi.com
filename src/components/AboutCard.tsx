@@ -1,4 +1,4 @@
-export default async function AboutCard({
+export default function AboutCard({
   heading,
   content,
 }: {

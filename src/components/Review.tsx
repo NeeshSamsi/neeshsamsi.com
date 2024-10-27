@@ -1,7 +1,7 @@
 import { Content } from "@prismicio/client"
 import { PrismicNextImage } from "@prismicio/next"
 
-export default async function Review({
+export default function Review({
   avatar,
   name,
   designation,
