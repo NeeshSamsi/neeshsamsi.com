@@ -7,11 +7,6 @@ module.exports = {
   },
   redirects: async () => [
     {
-      source: "/work",
-      destination: "/#work",
-      permanent: true,
-    },
-    {
       source: "/stats",
       destination:
         "https://umami.neeshsamsi.com/websites/6a4f158b-409d-4cdb-a2f0-3c081e73e846",
