@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"pnpm slicemachine\" --names \"next,slicemachine\" --prefix-colors blue,magenta",
+    "dev": "concurrently \"next dev --turbopack\" \"pnpm slicemachine\" --names \"next,slicemachine\" --prefix-colors blue,magenta",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -17,19 +17,19 @@
     "@prismicio/react": "^2.9.0",
     "@tailwindcss/typography": "^0.5.12",
     "@types/node": "20.12.7",
-    "@types/react": "18.2.79",
-    "@types/react-dom": "18.2.25",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "autoprefixer": "10.4.19",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "eslint": "9.0.0",
-    "eslint-config-next": "14.2.2",
-    "next": "14.2.2",
+    "eslint-config-next": "15.0.1",
+    "next": "15.0.1",
     "postcss": "8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "19.0.0-rc-69d4b800-20241021",
+    "react-dom": "19.0.0-rc-69d4b800-20241021",
     "sharp": "^0.33.3",
     "tailwind-merge": "^2.2.2",
     "tailwindcss": "3.4.3",
@@ -38,5 +38,11 @@
   "devDependencies": {
     "@slicemachine/adapter-next": "^0.3.53",
     "slice-machine-ui": "^2.9.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "npm:types-react@19.0.0-rc.1",
+      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+    }
   }
 }
