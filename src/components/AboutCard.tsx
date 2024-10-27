@@ -1,16 +1,14 @@
-export default async function About({
+export default async function AboutCard({
   heading,
-  paragraphs,
+  content,
 }: {
   heading: string
-  paragraphs: string[]
+  content: string
 }) {
   return (
     <div className="space-y-4 text-sm md:text-base lg:text-lg xl:text-xl">
       <h3 className="font-serif text-xl md:text-2xl md:text-3xl">{heading}</h3>
-      {paragraphs.map((text, i) => (
-        <p key={i}>{text}</p>
-      ))}
+      <p>{content}</p>
     </div>
   )
 }
