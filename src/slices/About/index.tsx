@@ -1,7 +1,9 @@
+import { type JSX } from "react"
+import { type Content, asText } from "@prismicio/client"
+import { type SliceComponentProps } from "@prismicio/react"
+
 import AboutCard from "@/components/AboutCard"
 import Headline from "@/components/Headline"
-import { asText, Content } from "@prismicio/client"
-import { SliceComponentProps } from "@prismicio/react"
 
 /**
  * Props for `About`.

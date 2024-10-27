@@ -1,6 +1,7 @@
-import { Content } from "@prismicio/client"
-import { SliceComponentProps } from "@prismicio/react"
-import { PrismicRichText } from "node_modules/@prismicio/react/dist/react-server/PrismicRichText"
+import { type JSX } from "react"
+import { type Content } from "@prismicio/client"
+import { type SliceComponentProps } from "@prismicio/react"
+import { PrismicRichText } from "@prismicio/react"
 
 /**
  * Props for `RichText`.

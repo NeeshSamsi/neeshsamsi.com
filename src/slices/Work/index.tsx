@@ -1,8 +1,10 @@
+import { type JSX } from "react"
+import { type SliceComponentProps } from "@prismicio/react"
+import { type Content, asText } from "@prismicio/client"
+import { client } from "@/lib/prismic"
+
 import Headline from "@/components/Headline"
 import Project from "@/components/Project"
-import { client } from "@/lib/prismic"
-import { asText, Content } from "@prismicio/client"
-import { SliceComponentProps } from "@prismicio/react"
 
 /**
  * Props for `Work`.
