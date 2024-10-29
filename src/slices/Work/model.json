@@ -27,6 +27,13 @@
             "label": "Limit",
             "placeholder": "Number of works displayed"
           }
+        },
+        "cta": {
+          "type": "Text",
+          "config": {
+            "label": "CTA Text",
+            "placeholder": ""
+          }
         }
       },
       "items": {}

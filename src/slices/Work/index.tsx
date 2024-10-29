@@ -5,6 +5,7 @@ import { client } from "@/lib/prismic"
 
 import Headline from "@/components/Headline"
 import Project from "@/components/Project"
+import Button from "@/components/Button"
 
 /**
  * Props for `Work`.
@@ -16,7 +17,7 @@ export type WorkProps = SliceComponentProps<Content.WorkSlice>
  */
 const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
   const {
-    primary: { heading, limit },
+    primary: { heading, cta, limit },
   } = slice
 
   const work = (await client.getAllByType("work")).sort(
@@ -31,7 +32,21 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
       id="work"
       className="wrapper mt-24"
     >
-      {asText(heading) && <Headline text={asText(heading)} />}
+      {asText(heading) && (
+        <div className="flex justify-between gap-4">
+          <Headline text={asText(heading)} />
+
+          <Button
+            element="link"
+            href="/work"
+            type="outline"
+            theme="light"
+            className="h-fit text-xs md:text-sm lg:text-base xl:text-lg"
+          >
+            {cta}
+          </Button>
+        </div>
+      )}
 
       {work.length > 0 ? (
         <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">

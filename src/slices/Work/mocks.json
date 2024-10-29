@@ -18,6 +18,11 @@
 				"__TYPE__": "FieldContent",
 				"value": "52",
 				"type": "Number"
+			},
+			"cta": {
+				"__TYPE__": "FieldContent",
+				"value": "perfectly",
+				"type": "Text"
 			}
 		},
 		"items": []
