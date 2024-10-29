@@ -311,11 +311,11 @@ export type SettingsDocument<Lang extends string = string> =
 type WorkDocumentDataSlicesSlice = RichTextSlice
 
 /**
- * Content for Client Work documents
+ * Content for Work documents
  */
 interface WorkDocumentData {
   /**
-   * Cover Image field in *Client Work*
+   * Cover Image field in *Work*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -326,7 +326,7 @@ interface WorkDocumentData {
   image: prismic.ImageField<never>
 
   /**
-   * Title field in *Client Work*
+   * Title field in *Work*
    *
    * - **Field Type**: Title
    * - **Placeholder**: *None*
@@ -337,7 +337,7 @@ interface WorkDocumentData {
   title: prismic.TitleField
 
   /**
-   * Description field in *Client Work*
+   * Description field in *Work*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -348,7 +348,7 @@ interface WorkDocumentData {
   description: prismic.KeyTextField
 
   /**
-   * Tags field in *Client Work*
+   * Tags field in *Work*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -359,7 +359,7 @@ interface WorkDocumentData {
   tags: prismic.KeyTextField
 
   /**
-   * Call to Action field in *Client Work*
+   * Call to Action field in *Work*
    *
    * - **Field Type**: Link
    * - **Placeholder**: *None*
@@ -370,7 +370,7 @@ interface WorkDocumentData {
   cta: prismic.LinkField
 
   /**
-   * Publish Date field in *Client Work*
+   * Publish Date field in *Work*
    *
    * - **Field Type**: Date
    * - **Placeholder**: *None*
@@ -381,7 +381,7 @@ interface WorkDocumentData {
   pubDate: prismic.DateField
 
   /**
-   * Slice Zone field in *Client Work*
+   * Slice Zone field in *Work*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -390,7 +390,7 @@ interface WorkDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
   slices: prismic.SliceZone<WorkDocumentDataSlicesSlice> /**
-   * Meta Title field in *Client Work*
+   * Meta Title field in *Work*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
@@ -401,7 +401,7 @@ interface WorkDocumentData {
   meta_title: prismic.KeyTextField
 
   /**
-   * Meta Description field in *Client Work*
+   * Meta Description field in *Work*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
@@ -412,7 +412,7 @@ interface WorkDocumentData {
   meta_description: prismic.KeyTextField
 
   /**
-   * Meta Image field in *Client Work*
+   * Meta Image field in *Work*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -424,7 +424,7 @@ interface WorkDocumentData {
 }
 
 /**
- * Client Work document from Prismic
+ * Work document from Prismic
  *
  * - **API ID**: `work`
  * - **Repeatable**: `true`
