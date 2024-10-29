@@ -7,17 +7,12 @@
 				"__TYPE__": "StructuredTextContent",
 				"value": [
 					{
-						"type": "heading2",
+						"type": "heading1",
 						"content": {
-							"text": "Flame"
+							"text": "Radio"
 						}
 					}
 				]
-			},
-			"limit": {
-				"__TYPE__": "FieldContent",
-				"value": "52",
-				"type": "Number"
 			}
 		},
 		"items": []

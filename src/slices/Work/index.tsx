@@ -16,7 +16,7 @@ export type WorkProps = SliceComponentProps<Content.WorkSlice>
  */
 const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
   const {
-    primary: { heading },
+    primary: { heading, limit },
   } = slice
 
   const work = (await client.getAllByType("work")).sort(
@@ -35,23 +35,25 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
 
       {work.length > 0 ? (
         <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">
-          {work.map(
-            (
-              {
-                data: {
-                  meta_image,
-                  meta_title,
-                  meta_description,
-                  slices,
-                  ...entry
+          {work
+            .splice(0, limit ? limit : work.length)
+            .map(
+              (
+                {
+                  data: {
+                    meta_image,
+                    meta_title,
+                    meta_description,
+                    slices,
+                    ...entry
+                  },
+                  uid: slug,
                 },
-                uid: slug,
-              },
-              i,
-            ) => (
-              <Project key={i} slug={slug} {...entry} priority={i < 2} />
-            ),
-          )}
+                i,
+              ) => (
+                <Project key={i} slug={slug} {...entry} priority={i < 2} />
+              ),
+            )}
         </div>
       ) : (
         <p className="text-sm md:text-base lg:text-lg xl:text-xl">

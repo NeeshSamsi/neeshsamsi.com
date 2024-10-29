@@ -5,6 +5,7 @@ import type * as prismic from "@prismicio/client"
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
 type PageDocumentDataSlicesSlice =
+  | PageHeadingSlice
   | AboutSlice
   | ReviewsSlice
   | WorkSlice
@@ -525,6 +526,51 @@ type HeroSliceVariation = HeroSliceDefault
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>
 
 /**
+ * Primary content in *PageHeading → Default → Primary*
+ */
+export interface PageHeadingSliceDefaultPrimary {
+  /**
+   * Heading field in *PageHeading → Default → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_heading.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.TitleField
+}
+
+/**
+ * Default variation for PageHeading Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type PageHeadingSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<PageHeadingSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *PageHeading*
+ */
+type PageHeadingSliceVariation = PageHeadingSliceDefault
+
+/**
+ * PageHeading Shared Slice
+ *
+ * - **API ID**: `page_heading`
+ * - **Description**: PageHeading
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type PageHeadingSlice = prismic.SharedSlice<
+  "page_heading",
+  PageHeadingSliceVariation
+>
+
+/**
  * Item in *Reviews → Default → Primary → Reviews*
  */
 export interface ReviewsSliceDefaultPrimaryReviewsItem {
@@ -679,6 +725,16 @@ export interface WorkSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   heading: prismic.TitleField
+
+  /**
+   * Limit field in *Work → Default → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Number of works displayed
+   * - **API ID Path**: work.default.primary.limit
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  limit: prismic.NumberField
 }
 
 /**
@@ -748,6 +804,10 @@ declare module "@prismicio/client" {
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      PageHeadingSlice,
+      PageHeadingSliceDefaultPrimary,
+      PageHeadingSliceVariation,
+      PageHeadingSliceDefault,
       ReviewsSlice,
       ReviewsSliceDefaultPrimaryReviewsItem,
       ReviewsSliceDefaultPrimary,

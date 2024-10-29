@@ -1,8 +1,8 @@
 {
-  "id": "work",
+  "id": "page_heading",
   "type": "SharedSlice",
-  "name": "Work",
-  "description": "Work",
+  "name": "PageHeading",
+  "description": "PageHeading",
   "variations": [
     {
       "id": "default",
@@ -15,17 +15,10 @@
         "heading": {
           "type": "StructuredText",
           "config": {
-            "label": "Section Heading",
-            "placeholder": "Will not show if left empty",
+            "label": "Heading",
+            "placeholder": "",
             "allowTargetBlank": false,
-            "single": "heading2"
-          }
-        },
-        "limit": {
-          "type": "Number",
-          "config": {
-            "label": "Limit",
-            "placeholder": "Number of works displayed"
+            "single": "heading1"
           }
         }
       },
