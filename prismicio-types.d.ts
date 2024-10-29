@@ -4,6 +4,67 @@ import type * as prismic from "@prismicio/client"
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
+type NotesDocumentDataSlicesSlice = RichTextSlice
+
+/**
+ * Content for Notes documents
+ */
+interface NotesDocumentData {
+  /**
+   * Slice Zone field in *Notes*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: notes.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<NotesDocumentDataSlicesSlice> /**
+   * Meta Title field in *Notes*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: notes.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_title: prismic.KeyTextField
+
+  /**
+   * Meta Description field in *Notes*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: notes.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField
+
+  /**
+   * Meta Image field in *Notes*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: notes.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>
+}
+
+/**
+ * Notes document from Prismic
+ *
+ * - **API ID**: `notes`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NotesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<NotesDocumentData>, "notes", Lang>
+
 type PageDocumentDataSlicesSlice =
   | PageHeadingSlice
   | AboutSlice
@@ -374,7 +435,11 @@ interface WorkDocumentData {
 export type WorkDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<WorkDocumentData>, "work", Lang>
 
-export type AllDocumentTypes = PageDocument | SettingsDocument | WorkDocument
+export type AllDocumentTypes =
+  | NotesDocument
+  | PageDocument
+  | SettingsDocument
+  | WorkDocument
 
 /**
  * Item in *About → Default → Primary → Cards*
@@ -785,6 +850,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      NotesDocument,
+      NotesDocumentData,
+      NotesDocumentDataSlicesSlice,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
