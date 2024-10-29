@@ -31,7 +31,7 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
       id="work"
       className="wrapper mt-24"
     >
-      <Headline text={asText(heading)} />
+      {asText(heading) && <Headline text={asText(heading)} />}
 
       {work.length > 0 ? (
         <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">

@@ -16,7 +16,7 @@
           "type": "StructuredText",
           "config": {
             "label": "Section Heading",
-            "placeholder": "",
+            "placeholder": "Will not show if left empty",
             "allowTargetBlank": false,
             "single": "heading2"
           }

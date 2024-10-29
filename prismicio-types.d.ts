@@ -674,7 +674,7 @@ export interface WorkSliceDefaultPrimary {
    * Section Heading field in *Work → Default → Primary*
    *
    * - **Field Type**: Title
-   * - **Placeholder**: *None*
+   * - **Placeholder**: Will not show if left empty
    * - **API ID Path**: work.default.primary.heading
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
