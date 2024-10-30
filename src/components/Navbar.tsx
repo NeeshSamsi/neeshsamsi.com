@@ -11,7 +11,7 @@ export default async function Navbar() {
     <nav className="wrapper flex flex-col items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8 sm:text-lg">
       <Link
         href="/"
-        className="font-serif text-xl font-medium transition-colors hover:text-lighter sm:text-2xl"
+        className="font-serif text-lg font-medium transition-colors hover:text-lighter md:text-xl"
       >
         Neesh Samsi
       </Link>
@@ -21,7 +21,7 @@ export default async function Navbar() {
           <li key={`nav-link-${i}`}>
             <PrismicNextLink
               field={link}
-              className=" transition-colors hover:text-lighter"
+              className="transition-colors hover:text-lighter"
             />
           </li>
         ))}
