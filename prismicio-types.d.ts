@@ -4,12 +4,45 @@ import type * as prismic from "@prismicio/client"
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
-type NotesDocumentDataSlicesSlice = RichTextSlice
+type NotesDocumentDataSlicesSlice = CodeBlockSlice | RichTextSlice
 
 /**
  * Content for Notes documents
  */
 interface NotesDocumentData {
+  /**
+   * Title field in *Notes*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: notes.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField
+
+  /**
+   * Description field in *Notes*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: notes.description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  description: prismic.KeyTextField
+
+  /**
+   * Tags field in *Notes*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: notes.tags
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tags: prismic.KeyTextField
+
   /**
    * Slice Zone field in *Notes*
    *
@@ -519,6 +552,65 @@ type AboutSliceVariation = AboutSliceDefault
 export type AboutSlice = prismic.SharedSlice<"about", AboutSliceVariation>
 
 /**
+ * Primary content in *CodeBlock → Default → Primary*
+ */
+export interface CodeBlockSliceDefaultPrimary {
+  /**
+   * Language field in *CodeBlock → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: TypeScript
+   * - **API ID Path**: code_block.default.primary.lang
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  lang: prismic.SelectField<
+    "TypeScript" | "JavaScript" | "HTML" | "CSS" | "Terminal",
+    "filled"
+  >
+
+  /**
+   * Code field in *CodeBlock → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: code_block.default.primary.code
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  code: prismic.RichTextField
+}
+
+/**
+ * Default variation for CodeBlock Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type CodeBlockSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<CodeBlockSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *CodeBlock*
+ */
+type CodeBlockSliceVariation = CodeBlockSliceDefault
+
+/**
+ * CodeBlock Shared Slice
+ *
+ * - **API ID**: `code_block`
+ * - **Description**: CodeBlock
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type CodeBlockSlice = prismic.SharedSlice<
+  "code_block",
+  CodeBlockSliceVariation
+>
+
+/**
  * Primary content in *Hero → Default → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -800,6 +892,16 @@ export interface WorkSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#number
    */
   limit: prismic.NumberField
+
+  /**
+   * CTA Text field in *Work → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: work.default.primary.cta
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  cta: prismic.KeyTextField
 }
 
 /**
@@ -868,6 +970,10 @@ declare module "@prismicio/client" {
       AboutSliceDefaultPrimary,
       AboutSliceVariation,
       AboutSliceDefault,
+      CodeBlockSlice,
+      CodeBlockSliceDefaultPrimary,
+      CodeBlockSliceVariation,
+      CodeBlockSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
