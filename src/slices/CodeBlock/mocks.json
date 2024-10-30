@@ -1,0 +1,25 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"code": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Adipisicing deserunt enim nisi nisi Lorem labore tempor et culpa enim excepteur. Aliquip aliqua nostrud anim id nulla enim reprehenderit dolor. Aliquip sunt culpa voluptate."
+						}
+					}
+				]
+			},
+			"lang": {
+				"__TYPE__": "FieldContent",
+				"value": "TypeScript",
+				"type": "Select"
+			}
+		},
+		"items": []
+	}
+]

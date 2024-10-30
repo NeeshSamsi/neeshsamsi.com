@@ -1,0 +1,43 @@
+{
+  "id": "code_block",
+  "type": "SharedSlice",
+  "name": "CodeBlock",
+  "description": "CodeBlock",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "lang": {
+          "type": "Select",
+          "config": {
+            "label": "Language",
+            "placeholder": "",
+            "options": [
+              "TypeScript",
+              "JavaScript",
+              "HTML",
+              "CSS",
+              "Terminal"
+            ],
+            "default_value": "TypeScript"
+          }
+        },
+        "code": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Code",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "embed"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
