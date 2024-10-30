@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@slicemachine/adapter-next": "^0.3.54",
+    "shiki": "^1.22.2",
     "slice-machine-ui": "^2.10.0"
   },
   "pnpm": {
