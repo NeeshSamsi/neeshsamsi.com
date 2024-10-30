@@ -20,7 +20,11 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
     primary: { heading, cta, limit },
   } = slice
 
-  const work = (await client.getAllByType("work")).sort(
+  const work = (
+    await client.getAllByType("work", {
+      pageSize: limit ? limit : 100,
+    })
+  ).sort(
     (a, b) =>
       new Date(b.data.pubDate!).valueOf() - new Date(a.data.pubDate!).valueOf(),
   )
@@ -50,25 +54,23 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
 
       {work.length > 0 ? (
         <div className="custom-cols grid gap-x-8 gap-y-16">
-          {work
-            .splice(0, limit ? limit : work.length)
-            .map(
-              (
-                {
-                  data: {
-                    meta_image,
-                    meta_title,
-                    meta_description,
-                    slices,
-                    ...entry
-                  },
-                  uid: slug,
+          {work.map(
+            (
+              {
+                data: {
+                  meta_image,
+                  meta_title,
+                  meta_description,
+                  slices,
+                  ...entry
                 },
-                i,
-              ) => (
-                <Project key={i} slug={slug} {...entry} priority={i < 2} />
-              ),
-            )}
+                uid: slug,
+              },
+              i,
+            ) => (
+              <Project key={i} slug={slug} {...entry} priority={i < 2} />
+            ),
+          )}
         </div>
       ) : (
         <p className="text-sm md:text-base lg:text-lg xl:text-xl">
