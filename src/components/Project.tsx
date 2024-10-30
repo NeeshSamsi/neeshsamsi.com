@@ -1,5 +1,4 @@
 import { asText, type Content } from "@prismicio/client"
-import Image from "next/image"
 import Link from "next/link"
 import Button from "@/components/Button"
 import {
