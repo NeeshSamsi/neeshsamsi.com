@@ -34,7 +34,7 @@ export default async function Page(props: { params: Promise<Params> }) {
       </div>
 
       <div className="mt-8 space-y-3 md:mt-12 md:space-y-6">
-        <h1 className="font-serif text-2xl font-medium sm:text-3xl md:text-4xl xl:text-5xl">
+        <h1 className="font-serif text-3xl font-medium md:text-4xl xl:text-5xl">
           {asText(title)}
         </h1>
         <p className="text-base font-light text-lighter sm:text-lg md:text-xl xl:text-2xl">
