@@ -6,6 +6,7 @@ import { createClient } from "@/prismicio"
 import { components } from "@/slices"
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next"
 import { asText } from "@prismicio/client"
+import Article from "@/components/Article"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 
@@ -55,9 +56,9 @@ export default async function Page(props: { params: Promise<Params> }) {
         )}
       </div>
 
-      <article>
+      <Article>
         <SliceZone slices={page.data.slices} components={components} />
-      </article>
+      </Article>
     </main>
   )
 }
