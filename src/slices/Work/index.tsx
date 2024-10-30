@@ -49,7 +49,7 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
       )}
 
       {work.length > 0 ? (
-        <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:gap-x-12">
+        <div className="custom-cols grid gap-x-8 gap-y-16">
           {work
             .splice(0, limit ? limit : work.length)
             .map(
