@@ -22,7 +22,7 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
 
   const work = (
     await client.getAllByType("work", {
-      pageSize: limit ? limit : 100,
+      limit: limit ? limit : undefined,
     })
   ).sort(
     (a, b) =>
