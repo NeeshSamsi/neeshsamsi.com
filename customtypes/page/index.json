@@ -17,6 +17,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "notes": {
+              "type": "SharedSlice"
+            },
             "page_heading": {
               "type": "SharedSlice"
             },

@@ -99,6 +99,7 @@ export type NotesDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<NotesDocumentData>, "notes", Lang>
 
 type PageDocumentDataSlicesSlice =
+  | NotesSlice
   | PageHeadingSlice
   | AboutSlice
   | ReviewsSlice
@@ -683,6 +684,68 @@ type HeroSliceVariation = HeroSliceDefault
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>
 
 /**
+ * Primary content in *Notes → Default → Primary*
+ */
+export interface NotesSliceDefaultPrimary {
+  /**
+   * Section Heading field in *Notes → Default → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: Will not show if left empty
+   * - **API ID Path**: notes.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.TitleField
+
+  /**
+   * Limit field in *Notes → Default → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: notes.default.primary.limit
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  limit: prismic.NumberField
+
+  /**
+   * CTA Text field in *Notes → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: notes.default.primary.cta
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  cta: prismic.KeyTextField
+}
+
+/**
+ * Default variation for Notes Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type NotesSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<NotesSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *Notes*
+ */
+type NotesSliceVariation = NotesSliceDefault
+
+/**
+ * Notes Shared Slice
+ *
+ * - **API ID**: `notes`
+ * - **Description**: Notes
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type NotesSlice = prismic.SharedSlice<"notes", NotesSliceVariation>
+
+/**
  * Primary content in *PageHeading → Default → Primary*
  */
 export interface PageHeadingSliceDefaultPrimary {
@@ -978,6 +1041,10 @@ declare module "@prismicio/client" {
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      NotesSlice,
+      NotesSliceDefaultPrimary,
+      NotesSliceVariation,
+      NotesSliceDefault,
       PageHeadingSlice,
       PageHeadingSliceDefaultPrimary,
       PageHeadingSliceVariation,
