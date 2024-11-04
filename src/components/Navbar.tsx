@@ -21,7 +21,7 @@ export default async function Navbar() {
           <li key={`nav-link-${i}`}>
             <PrismicNextLink
               field={link}
-              className="transition-colors hover:text-lighter"
+              className="underline-animation transition-colors hover:text-lighter"
             />
           </li>
         ))}

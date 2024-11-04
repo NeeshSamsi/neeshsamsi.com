@@ -30,7 +30,7 @@ const RichText = ({ slice }: RichTextProps): JSX.Element => {
           const rest = arr.join(" ")
 
           return (
-            <h2>
+            <h2 className="underline-animation">
               <span className="font-medium text-brand">{first} </span>
               <span>{rest}</span>
             </h2>

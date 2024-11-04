@@ -11,33 +11,23 @@
 }
 
 .inline-code {
-  @apply font-mono inline-block rounded-md bg-black/20;
+  @apply inline-block rounded-md bg-black/20 font-mono;
   font-size: 0.9em;
   padding: 0 0.6ch;
   margin: 0 0.2ch;
 }
 
-.link-underline {
-  position: relative;
+.underline-animation {
+  @apply relative inline-block;
+
+  &::after {
+    content: "";
+    @apply absolute bottom-0 left-0 h-[0.075em] w-full bg-current opacity-0 transition-all;
+  }
 }
 
-.link-underline::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0.1em;
-  background-color: rgb(29, 53, 87);
-  opacity: 0;
-  transition:
-    opacity 200ms,
-    transform 200ms;
-}
-
-.link-underline:hover::after,
-.link-underline:focus::after {
-  opacity: 1;
-  background-color: rgba(29, 53, 87, 0.8);
+.underline-animation:hover::after,
+.underline-animation:focus::after {
+  @apply translate-y-0 opacity-100;
   transform: translate3d(0, 0.1em, 0);
 }

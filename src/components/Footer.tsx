@@ -75,9 +75,9 @@ export default async function Footer() {
           </p>
           <a
             href={`mailto:${email}`}
-            className="flex items-center gap-1 justify-self-start text-lg transition-opacity hover:opacity-80 sm:gap-3 sm:text-2xl lg:text-[1.75rem]"
+            className="flex items-center gap-1 justify-self-start text-lg sm:gap-3 sm:text-2xl lg:text-[1.75rem]"
           >
-            <span className="link-underline">{email}</span>
+            <span className="underline-animation">{email}</span>
             <ArrowTopRightOnSquareIcon
               className="aspect-square w-5 sm:w-7"
               strokeWidth={2}
