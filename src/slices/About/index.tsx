@@ -3,7 +3,7 @@ import { type Content, asText } from "@prismicio/client"
 import { type SliceComponentProps } from "@prismicio/react"
 
 import AboutCard from "@/components/AboutCard"
-import Headline from "@/components/Headline"
+import SectionHeading from "@/components/SectionHeading"
 
 /**
  * Props for `About`.
@@ -26,7 +26,7 @@ const About = ({ slice }: AboutProps): JSX.Element => {
       className="wrapper mt-24"
     >
       <section>
-        <Headline text={asText(heading)} />
+        <SectionHeading text={asText(heading)} />
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-3">
           {cards.map(({ heading, content }, i) => (

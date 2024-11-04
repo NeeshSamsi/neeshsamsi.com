@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
-export default function Headline({
+export default function SectionHeading({
   element = "h2",
   text,
   className,

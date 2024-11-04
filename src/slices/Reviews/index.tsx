@@ -2,7 +2,7 @@ import { type JSX } from "react"
 import { type SliceComponentProps } from "@prismicio/react"
 import { type Content, asText } from "@prismicio/client"
 
-import Headline from "@/components/Headline"
+import SectionHeading from "@/components/SectionHeading"
 import Review from "@/components/Review"
 
 /**
@@ -26,7 +26,7 @@ const Reviews = ({ slice }: ReviewsProps): JSX.Element => {
       className="wrapper mt-24"
     >
       <section>
-        <Headline text={asText(heading)} />
+        <SectionHeading text={asText(heading)} />
 
         {reviews.length > 0 ? (
           <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-3">

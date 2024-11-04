@@ -3,7 +3,7 @@ import { type SliceComponentProps } from "@prismicio/react"
 import { type Content, asText } from "@prismicio/client"
 import { client } from "@/lib/prismic"
 
-import Headline from "@/components/Headline"
+import SectionHeading from "@/components/SectionHeading"
 import Project from "@/components/Project"
 import Button from "@/components/Button"
 
@@ -38,7 +38,7 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
     >
       {asText(heading) && (
         <div className="flex justify-between gap-4">
-          <Headline text={asText(heading)} />
+          <SectionHeading text={asText(heading)} />
 
           <Button
             element="link"

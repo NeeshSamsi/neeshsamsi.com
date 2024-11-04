@@ -1,7 +1,7 @@
 import { type JSX } from "react"
 import { asText, type Content } from "@prismicio/client"
 import { type SliceComponentProps } from "@prismicio/react"
-import Headline from "@/components/Headline"
+import SectionHeading from "@/components/SectionHeading"
 
 /**
  * Props for `PageHeading`.
@@ -18,7 +18,7 @@ const PageHeading = ({ slice }: PageHeadingProps): JSX.Element => {
 
   return (
     <div className="wrapper">
-      <Headline
+      <SectionHeading
         data-slice-type={slice.slice_type}
         data-slice-variation={slice.variation}
         element="h1"
