@@ -26,7 +26,7 @@ export default function Note({ slug, title, description, tags }: Props) {
       <div className="flex items-center gap-2 sm:gap-4">
         <Button
           element="link"
-          href={`/work/${slug}`}
+          href={`/notes/${slug}`}
           type="solid"
           theme="light"
           className="group"
