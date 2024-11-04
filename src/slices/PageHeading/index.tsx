@@ -1,6 +1,7 @@
+import { type JSX } from "react"
+import { asText, type Content } from "@prismicio/client"
+import { type SliceComponentProps } from "@prismicio/react"
 import Headline from "@/components/Headline"
-import { asText, Content } from "@prismicio/client"
-import { SliceComponentProps } from "@prismicio/react"
 
 /**
  * Props for `PageHeading`.
