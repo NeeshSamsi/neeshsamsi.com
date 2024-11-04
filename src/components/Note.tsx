@@ -17,7 +17,7 @@ export default function Note({ slug, title, description, tags }: Props) {
         <p>{tags}</p>
         <Link
           href={`/work/${slug}`}
-          className="font-serif text-xl leading-tight text-light sm:text-[28px] xl:text-[32px]"
+          className="block font-serif text-xl leading-tight text-light sm:text-[28px] xl:text-[32px]"
         >
           <h3>{asText(title)}</h3>
         </Link>
