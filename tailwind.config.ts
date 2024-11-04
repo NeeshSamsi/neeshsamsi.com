@@ -13,6 +13,7 @@ export default {
     fontFamily: {
       sans: ["var(--font-poppins)", ...defaultTheme.fontFamily.sans],
       serif: ["var(--font-sunset)", ...defaultTheme.fontFamily.serif],
+      mono: defaultTheme.fontFamily.mono,
     },
     extend: {
       colors: {

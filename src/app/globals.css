@@ -10,6 +10,13 @@
   grid-template-columns: repeat(2, minmax(22rem, 1fr));
 }
 
+.inline-code {
+  @apply font-mono inline-block rounded-md bg-black/20;
+  font-size: 0.9em;
+  padding: 0 0.6ch;
+  margin: 0 0.2ch;
+}
+
 .link-underline {
   position: relative;
 }
