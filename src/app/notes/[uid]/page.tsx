@@ -27,10 +27,10 @@ export default async function Page(props: { params: Params }) {
           <h1 className="text-balance font-serif text-3xl font-medium text-brand md:text-4xl xl:text-5xl">
             {asText(title)}
           </h1>
-          <div className="flex items-center justify-center gap-2 text-base font-light text-light sm:text-lg md:text-xl xl:text-2xl">
-            <p>{tags}</p>
-            <div className="size-1 rounded-full bg-lighter" />
+          <div className="flex flex-col-reverse items-center justify-center gap-2 text-base font-light text-light sm:flex-row sm:text-lg md:text-xl xl:text-2xl">
             <p>{formatDate(new Date(pubDate))}</p>
+            <div className="hidden size-1 rounded-full bg-lighter sm:block" />
+            <p>{tags}</p>
           </div>
         </div>
 

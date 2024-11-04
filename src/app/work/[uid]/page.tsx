@@ -9,6 +9,7 @@ import { asText } from "@prismicio/client"
 import Article from "@/components/Article"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
+import { formatDate } from "@/lib/utils"
 
 type Params = { uid: string }
 
@@ -18,7 +19,7 @@ export default async function Page(props: { params: Promise<Params> }) {
   const page = await client.getByUID("work", uid).catch(() => notFound())
 
   const {
-    data: { image, title, tags, cta },
+    data: { image, title, pubDate, tags, cta },
   } = page
 
   return (
@@ -37,9 +38,11 @@ export default async function Page(props: { params: Promise<Params> }) {
         <h1 className="font-serif text-3xl font-medium md:text-4xl xl:text-5xl">
           {asText(title)}
         </h1>
-        <p className="text-base font-light text-lighter sm:text-lg md:text-xl xl:text-2xl">
-          {tags}
-        </p>
+        <div className="flex flex-col-reverse gap-2 text-base font-light text-lighter sm:flex-row sm:items-center sm:gap-3 sm:text-lg md:text-xl xl:text-2xl">
+          <p>{formatDate(new Date(pubDate!))}</p>
+          <div className="hidden size-1 rounded-full bg-lighter sm:block" />
+          <p>{tags}</p>
+        </div>
         {cta.text && (
           <PrismicNextLink
             field={cta}
