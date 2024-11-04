@@ -1,12 +1,14 @@
 "use client"
 
+import { type ImageField } from "@prismicio/client"
+
 import { useState } from "react"
-import NextImage, { type ImageProps } from "next/image"
+import { PrismicNextImage } from "@prismicio/next"
 
 import { Dialog } from "@headlessui/react"
 import { XCircleIcon } from "@heroicons/react/24/outline"
 
-export default function ImageWithPreview(props: ImageProps) {
+export default function ImageWithPreview({ field }: { field: ImageField }) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   return (
@@ -14,8 +16,8 @@ export default function ImageWithPreview(props: ImageProps) {
       onClick={() => setIsOpen(true)}
       className="pointer-events-none lg:pointer-events-auto lg:cursor-zoom-in"
     >
-      <NextImage
-        {...props}
+      <PrismicNextImage
+        field={field}
         sizes="(min-width: 1280px) 816px, (min-width: 840px) 735px, (min-width: 760px) calc(136.67vw - 386px), calc(94.77vw - 48px)"
       />
 
@@ -26,7 +28,11 @@ export default function ImageWithPreview(props: ImageProps) {
             strokeWidth={1.5}
             onClick={() => setIsOpen(false)}
           />
-          <NextImage {...props} sizes="100vw" className="w-full rounded-xl" />
+          <PrismicNextImage
+            field={field}
+            sizes="100vw"
+            className="w-full rounded-xl"
+          />
         </Dialog.Panel>
       </Dialog>
     </div>
