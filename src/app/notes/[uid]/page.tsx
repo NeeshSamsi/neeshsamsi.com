@@ -8,13 +8,12 @@ import Article from "@/components/Article"
 import { asText } from "@prismicio/client"
 import { formatDate } from "@/lib/utils"
 
-type Params = { uid: string }
+type Params = Promise<{ uid: string }>
 
-export default async function Page({ params }: { params: Params }) {
+export default async function Page(props: { params: Params }) {
+  const { uid } = await props.params
   const client = createClient()
-  const page = await client
-    .getByUID("notes", params.uid)
-    .catch(() => notFound())
+  const page = await client.getByUID("notes", uid).catch(() => notFound())
 
   const {
     last_publication_date: pubDate,
@@ -43,15 +42,12 @@ export default async function Page({ params }: { params: Params }) {
   )
 }
 
-export async function generateMetadata({
-  params,
-}: {
+export async function generateMetadata(props: {
   params: Params
 }): Promise<Metadata> {
+  const { uid } = await props.params
   const client = createClient()
-  const page = await client
-    .getByUID("notes", params.uid)
-    .catch(() => notFound())
+  const page = await client.getByUID("notes", uid).catch(() => notFound())
 
   return {
     title: page.data.meta_title,
