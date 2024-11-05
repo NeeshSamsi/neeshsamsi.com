@@ -67,7 +67,13 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
               },
               i,
             ) => (
-              <Project key={i} slug={slug} {...entry} priority={i < 2} />
+              <Project
+                key={i}
+                slug={slug}
+                type="work"
+                {...entry}
+                priority={i < 2}
+              />
             ),
           )}
         </div>

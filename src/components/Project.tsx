@@ -12,6 +12,7 @@ type Props = Omit<
   "meta_image" | "meta_title" | "meta_description" | "pubDate" | "slices"
 > & {
   slug: string
+  type: "work" | "play"
   priority?: boolean
 }
 
@@ -23,12 +24,13 @@ export default function Project({
   tags,
   cta,
   priority,
+  type,
 }: Props) {
   return (
     <div className="flex flex-col justify-between space-y-4 text-sm text-lighter sm:text-base lg:space-y-6 lg:text-lg xl:text-xl">
       <div className="space-y-3 lg:space-y-4">
         <Link
-          href={`/work/${slug}`}
+          href={`/${type}/${slug}`}
           className="relative block aspect-video w-full overflow-hidden rounded-xl"
         >
           <PrismicNextImage
@@ -48,7 +50,7 @@ export default function Project({
       <div className="flex items-center gap-2 sm:gap-4">
         <Button
           element="link"
-          href={`/work/${slug}`}
+          href={`/${type}/${slug}`}
           type="solid"
           theme="light"
           className="group"
