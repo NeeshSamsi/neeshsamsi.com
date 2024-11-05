@@ -22,7 +22,8 @@
               "JavaScript",
               "HTML",
               "CSS",
-              "Terminal"
+              "Terminal",
+              "JSON"
             ],
             "default_value": "TypeScript"
           }

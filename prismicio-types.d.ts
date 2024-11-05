@@ -566,7 +566,7 @@ export interface CodeBlockSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   lang: prismic.SelectField<
-    "TypeScript" | "JavaScript" | "HTML" | "CSS" | "Terminal",
+    "TypeScript" | "JavaScript" | "HTML" | "CSS" | "Terminal" | "JSON",
     "filled"
   >
 

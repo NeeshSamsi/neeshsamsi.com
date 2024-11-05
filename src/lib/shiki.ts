@@ -6,6 +6,7 @@ export const languages = {
   HTML: "html",
   CSS: "css",
   Terminal: "bash",
+  JSON: "json",
 } as const
 
 export async function getHighlighter() {
