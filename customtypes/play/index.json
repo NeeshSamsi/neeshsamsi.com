@@ -43,6 +43,16 @@
           "placeholder": ""
         }
       },
+      "cta": {
+        "type": "Link",
+        "config": {
+          "label": "Call to Action",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "select": null,
+          "allowText": true
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

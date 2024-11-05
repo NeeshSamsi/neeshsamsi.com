@@ -216,6 +216,17 @@ interface PlayDocumentData {
   tags: prismic.KeyTextField
 
   /**
+   * Call to Action field in *Play*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: play.cta
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  cta: prismic.LinkField
+
+  /**
    * Slice Zone field in *Play*
    *
    * - **Field Type**: Slice Zone
