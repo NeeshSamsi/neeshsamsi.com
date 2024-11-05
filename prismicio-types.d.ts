@@ -99,6 +99,7 @@ export type NotesDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<NotesDocumentData>, "notes", Lang>
 
 type PageDocumentDataSlicesSlice =
+  | PlaySlice
   | NotesSlice
   | PageHeadingSlice
   | AboutSlice
