@@ -7,11 +7,11 @@ type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 type NotesDocumentDataSlicesSlice = CodeBlockSlice | RichTextSlice
 
 /**
- * Content for Notes documents
+ * Content for Note documents
  */
 interface NotesDocumentData {
   /**
-   * Title field in *Notes*
+   * Title field in *Note*
    *
    * - **Field Type**: Title
    * - **Placeholder**: *None*
@@ -22,7 +22,7 @@ interface NotesDocumentData {
   title: prismic.TitleField
 
   /**
-   * Description field in *Notes*
+   * Description field in *Note*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -33,7 +33,7 @@ interface NotesDocumentData {
   description: prismic.KeyTextField
 
   /**
-   * Tags field in *Notes*
+   * Tags field in *Note*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -44,7 +44,7 @@ interface NotesDocumentData {
   tags: prismic.KeyTextField
 
   /**
-   * Slice Zone field in *Notes*
+   * Slice Zone field in *Note*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -53,7 +53,7 @@ interface NotesDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
   slices: prismic.SliceZone<NotesDocumentDataSlicesSlice> /**
-   * Meta Title field in *Notes*
+   * Meta Title field in *Note*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
@@ -64,7 +64,7 @@ interface NotesDocumentData {
   meta_title: prismic.KeyTextField
 
   /**
-   * Meta Description field in *Notes*
+   * Meta Description field in *Note*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
@@ -75,7 +75,7 @@ interface NotesDocumentData {
   meta_description: prismic.KeyTextField
 
   /**
-   * Meta Image field in *Notes*
+   * Meta Image field in *Note*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -87,7 +87,7 @@ interface NotesDocumentData {
 }
 
 /**
- * Notes document from Prismic
+ * Note document from Prismic
  *
  * - **API ID**: `notes`
  * - **Repeatable**: `true`
