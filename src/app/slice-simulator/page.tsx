@@ -13,8 +13,10 @@ export default async function SliceSimulatorPage(props: SliceSimulatorParams) {
 
   return (
     <SliceSimulator>
-      <div className="bg-dark py-24">
-        <SliceZone slices={slices} components={components} />
+      <div className="bg-dark">
+        <div className="wrapper py-24">
+          <SliceZone slices={slices} components={components} />
+        </div>
       </div>
     </SliceSimulator>
   )
