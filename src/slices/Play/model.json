@@ -1,0 +1,42 @@
+{
+  "id": "play",
+  "type": "SharedSlice",
+  "name": "Play",
+  "description": "Play",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Section Heading",
+            "placeholder": "Will not show if left empty",
+            "allowTargetBlank": false,
+            "single": "heading2"
+          }
+        },
+        "limit": {
+          "type": "Number",
+          "config": {
+            "label": "Limit",
+            "placeholder": ""
+          }
+        },
+        "cta": {
+          "type": "Text",
+          "config": {
+            "label": "CTA Text",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

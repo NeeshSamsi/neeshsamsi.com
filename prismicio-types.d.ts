@@ -897,6 +897,68 @@ export type PageHeadingSlice = prismic.SharedSlice<
 >
 
 /**
+ * Primary content in *Play → Default → Primary*
+ */
+export interface PlaySliceDefaultPrimary {
+  /**
+   * Section Heading field in *Play → Default → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: Will not show if left empty
+   * - **API ID Path**: play.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.TitleField
+
+  /**
+   * Limit field in *Play → Default → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: play.default.primary.limit
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  limit: prismic.NumberField
+
+  /**
+   * CTA Text field in *Play → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: play.default.primary.cta
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  cta: prismic.KeyTextField
+}
+
+/**
+ * Default variation for Play Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type PlaySliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<PlaySliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *Play*
+ */
+type PlaySliceVariation = PlaySliceDefault
+
+/**
+ * Play Shared Slice
+ *
+ * - **API ID**: `play`
+ * - **Description**: Play
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type PlaySlice = prismic.SharedSlice<"play", PlaySliceVariation>
+
+/**
  * Item in *Reviews → Default → Primary → Reviews*
  */
 export interface ReviewsSliceDefaultPrimaryReviewsItem {
@@ -1158,6 +1220,10 @@ declare module "@prismicio/client" {
       PageHeadingSliceDefaultPrimary,
       PageHeadingSliceVariation,
       PageHeadingSliceDefault,
+      PlaySlice,
+      PlaySliceDefaultPrimary,
+      PlaySliceVariation,
+      PlaySliceDefault,
       ReviewsSlice,
       ReviewsSliceDefaultPrimaryReviewsItem,
       ReviewsSliceDefaultPrimary,

@@ -8,6 +8,7 @@ export const components = {
   hero: dynamic(() => import("./Hero")),
   notes: dynamic(() => import("./Notes")),
   page_heading: dynamic(() => import("./PageHeading")),
+  play: dynamic(() => import("./Play")),
   reviews: dynamic(() => import("./Reviews")),
   rich_text: dynamic(() => import("./RichText")),
   work: dynamic(() => import("./Work")),

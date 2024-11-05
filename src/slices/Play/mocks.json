@@ -1,0 +1,30 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Toward"
+						}
+					}
+				]
+			},
+			"limit": {
+				"__TYPE__": "FieldContent",
+				"value": "2",
+				"type": "Number"
+			},
+			"cta": {
+				"__TYPE__": "FieldContent",
+				"value": "question",
+				"type": "Text"
+			}
+		},
+		"items": []
+	}
+]
