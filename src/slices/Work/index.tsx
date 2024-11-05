@@ -20,14 +20,13 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
     primary: { heading, cta, limit },
   } = slice
 
-  const work = (
-    await client.getAllByType("work", {
-      limit: limit ? limit : undefined,
-    })
-  ).sort(
-    (a, b) =>
-      new Date(b.data.pubDate!).valueOf() - new Date(a.data.pubDate!).valueOf(),
-  )
+  const work = await client.getAllByType("work", {
+    limit: limit ? limit : undefined,
+    orderings: {
+      field: "document.last_publication_date",
+      direction: "asc",
+    },
+  })
 
   return (
     <section

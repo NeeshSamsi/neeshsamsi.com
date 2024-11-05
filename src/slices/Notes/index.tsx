@@ -22,8 +22,8 @@ const Notes = async ({ slice }: NotesProps): Promise<JSX.Element> => {
   const notes = await client.getAllByType("notes", {
     limit: limit ? limit : undefined,
     orderings: {
-      field: "last_publication_date",
-      direction: "desc",
+      field: "document.last_publication_date",
+      direction: "asc",
     },
   })
 
