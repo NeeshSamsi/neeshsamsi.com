@@ -72,6 +72,9 @@ importers:
       react-dom:
         specifier: 19.0.0-rc-69d4b800-20241021
         version: 19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021)
+      slugify:
+        specifier: ^1.6.6
+        version: 1.6.6
       tailwind-merge:
         specifier: ^2.5.4
         version: 2.5.4
@@ -2436,6 +2439,10 @@ packages:
     resolution: {integrity: sha512-0FsGyyUJXu9rhfQM+uJIb11dmQBvTmOXj3e3Ci47SacarcziMh632sNZ5MxWOYShd7ZuRu4RuYNYzGcue9Uajg==}
     engines: {node: '>=14'}
     hasBin: true
+
+  slugify@1.6.6:
+    resolution: {integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==}
+    engines: {node: '>=8.0.0'}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -5315,6 +5322,8 @@ snapshots:
       - react-dom
       - supports-color
       - uuid
+
+  slugify@1.6.6: {}
 
   source-map-js@1.2.1: {}
 
