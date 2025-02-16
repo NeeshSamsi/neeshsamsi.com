@@ -24,7 +24,7 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
     limit: limit ? limit : undefined,
     orderings: {
       field: "document.last_publication_date",
-      direction: "asc",
+      direction: "desc",
     },
   })
 
