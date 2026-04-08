@@ -1,9 +1,71 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --font-*: initial;
+  --font-sans:
+    var(--font-poppins), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-serif:
+    var(--font-sunset), ui-serif, Georgia, Cambria, 'Times New Roman', Times,
+    serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+
+  --color-dark: #1d3557;
+  --color-light: #e0feff;
+  --color-lighter: #b8e0e1;
+  --color-brand: #f4a430;
+  --color-accent: #25bbc5;
+
+  --animate-wave: wave-rotate 1s ease-in-out infinite;
+  --animate-wave-y:
+    wave-rotate 1s ease-in-out infinite, wave-y 2s ease-in-out infinite;
+
+  --breakpoint-xs: 360px;
+
+  @keyframes wave-rotate {
+    0%,
+    100% {
+      rotate: -5deg;
+    }
+    50% {
+      rotate: 5deg;
+    }
+  }
+  @keyframes wave-y {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-0.3rem);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 .wrapper {
-  @apply mx-auto max-w-screen-xl px-8;
+  @apply mx-auto max-w-(--breakpoint-xl) px-8;
 }
 
 .custom-cols {

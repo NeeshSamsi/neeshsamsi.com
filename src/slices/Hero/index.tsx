@@ -28,7 +28,7 @@ const Hero = async ({ slice }: HeroProps): Promise<JSX.Element> => {
       data-slice-variation={slice.variation}
       className="wrapper"
     >
-      <main className="grid items-center justify-items-center gap-10 pt-8 sm:justify-items-start sm:pt-12 md:grid-cols-[1.3fr,1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
+      <main className="grid items-center justify-items-center gap-10 pt-8 sm:justify-items-start sm:pt-12 md:grid-cols-[1.3fr_1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
         <div className="group/main text-base font-light text-lighter sm:text-xl xl:text-2xl">
           <p className="mb-2 flex items-center gap-2 lg:mb-3">
             <span>Hi</span>
@@ -43,7 +43,7 @@ const Hero = async ({ slice }: HeroProps): Promise<JSX.Element> => {
             />
             <span>I&apos;m {name}!</span>
           </p>
-          <h1 className="mb-2 max-w-[18ch] font-serif text-3xl leading-[1.4] text-light sm:text-4xl sm:leading-[1.5] lg:mb-4 xl:text-5xl xl:leading-[1.3]">
+          <h1 className="mb-2 max-w-[18ch] font-serif text-3xl leading-[1.4] text-light sm:text-4xl sm:leading-normal lg:mb-4 xl:text-5xl xl:leading-[1.3]">
             I Create{" "}
             <span className="relative">
               Intuitive
