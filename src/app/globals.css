@@ -14,11 +14,11 @@
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace;
 
-  --color-dark: #1d3557;
-  --color-light: #e0feff;
-  --color-lighter: #b8e0e1;
-  --color-brand: #f4a430;
-  --color-accent: #25bbc5;
+  --color-dark: #10213A;
+  --color-light: #E0FEFF;
+  --color-lighter: #B8E0E1;
+  --color-brand: #F4A430;
+  --color-accent: #25BBC5;
 
   --animate-wave: wave-rotate 1s ease-in-out infinite;
   --animate-wave-y:
