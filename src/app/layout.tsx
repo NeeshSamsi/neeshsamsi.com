@@ -103,6 +103,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${poppins.variable} ${sunset.variable} scroll-p-6 overscroll-x-none scroll-smooth bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
     >
       {process.env.NODE_ENV === "production" && (
