@@ -113,9 +113,11 @@ export default function RootLayout({
           data-website-id="c98851cd-fce3-401d-aae0-6249488c14e1"
         />
       )}
-      <body>
+      <body className="grid grid-cols-12 gap-x-8 mx-auto max-w-7xl px-8">
         <Navbar />
-        {children}
+        <main className="col-span-full grid grid-cols-subgrid">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

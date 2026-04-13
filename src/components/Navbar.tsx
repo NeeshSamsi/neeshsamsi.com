@@ -8,24 +8,26 @@ export default async function Navbar() {
   } = await client.getSingle("settings")
 
   return (
-    <nav className="wrapper flex flex-col items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8 sm:text-lg">
-      <Link
-        href="/"
-        className="font-serif text-lg font-medium transition-colors hover:text-lighter md:text-xl"
-      >
-        Neesh Samsi
-      </Link>
+    <nav className="col-span-full grid grid-cols-subgrid">
+      <div className="col-span-full flex flex-col items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8 sm:text-lg">
+        <Link
+          href="/"
+          className="font-serif text-lg font-medium transition-colors hover:text-lighter md:text-xl"
+        >
+          Neesh Samsi
+        </Link>
 
-      <ul className="flex items-start justify-between gap-4 font-light sm:items-center sm:gap-8">
-        {navLinks.map(({ link }, i) => (
-          <li key={`nav-link-${i}`}>
-            <PrismicNextLink
-              field={link}
-              className="underline-animation transition-colors hover:text-lighter"
-            />
-          </li>
-        ))}
-      </ul>
+        <ul className="flex items-start justify-between gap-4 font-light sm:items-center sm:gap-8">
+          {navLinks.map(({ link }, i) => (
+            <li key={`nav-link-${i}`}>
+              <PrismicNextLink
+                field={link}
+                className="underline-animation transition-colors hover:text-lighter"
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
   )
 }

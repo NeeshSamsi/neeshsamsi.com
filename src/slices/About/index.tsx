@@ -23,9 +23,9 @@ const About = ({ slice }: AboutProps): JSX.Element => {
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
       id="about"
-      className="wrapper mt-24"
+      className="col-span-full grid grid-cols-subgrid"
     >
-      <section>
+      <section className="col-span-full mt-24">
         <SectionHeading text={asText(heading)} />
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-12 lg:gap-x-12 lg:gap-y-16 xl:grid-cols-3">

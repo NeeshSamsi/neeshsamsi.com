@@ -23,9 +23,9 @@ const Reviews = ({ slice }: ReviewsProps): JSX.Element => {
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
       id="reviews-and-feedback"
-      className="wrapper mt-24"
+      className="col-span-full grid grid-cols-subgrid"
     >
-      <section>
+      <section className="col-span-full mt-24">
         <SectionHeading text={asText(heading)} />
 
         {reviews.length > 0 ? (

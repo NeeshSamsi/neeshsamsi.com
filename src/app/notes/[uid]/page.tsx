@@ -21,8 +21,8 @@ export default async function Page(props: { params: Params }) {
   } = page
 
   return (
-    <>
-      <main className="wrapper">
+    <div className="col-span-full grid grid-cols-subgrid">
+      <div className="col-span-full">
         <div className="mx-auto mt-8 max-w-[65ch] space-y-3 text-center md:mt-12 md:space-y-6">
           <h1 className="text-balance font-serif text-3xl font-medium text-brand md:text-4xl xl:text-5xl">
             {asText(title)}
@@ -37,8 +37,8 @@ export default async function Page(props: { params: Params }) {
         <Article>
           <SliceZone slices={page.data.slices} components={components} />
         </Article>
-      </main>
-    </>
+      </div>
+    </div>
   )
 }
 

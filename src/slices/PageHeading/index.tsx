@@ -17,13 +17,13 @@ const PageHeading = ({ slice }: PageHeadingProps): JSX.Element => {
   } = slice
 
   return (
-    <div className="wrapper">
+    <div className="col-span-full grid grid-cols-subgrid">
       <SectionHeading
         data-slice-type={slice.slice_type}
         data-slice-variation={slice.variation}
         element="h1"
         text={asText(heading)}
-        className="mt-8 sm:mt-12"
+        className="col-span-full mt-8 sm:mt-12"
       />
     </div>
   )

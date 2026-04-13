@@ -26,6 +26,7 @@ const CodeBlock = async ({ slice }: CodeBlockProps): Promise<JSX.Element> => {
 
   return (
     <div
+      className="col-span-full"
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
       dangerouslySetInnerHTML={{ __html: html }}

@@ -23,12 +23,12 @@ const Hero = async ({ slice }: HeroProps): Promise<JSX.Element> => {
   } = slice
 
   return (
-    <main
+    <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="wrapper"
+      className="col-span-full grid grid-cols-subgrid"
     >
-      <main className="grid items-center justify-items-center gap-10 pt-8 sm:justify-items-start sm:pt-12 md:grid-cols-[1.3fr_1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
+      <div className="col-span-full grid items-center justify-items-center gap-10 pt-8 sm:justify-items-start sm:pt-12 md:grid-cols-[1.3fr_1fr] md:gap-6 lg:grid-cols-2 lg:gap-24 xl:pt-4">
         <div className="group/main text-base font-light text-lighter sm:text-xl xl:text-2xl">
           <p className="mb-2 flex items-center gap-2 lg:mb-3">
             <span>Hi</span>
@@ -100,8 +100,8 @@ const Hero = async ({ slice }: HeroProps): Promise<JSX.Element> => {
           sizes="(min-width: 1360px) 560px, (min-width: 1040px) calc(40vw + 24px), 16.81vw"
           className="w-[30vh] object-cover lg:w-full"
         />
-      </main>
-    </main>
+      </div>
+    </section>
   )
 }
 

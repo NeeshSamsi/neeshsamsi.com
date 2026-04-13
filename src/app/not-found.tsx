@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function NotFound() {
   return (
-    <main className="mb-20 mt-12 grid place-items-center text-center md:mb-36 md:mt-24">
+    <div className="col-span-full mb-20 mt-12 grid place-items-center text-center md:mb-36 md:mt-24">
       <p className="text-lg font-light text-lighter sm:text-xl md:text-2xl xl:text-3xl">
         404: Not Found
       </p>
@@ -25,6 +25,6 @@ export default function NotFound() {
         height={512}
         className="mt-12 aspect-square w-64 md:w-72 lg:w-96 xl:w-auto"
       />
-    </main>
+    </div>
   )
 }

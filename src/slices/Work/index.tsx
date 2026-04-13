@@ -33,55 +33,57 @@ const Work = async ({ slice }: WorkProps): Promise<JSX.Element> => {
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
       id="work"
-      className="wrapper mt-24"
+      className="col-span-full grid grid-cols-subgrid"
     >
-      {asText(heading) && (
-        <div className="flex justify-between gap-4">
-          <SectionHeading text={asText(heading)} />
+      <div className="col-span-full mt-24">
+        {asText(heading) && (
+          <div className="flex justify-between gap-4">
+            <SectionHeading text={asText(heading)} />
 
-          <Button
-            element="link"
-            href="/work"
-            type="outline"
-            theme="light"
-            className="h-fit text-xs md:text-sm lg:text-base xl:text-lg"
-          >
-            {cta}
-          </Button>
-        </div>
-      )}
+            <Button
+              element="link"
+              href="/work"
+              type="outline"
+              theme="light"
+              className="h-fit text-xs md:text-sm lg:text-base xl:text-lg"
+            >
+              {cta}
+            </Button>
+          </div>
+        )}
 
-      {work.length > 0 ? (
-        <div className="custom-cols grid gap-x-8 gap-y-16">
-          {work.map(
-            (
-              {
-                data: {
-                  meta_image,
-                  meta_title,
-                  meta_description,
-                  slices,
-                  ...entry
+        {work.length > 0 ? (
+          <div className="custom-cols grid gap-x-8 gap-y-16">
+            {work.map(
+              (
+                {
+                  data: {
+                    meta_image,
+                    meta_title,
+                    meta_description,
+                    slices,
+                    ...entry
+                  },
+                  uid: slug,
                 },
-                uid: slug,
-              },
-              i,
-            ) => (
-              <Project
-                key={i}
-                slug={slug}
-                type="work"
-                {...entry}
-                priority={i < 2}
-              />
-            ),
-          )}
-        </div>
-      ) : (
-        <p className="text-sm md:text-base lg:text-lg xl:text-xl">
-          No work to showcase.
-        </p>
-      )}
+                i,
+              ) => (
+                <Project
+                  key={i}
+                  slug={slug}
+                  type="work"
+                  {...entry}
+                  priority={i < 2}
+                />
+              ),
+            )}
+          </div>
+        ) : (
+          <p className="text-sm md:text-base lg:text-lg xl:text-xl">
+            No work to showcase.
+          </p>
+        )}
+      </div>
     </section>
   )
 }

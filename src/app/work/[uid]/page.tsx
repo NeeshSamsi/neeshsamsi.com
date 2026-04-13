@@ -23,46 +23,48 @@ export default async function Page(props: { params: Promise<Params> }) {
   } = page
 
   return (
-    <main className="wrapper">
-      <div className="relative aspect-video w-full">
-        <PrismicNextImage
-          field={image}
-          fill
-          priority
-          sizes="(min-width: 1360px) 1216px, calc(94.23vw - 47px)"
-          className="h-full w-full rounded-3xl object-cover"
-        />
-      </div>
-
-      <div className="mt-8 space-y-3 md:mt-12 md:space-y-6">
-        <h1 className="font-serif text-3xl font-medium md:text-4xl xl:text-5xl">
-          {asText(title)}
-        </h1>
-        <div className="flex flex-col-reverse gap-2 text-base font-light text-lighter sm:flex-row sm:items-center sm:gap-3 sm:text-lg md:text-xl xl:text-2xl">
-          <p>{formatDate(new Date(pubDate!))}</p>
-          <div className="hidden size-1 rounded-full bg-lighter sm:block" />
-          <p>{tags}</p>
+    <div className="col-span-full grid grid-cols-subgrid">
+      <div className="col-span-full">
+        <div className="relative aspect-video w-full">
+          <PrismicNextImage
+            field={image}
+            fill
+            priority
+            sizes="(min-width: 1360px) 1216px, calc(94.23vw - 47px)"
+            className="h-full w-full rounded-3xl object-cover"
+          />
         </div>
-        {cta.text && (
-          <PrismicNextLink
-            field={cta}
-            className="inline-block w-fit text-sm md:text-base xl:text-lg"
-          >
-            <Button element="button" type="outline" theme="light">
-              {cta.text}
-              <ArrowTopRightOnSquareIcon
-                className="aspect-square w-5"
-                strokeWidth={2}
-              />
-            </Button>
-          </PrismicNextLink>
-        )}
-      </div>
 
-      <Article>
-        <SliceZone slices={page.data.slices} components={components} />
-      </Article>
-    </main>
+        <div className="mt-8 space-y-3 md:mt-12 md:space-y-6">
+          <h1 className="font-serif text-3xl font-medium md:text-4xl xl:text-5xl">
+            {asText(title)}
+          </h1>
+          <div className="flex flex-col-reverse gap-2 text-base font-light text-lighter sm:flex-row sm:items-center sm:gap-3 sm:text-lg md:text-xl xl:text-2xl">
+            <p>{formatDate(new Date(pubDate!))}</p>
+            <div className="hidden size-1 rounded-full bg-lighter sm:block" />
+            <p>{tags}</p>
+          </div>
+          {cta.text && (
+            <PrismicNextLink
+              field={cta}
+              className="inline-block w-fit text-sm md:text-base xl:text-lg"
+            >
+              <Button element="button" type="outline" theme="light">
+                {cta.text}
+                <ArrowTopRightOnSquareIcon
+                  className="aspect-square w-5"
+                  strokeWidth={2}
+                />
+              </Button>
+            </PrismicNextLink>
+          )}
+        </div>
+
+        <Article>
+          <SliceZone slices={page.data.slices} components={components} />
+        </Article>
+      </div>
+    </div>
   )
 }
 
