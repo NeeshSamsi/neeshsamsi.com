@@ -13,6 +13,14 @@
 - **Styling**: Tailwind CSS + @tailwindcss/typography
 - **Package manager**: pnpm (not npm/yarn)
 
+## Styling rules
+
+- **Always use Tailwind CSS utility classes inline** on elements within components (e.g. `className="flex items-center gap-4"`). This is the default and expected approach for all styling in this project.
+- **Do NOT add styles to `globals.css`** or create new CSS files unless the user explicitly requests it.
+- **Do NOT use `@apply`** unless the user explicitly requests it.
+- If you believe a global style or `@apply` is genuinely necessary, **ask for permission first** and explain why — do not add it silently.
+- Existing classes in `globals.css` (e.g. `.wrapper`, `.underline-animation`, `.inline-code`) are intentional and should not be removed or refactored without permission.
+
 ## Key files
 
 - `src/prismicio.ts` - Prismic client configuration
