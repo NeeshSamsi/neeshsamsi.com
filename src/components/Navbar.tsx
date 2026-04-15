@@ -13,7 +13,7 @@ export default async function Navbar() {
   ]
 
   return (
-    <nav className="col-span-full grid grid-cols-subgrid items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8 sm:text-lg">
+    <nav className="col-span-full flex items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8">
       <Link
         href="/"
         className="font-serif text-lg font-medium transition-colors hover:text-lighter md:text-xl"
@@ -21,7 +21,7 @@ export default async function Navbar() {
         Neesh Samsi
       </Link>
 
-      <ul className="flex items-start justify-between gap-4 font-light sm:items-center sm:gap-8">
+      <ul className="flex items-start justify-between gap-4 font-light sm:items-center">
         {navLinks.map(({ id, label, field }) => (
           <li key={`nav-link-${id}`}>
             <PrismicNextLink
