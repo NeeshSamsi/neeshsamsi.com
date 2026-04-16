@@ -21,6 +21,10 @@
 - If you believe a global style or `@apply` is genuinely necessary, **ask for permission first** and explain why — do not add it silently.
 - Existing classes in `globals.css` (e.g. `.wrapper`, `.underline-animation`, `.inline-code`) are intentional and should not be removed or refactored without permission.
 
+## TypeScript rules
+
+- **NEVER use the `any` type** in TypeScript files unless explicitly requested and permitted by the user.
+
 ## Key files
 
 - `src/prismicio.ts` - Prismic client configuration
