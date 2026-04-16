@@ -6,6 +6,7 @@ import { SliceZone } from "@prismicio/react"
 import { createClient } from "@/prismicio"
 import { components } from "@/slices"
 import { PrismicNextImage } from "@prismicio/next"
+import PingDot from "@/components/PingDot"
 
 type Params = { uid: string }
 
@@ -20,7 +21,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     <article className="col-span-full grid grid-cols-subgrid">
       <div className="col-span-full my-8 grid grid-cols-subgrid text-base md:my-12 md:text-xl">
         <h3 className="col-span-full mb-4 flex h-fit items-center gap-3 font-light xs:col-span-4 md:mb-0">
-          <span className="text-brand">• </span> <span>{type}</span>
+          <PingDot className="size-1.5 md:size-2" /> <span>{type}</span>
         </h3>
 
         <div className="col-span-full space-y-2 xs:col-span-8">
