@@ -13,7 +13,7 @@ import { client } from "@/lib/prismic"
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["200", "300", "400", "500"],
   variable: "--font-poppins",
 })
 
@@ -113,11 +113,9 @@ export default function RootLayout({
           data-website-id="c98851cd-fce3-401d-aae0-6249488c14e1"
         />
       )}
-      <body className="grid grid-cols-12 gap-x-8 mx-auto max-w-7xl px-8">
+      <body className="mx-auto grid max-w-7xl grid-cols-12 gap-x-8 px-8">
         <Navbar />
-        <main className="col-span-full grid grid-cols-subgrid">
-          {children}
-        </main>
+        <main className="col-span-full grid grid-cols-subgrid">{children}</main>
         <Footer />
       </body>
     </html>
