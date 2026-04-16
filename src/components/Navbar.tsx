@@ -13,10 +13,10 @@ export default async function Navbar() {
   ]
 
   return (
-    <nav className="col-span-full flex items-center justify-between gap-4 py-6 text-base sm:flex-row sm:gap-0 sm:py-8">
+    <nav className="col-span-full flex flex-col items-center justify-between gap-4 py-6 text-sm sm:flex-row sm:gap-0 sm:py-8 md:text-base">
       <Link
         href="/"
-        className="font-serif text-lg font-medium transition-colors hover:text-lighter md:text-xl"
+        className="font-serif text-base font-medium transition-colors hover:text-lighter sm:text-lg md:text-xl"
       >
         Neesh Samsi
       </Link>
