@@ -2,6 +2,7 @@ import { FC } from "react"
 import { Content, isFilled } from "@prismicio/client"
 import { SliceComponentProps } from "@prismicio/react"
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next"
+import PingDot from "@/components/PingDot"
 
 /**
  * Props for `FeaturedProject`.
@@ -50,8 +51,8 @@ const FeaturedProject: FC<FeaturedProjectProps> = ({ slice }) => {
           <h1 className="font-serif text-xl font-normal xs:text-2xl md:text-3xl">
             {title}
           </h1>
-          <div className="flex items-center gap-2 text-sm font-light md:text-lg">
-            <span className="text-brand">•</span>
+          <div className="flex items-center gap-2 text-sm font-light md:gap-3 md:text-lg">
+            <PingDot className="size-1.5 md:size-2" />
             <span>{type}</span>
           </div>
         </div>
