@@ -347,6 +347,123 @@ interface PlayDocumentData {
 export type PlayDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PlayDocumentData>, "play", Lang>
 
+type ProjectDocumentDataSlicesSlice = ProjectOverviewSlice | RichTextSlice
+
+/**
+ * Content for Project documents
+ */
+interface ProjectDocumentData {
+  /**
+   * Cover Image field in *Project*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>
+
+  /**
+   * Subtitle field in *Project*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Ecommerce, UI UX, Visual design
+   * - **API ID Path**: project.subtitle
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  subtitle: prismic.KeyTextField
+
+  /**
+   * Title field in *Project*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Website Redesign for ...
+   * - **API ID Path**: project.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField
+
+  /**
+   * Project Type field in *Project*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: Exploration & Play
+   * - **API ID Path**: project.type
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  type: prismic.SelectField<"Exploration & Play" | "Client Work", "filled">
+
+  /**
+   * Published Date field in *Project*
+   *
+   * - **Field Type**: Date
+   * - **Placeholder**: Today
+   * - **API ID Path**: project.publishedDate
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/date
+   */
+  publishedDate: prismic.DateField
+
+  /**
+   * Slice Zone field in *Project*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<ProjectDocumentDataSlicesSlice> /**
+   * Meta Title field in *Project*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: project.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField
+
+  /**
+   * Meta Description field in *Project*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: project.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField
+
+  /**
+   * Meta Image field in *Project*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>
+}
+
+/**
+ * Project document from Prismic
+ *
+ * - **API ID**: `project`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProjectDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<ProjectDocumentData>, "project", Lang>
+
 /**
  * Item in *Site Settings → Navigation Links*
  */
@@ -656,6 +773,7 @@ export type AllDocumentTypes =
   | NotesDocument
   | PageDocument
   | PlayDocument
+  | ProjectDocument
   | SettingsDocument
   | WorkDocument
 
@@ -793,6 +911,53 @@ type CodeBlockSliceVariation = CodeBlockSliceDefault
 export type CodeBlockSlice = prismic.SharedSlice<
   "code_block",
   CodeBlockSliceVariation
+>
+
+/**
+ * Primary content in *FeaturedProject → Default → Primary*
+ */
+export interface FeaturedProjectSliceDefaultPrimary {
+  /**
+   * Featured Project field in *FeaturedProject → Default → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_project.default.primary.featuredProject
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  featuredProject: ContentRelationshipFieldWithData<
+    [{ id: "project"; fields: ["image", "title", "type"] }]
+  >
+}
+
+/**
+ * Default variation for FeaturedProject Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type FeaturedProjectSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<FeaturedProjectSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *FeaturedProject*
+ */
+type FeaturedProjectSliceVariation = FeaturedProjectSliceDefault
+
+/**
+ * FeaturedProject Shared Slice
+ *
+ * - **API ID**: `featured_project`
+ * - **Description**: FeaturedProject
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type FeaturedProjectSlice = prismic.SharedSlice<
+  "featured_project",
+  FeaturedProjectSliceVariation
 >
 
 /**
@@ -1037,6 +1202,78 @@ type PlaySliceVariation = PlaySliceDefault
 export type PlaySlice = prismic.SharedSlice<"play", PlaySliceVariation>
 
 /**
+ * Item in *ProjectOverview → Default → Primary → Paragraphs*
+ */
+export interface ProjectOverviewSliceDefaultPrimaryParagraphsItem {
+  /**
+   * Title field in *ProjectOverview → Default → Primary → Paragraphs*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_overview.default.primary.paragraphs[].title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField
+
+  /**
+   * Description field in *ProjectOverview → Default → Primary → Paragraphs*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_overview.default.primary.paragraphs[].description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField
+}
+
+/**
+ * Primary content in *ProjectOverview → Default → Primary*
+ */
+export interface ProjectOverviewSliceDefaultPrimary {
+  /**
+   * Paragraphs field in *ProjectOverview → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_overview.default.primary.paragraphs[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  paragraphs: prismic.GroupField<
+    Simplify<ProjectOverviewSliceDefaultPrimaryParagraphsItem>
+  >
+}
+
+/**
+ * Default variation for ProjectOverview Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProjectOverviewSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ProjectOverviewSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *ProjectOverview*
+ */
+type ProjectOverviewSliceVariation = ProjectOverviewSliceDefault
+
+/**
+ * ProjectOverview Shared Slice
+ *
+ * - **API ID**: `project_overview`
+ * - **Description**: ProjectOverview
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProjectOverviewSlice = prismic.SharedSlice<
+  "project_overview",
+  ProjectOverviewSliceVariation
+>
+
+/**
  * Item in *Reviews → Default → Primary → Reviews*
  */
 export interface ReviewsSliceDefaultPrimaryReviewsItem {
@@ -1270,6 +1507,9 @@ declare module "@prismicio/client" {
       PlayDocument,
       PlayDocumentData,
       PlayDocumentDataSlicesSlice,
+      ProjectDocument,
+      ProjectDocumentData,
+      ProjectDocumentDataSlicesSlice,
       SettingsDocument,
       SettingsDocumentData,
       SettingsDocumentDataNavLinksItem,
@@ -1286,6 +1526,10 @@ declare module "@prismicio/client" {
       CodeBlockSliceDefaultPrimary,
       CodeBlockSliceVariation,
       CodeBlockSliceDefault,
+      FeaturedProjectSlice,
+      FeaturedProjectSliceDefaultPrimary,
+      FeaturedProjectSliceVariation,
+      FeaturedProjectSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
@@ -1302,6 +1546,11 @@ declare module "@prismicio/client" {
       PlaySliceDefaultPrimary,
       PlaySliceVariation,
       PlaySliceDefault,
+      ProjectOverviewSlice,
+      ProjectOverviewSliceDefaultPrimaryParagraphsItem,
+      ProjectOverviewSliceDefaultPrimary,
+      ProjectOverviewSliceVariation,
+      ProjectOverviewSliceDefault,
       ReviewsSlice,
       ReviewsSliceDefaultPrimaryReviewsItem,
       ReviewsSliceDefaultPrimary,

@@ -1,0 +1,37 @@
+{
+  "id": "featured_project",
+  "type": "SharedSlice",
+  "name": "FeaturedProject",
+  "description": "FeaturedProject",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "featuredProject": {
+          "type": "Link",
+          "config": {
+            "label": "Featured Project",
+            "select": "document",
+            "repeat": false,
+            "customtypes": [
+              {
+                "id": "project",
+                "fields": [
+                  "image",
+                  "title",
+                  "type"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

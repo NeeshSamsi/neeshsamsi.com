@@ -5,10 +5,12 @@ import dynamic from "next/dynamic"
 export const components = {
   about: dynamic(() => import("./About")),
   code_block: dynamic(() => import("./CodeBlock")),
+  featured_project: dynamic(() => import("./FeaturedProject")),
   hero: dynamic(() => import("./Hero")),
   notes: dynamic(() => import("./Notes")),
   page_heading: dynamic(() => import("./PageHeading")),
   play: dynamic(() => import("./Play")),
+  project_overview: dynamic(() => import("./ProjectOverview")),
   reviews: dynamic(() => import("./Reviews")),
   rich_text: dynamic(() => import("./RichText")),
   work: dynamic(() => import("./Work")),
