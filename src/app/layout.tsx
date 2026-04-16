@@ -113,7 +113,7 @@ export default function RootLayout({
           data-website-id="c98851cd-fce3-401d-aae0-6249488c14e1"
         />
       )}
-      <body className="mx-auto grid max-w-7xl grid-cols-12 gap-x-8 px-8">
+      <body className="mx-auto grid max-w-7xl grid-cols-12 gap-x-8 px-4 xs:px-8">
         <Navbar />
         <main className="col-span-full grid grid-cols-subgrid">{children}</main>
         <Footer />
