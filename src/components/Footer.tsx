@@ -1,5 +1,5 @@
 import { client } from "@/lib/prismic"
-import { PrismicNextLink } from "@prismicio/next"
+import NavLink from "@/components/NavLink"
 import { getSocialLinks } from "@/lib/utils"
 
 import { type SettingsDocumentDataNavLinksItem } from "../../prismicio-types"
@@ -59,21 +59,21 @@ function FooterLinkGroup({ title, links, className }: FooterLinkGroupProps) {
           if ("field" in item) {
             return (
               <li key={item.id}>
-                <PrismicNextLink
+                <NavLink
                   field={item.field}
-                  className="underline-animation text-lighter"
+                  className="text-lighter"
                 >
                   {item.label}
-                </PrismicNextLink>
+                </NavLink>
               </li>
             )
           }
 
           return (
             <li key={`nav-link-${index}`}>
-              <PrismicNextLink
+              <NavLink
                 field={item.link}
-                className="underline-animation text-lighter"
+                className="text-lighter"
               />
             </li>
           )

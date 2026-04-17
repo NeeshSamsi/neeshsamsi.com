@@ -1,6 +1,6 @@
 import { client } from "@/lib/prismic"
 import Link from "next/link"
-import { PrismicNextLink } from "@prismicio/next"
+import NavLink from "@/components/NavLink"
 import { getSocialLinks } from "@/lib/utils"
 
 export default async function Navbar() {
@@ -20,12 +20,9 @@ export default async function Navbar() {
       <ul className="flex items-start justify-between gap-4 font-light sm:items-center">
         {socialLinks.map(({ id, label, field }) => (
           <li key={`nav-link-${id}`}>
-            <PrismicNextLink
-              field={field}
-              className="underline-animation transition-colors hover:text-lighter"
-            >
+            <NavLink field={field}>
               {label}
-            </PrismicNextLink>
+            </NavLink>
           </li>
         ))}
       </ul>
