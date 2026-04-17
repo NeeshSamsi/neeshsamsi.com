@@ -1,16 +1,12 @@
 import { client } from "@/lib/prismic"
 import Link from "next/link"
 import { PrismicNextLink } from "@prismicio/next"
+import { getSocialLinks } from "@/lib/utils"
 
 export default async function Navbar() {
   const { data } = await client.getSingle("settings")
 
-  const navLinks = [
-    { id: "instagram", label: "Instagram", field: data.instagram },
-    { id: "youtube", label: "YouTube", field: data.youtube },
-    { id: "github", label: "GitHub", field: data.github },
-    { id: "linkedin", label: "LinkedIn", field: data.linkedin },
-  ]
+  const socialLinks = getSocialLinks(data)
 
   return (
     <nav className="col-span-full flex flex-col items-center justify-between gap-4 py-6 text-sm sm:flex-row sm:gap-0 sm:py-8 md:text-base">
@@ -22,7 +18,7 @@ export default async function Navbar() {
       </Link>
 
       <ul className="flex items-start justify-between gap-4 font-light sm:items-center">
-        {navLinks.map(({ id, label, field }) => (
+        {socialLinks.map(({ id, label, field }) => (
           <li key={`nav-link-${id}`}>
             <PrismicNextLink
               field={field}
