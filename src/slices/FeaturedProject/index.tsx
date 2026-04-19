@@ -47,7 +47,7 @@ const FeaturedProject: FC<FeaturedProjectProps> = ({ slice }) => {
         />
 
         {/* Content */}
-        <div className="flex w-full flex-col-reverse items-start justify-between gap-2 px-6 py-4 md:flex-row md:items-end md:gap-8">
+        <div className="flex w-full flex-col-reverse items-start justify-between gap-1 p-3 sm:gap-2 sm:px-6 sm:py-4 md:flex-row md:items-end md:gap-8">
           <h1 className="font-serif text-xl font-normal xs:text-2xl md:text-3xl">
             {title}
           </h1>
