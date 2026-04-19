@@ -9,7 +9,7 @@ export default async function Navbar() {
   const socialLinks = getSocialLinks(data)
 
   return (
-    <nav className="col-span-full flex flex-col items-center justify-between gap-4 py-6 text-sm sm:flex-row sm:gap-0 sm:py-8 md:text-base">
+    <nav className="col-span-full flex flex-col items-center justify-between gap-4 py-4 text-sm sm:flex-row sm:gap-0 sm:py-8 md:text-base">
       <Link
         href="/"
         className="font-serif text-base font-medium transition-colors hover:text-lighter sm:text-lg md:text-xl"
@@ -20,9 +20,7 @@ export default async function Navbar() {
       <ul className="flex items-start justify-between gap-4 font-light sm:items-center">
         {socialLinks.map(({ id, label, field }) => (
           <li key={`nav-link-${id}`}>
-            <NavLink field={field}>
-              {label}
-            </NavLink>
+            <NavLink field={field}>{label}</NavLink>
           </li>
         ))}
       </ul>
