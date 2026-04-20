@@ -164,6 +164,7 @@ export type NotesDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<NotesDocumentData>, "notes", Lang>
 
 type PageDocumentDataSlicesSlice =
+  | ProjectShowcaseSlice
   | FeaturedProjectSlice
   | PlaySlice
   | NotesSlice
@@ -1275,6 +1276,85 @@ export type ProjectOverviewSlice = prismic.SharedSlice<
 >
 
 /**
+ * Primary content in *ProjectShowcase → Default → Primary*
+ */
+export interface ProjectShowcaseSliceDefaultPrimary {
+  /**
+   * Section Heading field in *ProjectShowcase → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Will not show if left empty
+   * - **API ID Path**: project_showcase.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField
+
+  /**
+   * Project Type field in *ProjectShowcase → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: Exploration & Play
+   * - **API ID Path**: project_showcase.default.primary.projectType
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  projectType: prismic.SelectField<
+    "Exploration & Play" | "Client Work",
+    "filled"
+  >
+
+  /**
+   * Limit field in *ProjectShowcase → Default → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Number of works displayed
+   * - **API ID Path**: project_showcase.default.primary.limit
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  limit: prismic.NumberField
+
+  /**
+   * CTA Text field in *ProjectShowcase → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_showcase.default.primary.cta
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  cta: prismic.KeyTextField
+}
+
+/**
+ * Default variation for ProjectShowcase Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProjectShowcaseSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ProjectShowcaseSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *ProjectShowcase*
+ */
+type ProjectShowcaseSliceVariation = ProjectShowcaseSliceDefault
+
+/**
+ * ProjectShowcase Shared Slice
+ *
+ * - **API ID**: `project_showcase`
+ * - **Description**: ProjectShowcase
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProjectShowcaseSlice = prismic.SharedSlice<
+  "project_showcase",
+  ProjectShowcaseSliceVariation
+>
+
+/**
  * Item in *Reviews → Default → Primary → Reviews*
  */
 export interface ReviewsSliceDefaultPrimaryReviewsItem {
@@ -1552,6 +1632,10 @@ declare module "@prismicio/client" {
       ProjectOverviewSliceDefaultPrimary,
       ProjectOverviewSliceVariation,
       ProjectOverviewSliceDefault,
+      ProjectShowcaseSlice,
+      ProjectShowcaseSliceDefaultPrimary,
+      ProjectShowcaseSliceVariation,
+      ProjectShowcaseSliceDefault,
       ReviewsSlice,
       ReviewsSliceDefaultPrimaryReviewsItem,
       ReviewsSliceDefaultPrimary,

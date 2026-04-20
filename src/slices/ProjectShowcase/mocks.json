@@ -1,0 +1,40 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Writer"
+						}
+					}
+				]
+			},
+			"limit": {
+				"__TYPE__": "FieldContent",
+				"value": "84",
+				"type": "Number"
+			},
+			"cta": {
+				"__TYPE__": "FieldContent",
+				"value": "cost",
+				"type": "Text"
+			},
+			"projectType": {
+				"__TYPE__": "FieldContent",
+				"value": "Exploration & Play",
+				"type": "Select"
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
+	}
+]

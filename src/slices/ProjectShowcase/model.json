@@ -1,0 +1,54 @@
+{
+  "id": "project_showcase",
+  "type": "SharedSlice",
+  "name": "ProjectShowcase",
+  "description": "ProjectShowcase",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Section Heading",
+            "placeholder": "Will not show if left empty",
+            "allowTargetBlank": false,
+            "single": "heading2"
+          }
+        },
+        "projectType": {
+          "type": "Select",
+          "config": {
+            "label": "Project Type",
+            "placeholder": "",
+            "options": [
+              "Exploration & Play",
+              "Client Work"
+            ],
+            "default_value": "Exploration & Play"
+          }
+        },
+        "limit": {
+          "type": "Number",
+          "config": {
+            "label": "Limit",
+            "placeholder": "Number of works displayed"
+          }
+        },
+        "cta": {
+          "type": "Text",
+          "config": {
+            "label": "CTA Text",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

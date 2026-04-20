@@ -11,6 +11,7 @@ export const components = {
   page_heading: dynamic(() => import("./PageHeading")),
   play: dynamic(() => import("./Play")),
   project_overview: dynamic(() => import("./ProjectOverview")),
+  project_showcase: dynamic(() => import("./ProjectShowcase")),
   reviews: dynamic(() => import("./Reviews")),
   rich_text: dynamic(() => import("./RichText")),
   work: dynamic(() => import("./Work")),
