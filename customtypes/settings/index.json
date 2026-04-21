@@ -71,6 +71,30 @@
           "select": null,
           "allowText": false
         }
+      },
+      "contact": {
+        "type": "Group",
+        "config": {
+          "label": "Contact Widget",
+          "repeat": false,
+          "fields": {
+            "image": {
+              "type": "Image",
+              "config": {
+                "label": "Image",
+                "constraint": {},
+                "thumbnails": []
+              }
+            },
+            "ctaText": {
+              "type": "Text",
+              "config": {
+                "label": "Call to Action",
+                "placeholder": ""
+              }
+            }
+          }
+        }
       }
     },
     "SEO & Metadata": {

@@ -482,6 +482,31 @@ export interface SettingsDocumentDataNavLinksItem {
 }
 
 /**
+ * Item in *Site Settings → Contact Widget*
+ */
+export interface SettingsDocumentDataContactItem {
+  /**
+   * Image field in *Site Settings → Contact Widget*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.contact[].image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>
+
+  /**
+   * Call to Action field in *Site Settings → Contact Widget*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.contact[].ctaText
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  ctaText: prismic.KeyTextField
+}
+
+/**
  * Content for Site Settings documents
  */
 interface SettingsDocumentData {
@@ -561,7 +586,18 @@ interface SettingsDocumentData {
     unknown,
     prismic.FieldState,
     never
-  > /**
+  >
+
+  /**
+   * Contact Widget field in *Site Settings*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.contact[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  contact: prismic.GroupField<Simplify<SettingsDocumentDataContactItem>> /**
    * Title (Default) field in *Site Settings*
    *
    * - **Field Type**: Text
@@ -1594,6 +1630,7 @@ declare module "@prismicio/client" {
       SettingsDocument,
       SettingsDocumentData,
       SettingsDocumentDataNavLinksItem,
+      SettingsDocumentDataContactItem,
       WorkDocument,
       WorkDocumentData,
       WorkDocumentDataSlicesSlice,
