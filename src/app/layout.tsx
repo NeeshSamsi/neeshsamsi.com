@@ -9,6 +9,7 @@ import localFont from "next/font/local"
 
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import GridWrapper from "@/components/GridWrapper"
 import { client } from "@/lib/prismic"
 
 const poppins = Poppins({
@@ -104,7 +105,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${poppins.variable} ${sunset.variable} scroll-p-6 overscroll-x-none scroll-smooth bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
+      className={`${poppins.variable} ${sunset.variable} scroll-p-6 scroll-smooth bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
     >
       {process.env.NODE_ENV === "production" && (
         <Script
@@ -113,9 +114,9 @@ export default function RootLayout({
           data-website-id="c98851cd-fce3-401d-aae0-6249488c14e1"
         />
       )}
-      <body className="mx-auto grid max-w-7xl grid-cols-12 gap-x-8 px-4 xs:px-8">
+      <body>
         <Navbar />
-        <main className="col-span-full grid grid-cols-subgrid">{children}</main>
+        <GridWrapper as="main">{children}</GridWrapper>
         <Footer />
       </body>
     </html>

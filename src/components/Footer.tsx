@@ -1,5 +1,6 @@
 import { client } from "@/lib/prismic"
 import NavLink from "@/components/NavLink"
+import GridWrapper from "@/components/GridWrapper"
 import { getSocialLinks } from "@/lib/utils"
 
 import { type SettingsDocumentDataNavLinksItem } from "../../prismicio-types"
@@ -18,9 +19,10 @@ export default async function Footer() {
   const socialLinks = getSocialLinks(data)
 
   return (
-    <footer
+    <GridWrapper
+      as="footer"
       id="contact"
-      className="col-span-full mt-12 mb-4 grid grid-cols-subgrid md:mt-16 md:mb-6"
+      className="mt-12 mb-4 md:mt-16 md:mb-6"
     >
       <div className="col-span-full mb-6 grid grid-cols-subgrid text-sm md:col-span-4 md:col-start-9 md:row-start-1 md:mb-0 md:text-base">
         <FooterLinkGroup
@@ -44,7 +46,7 @@ export default async function Footer() {
           neeshsamsi.com
         </p>
       </a>
-    </footer>
+    </GridWrapper>
   )
 }
 

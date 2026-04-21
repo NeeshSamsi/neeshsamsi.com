@@ -1,6 +1,7 @@
 import { client } from "@/lib/prismic"
 import Link from "next/link"
 import NavLink from "@/components/NavLink"
+import NavbarContainer from "@/components/NavbarContainer"
 import { getSocialLinks } from "@/lib/utils"
 
 export default async function Navbar() {
@@ -9,7 +10,7 @@ export default async function Navbar() {
   const socialLinks = getSocialLinks(data)
 
   return (
-    <nav className="col-span-full flex flex-col items-center justify-between gap-4 py-4 text-sm sm:flex-row sm:gap-0 sm:py-8 md:text-base">
+    <NavbarContainer>
       <Link
         href="/"
         className="font-serif text-base font-medium transition-colors hover:text-lighter sm:text-lg md:text-xl"
@@ -24,6 +25,6 @@ export default async function Navbar() {
           </li>
         ))}
       </ul>
-    </nav>
+    </NavbarContainer>
   )
 }
