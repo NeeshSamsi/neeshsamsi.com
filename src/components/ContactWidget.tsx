@@ -1,67 +1,61 @@
-import Image from "next/image"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
+"use client"
 
-interface ContactWidgetProps {
-  /** Link destination. Can be an internal anchor (e.g. `#contact`) or external URL (e.g. `mailto:`). */
-  href?: string
-  /** Image source for the profile picture. Defaults to the site hero image. */
-  imageSrc?: string
-  /** Alt text for the profile picture. */
-  imageAlt?: string
-  /** Text label shown beside the image. */
-  label?: string
-  /** Additional classes appended to the root element. */
-  className?: string
-}
+import { useState } from "react"
+import { PrismicNextImage } from "@prismicio/next"
+import { client } from "@/lib/prismic"
 
-export default function ContactWidget({
-  href = "#contact",
-  imageSrc = "/hero.png",
-  imageAlt = "Profile picture of Avaneesh Samsi",
-  label = "Get in touch",
-  className,
-}: ContactWidgetProps) {
-  const isExternal = href.startsWith("http") || href.startsWith("mailto:")
+export default function ContactWidget() {
+  const [copied, setCopied] = useState(false)
+  const [email, setEmail] = useState<string | null>(null)
 
-  const content = (
-    <>
-      <div className="relative aspect-square h-full shrink-0 overflow-hidden bg-brand">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          sizes="64px"
-          className="object-cover"
-        />
-      </div>
-      <span className="pr-5 pl-4 font-serif text-lg leading-none text-light sm:text-xl md:pr-6 md:pl-5 md:text-2xl">
-        {label}
-      </span>
-    </>
-  )
+  // Fetch email on mount if not yet loaded
+  if (!email) {
+    client
+      .getSingle("settings")
+      .then((doc) => {
+        setEmail(doc.data.email as string)
+      })
+      .catch(() => {
+        // Handle error
+      })
+  }
 
-  const classes = cn(
-    "group inline-flex h-12 items-center overflow-hidden rounded-lg border-2 border-brand bg-dark transition-colors hover:bg-dark/80 sm:h-14 md:h-16",
-    className,
-  )
+  const handleClick = async () => {
+    if (!email) return
 
-  if (isExternal) {
-    return (
-      <a
-        href={href}
-        target={href.startsWith("http") ? "_blank" : undefined}
-        rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-        className={classes}
-      >
-        {content}
-      </a>
-    )
+    try {
+      await navigator.clipboard.writeText(email)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Handle error
+    }
+  }
+
+  const widget = null // We'll render nothing until we have data
+
+  if (!email) {
+    return null
   }
 
   return (
-    <Link href={href} className={classes}>
-      {content}
-    </Link>
+    <div className="relative">
+      {copied && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded-md bg-brand px-3 py-1.5 text-sm font-medium text-dark">
+          Email address copied
+        </div>
+      )}
+      <button
+        onClick={handleClick}
+        className="group inline-flex h-12 cursor-pointer items-center overflow-hidden rounded-lg border-2 border-brand bg-dark/30 backdrop-blur-sm transition-colors duration-250 hover:bg-light md:h-14"
+      >
+        <div className="relative aspect-square h-full shrink-0 overflow-hidden bg-brand">
+          {/* Placeholder - would need proper image URL */}
+        </div>
+        <span className="pr-4 pl-3 text-base leading-none font-medium text-light transition-colors group-hover:text-dark md:pr-5 md:pl-4 md:text-lg">
+          Contact Me
+        </span>
+      </button>
+    </div>
   )
 }

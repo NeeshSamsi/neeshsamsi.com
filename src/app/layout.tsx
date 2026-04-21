@@ -10,6 +10,7 @@ import localFont from "next/font/local"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import GridWrapper from "@/components/GridWrapper"
+import ContactWidget from "@/components/ContactWidget"
 import { client } from "@/lib/prismic"
 
 const poppins = Poppins({
@@ -118,6 +119,11 @@ export default function RootLayout({
         <Navbar />
         <GridWrapper as="main">{children}</GridWrapper>
         <Footer />
+        <GridWrapper className="pointer-events-none fixed inset-x-0 bottom-8 z-40">
+          <div className="pointer-events-auto col-span-full flex justify-end">
+            <ContactWidget />
+          </div>
+        </GridWrapper>
       </body>
     </html>
   )
