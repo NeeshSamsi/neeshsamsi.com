@@ -1,0 +1,103 @@
+{
+  "id": "image_content",
+  "type": "SharedSlice",
+  "name": "ImageContent",
+  "description": "ImageContent",
+  "variations": [
+    {
+      "id": "default",
+      "name": "SingleImage",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "originalDimensions": {
+          "type": "Boolean",
+          "config": {
+            "label": "Original Dimensions",
+            "placeholder_false": "false",
+            "placeholder_true": "true",
+            "default_value": true
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "Optional - does not show anything if not provided",
+            "allowTargetBlank": true,
+            "multi": "paragraph"
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "doubleImage",
+      "name": "DoubleImage",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "layout": {
+          "type": "Select",
+          "config": {
+            "label": "Layout Type",
+            "placeholder": "",
+            "options": [
+              "Half & Half",
+              "Wide Right",
+              "Wide Left"
+            ],
+            "default_value": "Half & Half"
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image Left",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "image2": {
+          "type": "Image",
+          "config": {
+            "label": "Image Right",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "originalDimensions": {
+          "type": "Boolean",
+          "config": {
+            "label": "Original Dimensions",
+            "placeholder_false": "false",
+            "placeholder_true": "true",
+            "default_value": false
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "Optional - does not show anything if not provided",
+            "allowTargetBlank": true,
+            "multi": "paragraph"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

@@ -349,7 +349,10 @@ interface PlayDocumentData {
 export type PlayDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PlayDocumentData>, "play", Lang>
 
-type ProjectDocumentDataSlicesSlice = ProjectOverviewSlice | RichTextSlice
+type ProjectDocumentDataSlicesSlice =
+  | ImageContentSlice
+  | ProjectOverviewSlice
+  | RichTextSlice
 
 /**
  * Content for Project documents
@@ -1071,6 +1074,147 @@ type HeroSliceVariation = HeroSliceDefault
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>
 
 /**
+ * Primary content in *ImageContent → SingleImage → Primary*
+ */
+export interface ImageContentSliceDefaultPrimary {
+  /**
+   * image field in *ImageContent → SingleImage → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_content.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>
+
+  /**
+   * Original Dimensions field in *ImageContent → SingleImage → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: image_content.default.primary.originalDimensions
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  originalDimensions: prismic.BooleanField
+
+  /**
+   * Description field in *ImageContent → SingleImage → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Optional - does not show anything if not provided
+   * - **API ID Path**: image_content.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField
+}
+
+/**
+ * SingleImage variation for ImageContent Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageContentSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ImageContentSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Primary content in *ImageContent → DoubleImage → Primary*
+ */
+export interface ImageContentSliceDoubleImagePrimary {
+  /**
+   * Layout Type field in *ImageContent → DoubleImage → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: Half & Half
+   * - **API ID Path**: image_content.doubleImage.primary.layout
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  layout: prismic.SelectField<
+    "Half & Half" | "Wide Right" | "Wide Left",
+    "filled"
+  >
+
+  /**
+   * Image Left field in *ImageContent → DoubleImage → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_content.doubleImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>
+
+  /**
+   * Image Right field in *ImageContent → DoubleImage → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_content.doubleImage.primary.image2
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image2: prismic.ImageField<never>
+
+  /**
+   * Original Dimensions field in *ImageContent → DoubleImage → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: image_content.doubleImage.primary.originalDimensions
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  originalDimensions: prismic.BooleanField
+
+  /**
+   * Description field in *ImageContent → DoubleImage → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Optional - does not show anything if not provided
+   * - **API ID Path**: image_content.doubleImage.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField
+}
+
+/**
+ * DoubleImage variation for ImageContent Slice
+ *
+ * - **API ID**: `doubleImage`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageContentSliceDoubleImage = prismic.SharedSliceVariation<
+  "doubleImage",
+  Simplify<ImageContentSliceDoubleImagePrimary>,
+  never
+>
+
+/**
+ * Slice variation for *ImageContent*
+ */
+type ImageContentSliceVariation =
+  | ImageContentSliceDefault
+  | ImageContentSliceDoubleImage
+
+/**
+ * ImageContent Shared Slice
+ *
+ * - **API ID**: `image_content`
+ * - **Description**: ImageContent
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageContentSlice = prismic.SharedSlice<
+  "image_content",
+  ImageContentSliceVariation
+>
+
+/**
  * Primary content in *Notes → Default → Primary*
  */
 export interface NotesSliceDefaultPrimary {
@@ -1652,6 +1796,12 @@ declare module "@prismicio/client" {
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      ImageContentSlice,
+      ImageContentSliceDefaultPrimary,
+      ImageContentSliceDoubleImagePrimary,
+      ImageContentSliceVariation,
+      ImageContentSliceDefault,
+      ImageContentSliceDoubleImage,
       NotesSlice,
       NotesSliceDefaultPrimary,
       NotesSliceVariation,

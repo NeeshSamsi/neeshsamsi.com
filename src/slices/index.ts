@@ -7,6 +7,7 @@ export const components = {
   code_block: dynamic(() => import("./CodeBlock")),
   featured_project: dynamic(() => import("./FeaturedProject")),
   hero: dynamic(() => import("./Hero")),
+  image_content: dynamic(() => import("./ImageContent")),
   notes: dynamic(() => import("./Notes")),
   page_heading: dynamic(() => import("./PageHeading")),
   play: dynamic(() => import("./Play")),
