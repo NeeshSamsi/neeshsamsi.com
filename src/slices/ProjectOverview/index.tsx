@@ -21,7 +21,7 @@ const ProjectOverview: FC<ProjectOverviewProps> = ({ slice }) => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="col-span-full grid grid-cols-subgrid gap-y-8 md:gap-y-12"
+      className="col-span-full mb-6 grid grid-cols-subgrid gap-y-8 md:mb-10 md:gap-y-12"
     >
       {slice.primary.paragraphs.map(({ title, description }, i) => (
         <Fragment key={i}>

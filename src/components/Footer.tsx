@@ -22,7 +22,7 @@ export default async function Footer() {
     <GridWrapper
       as="footer"
       id="contact"
-      className="mt-12 mb-4 md:mt-16 md:mb-6"
+      className="mt-8 mb-4 md:mt-10 md:mb-6"
     >
       <div className="col-span-full mb-6 grid grid-cols-subgrid text-sm md:col-span-4 md:col-start-9 md:row-start-1 md:mb-0 md:text-base">
         <FooterLinkGroup
@@ -61,10 +61,7 @@ function FooterLinkGroup({ title, links, className }: FooterLinkGroupProps) {
           if ("field" in item) {
             return (
               <li key={item.id}>
-                <NavLink
-                  field={item.field}
-                  className="text-lighter"
-                >
+                <NavLink field={item.field} className="text-lighter">
                   {item.label}
                 </NavLink>
               </li>
@@ -73,10 +70,7 @@ function FooterLinkGroup({ title, links, className }: FooterLinkGroupProps) {
 
           return (
             <li key={`nav-link-${index}`}>
-              <NavLink
-                field={item.link}
-                className="text-lighter"
-              />
+              <NavLink field={item.link} className="text-lighter" />
             </li>
           )
         })}
