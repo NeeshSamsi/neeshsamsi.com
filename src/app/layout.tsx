@@ -11,6 +11,7 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import GridWrapper from "@/components/GridWrapper"
 import ContactWidget from "@/components/ContactWidget"
+import LenisProvider from "@/components/LenisProvider"
 import { client } from "@/lib/prismic"
 
 const poppins = Poppins({
@@ -107,8 +108,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      data-scroll-behavior="smooth"
-      className={`${poppins.variable} ${sunset.variable} scroll-p-6 scroll-smooth bg-dark font-sans text-light selection:bg-brand/80 selection:text-dark`}
+      className={`${poppins.variable} ${sunset.variable} scroll-p-6 bg-dark font-sans text-light selection:bg-brand/90 selection:text-dark`}
     >
       {process.env.NODE_ENV === "production" && (
         <Script
@@ -118,9 +118,12 @@ export default async function RootLayout({
         />
       )}
       <body>
+        <LenisProvider />
+
         <Navbar />
         <GridWrapper as="main">{children}</GridWrapper>
         <Footer />
+
         <GridWrapper className="pointer-events-none fixed inset-x-0 bottom-8 z-40">
           {settings.data.contact[0]?.ctaText && (
             <ContactWidget
