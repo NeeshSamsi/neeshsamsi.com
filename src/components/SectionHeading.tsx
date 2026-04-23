@@ -32,17 +32,9 @@ export default function SectionHeading({
 function Content({ text }: { text: string }) {
   return (
     <>
-      <span className="underline decoration-brand underline-offset-4 xs:no-underline">
+      <span className="underline decoration-brand underline-offset-4">
         {text}
       </span>
-      <Image
-        src="/underline.png"
-        alt=""
-        width={356}
-        height={22}
-        sizes="(min-width: 1280px) 174px, (min-width: 640px) 142px, 118px"
-        className="absolute -bottom-1 left-0 -z-10 hidden h-3 w-full xs:block xl:-bottom-3"
-      />
     </>
   )
 }
