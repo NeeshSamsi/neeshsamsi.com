@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
   return (
     <article className="col-span-full grid grid-cols-subgrid">
-      <div className="col-span-full my-8 grid grid-cols-subgrid text-base md:my-12 md:text-xl">
+      <div className="col-span-full my-6 grid grid-cols-subgrid text-base md:my-10 md:text-xl">
         <h3 className="col-span-full mb-4 flex h-fit items-center gap-3 font-light xs:col-span-4 md:mb-0">
           <PingDot className="size-1.5 md:size-2" /> <span>{type}</span>
         </h3>
@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
 
       <PrismicNextImage
         field={image}
-        className="col-span-full mb-8 aspect-video w-full rounded-lg object-cover md:mb-12"
+        className="col-span-full mb-6 aspect-video w-full rounded-lg object-cover md:mb-8"
       />
 
       <SliceZone slices={slices} components={components} />
