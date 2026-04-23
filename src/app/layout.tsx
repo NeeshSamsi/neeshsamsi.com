@@ -124,7 +124,6 @@ export default async function RootLayout({
         <GridWrapper className="pointer-events-none fixed inset-x-0 bottom-8 z-40">
           {settings.data.contact[0]?.ctaText && (
             <ContactWidget
-              email={settings.data.email as string}
               image={settings.data.contact[0].image}
               ctaText={settings.data.contact[0].ctaText}
             />
