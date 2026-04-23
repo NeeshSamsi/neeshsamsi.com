@@ -97,11 +97,13 @@ export async function generateMetadata() {
   } satisfies Metadata
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const settings = await client.getSingle("settings")
+
   return (
     <html
       lang="en"
@@ -120,9 +122,13 @@ export default function RootLayout({
         <GridWrapper as="main">{children}</GridWrapper>
         <Footer />
         <GridWrapper className="pointer-events-none fixed inset-x-0 bottom-8 z-40">
-          <div className="pointer-events-auto col-span-full flex justify-end">
-            <ContactWidget />
-          </div>
+          {settings.data.contact[0]?.ctaText && (
+            <ContactWidget
+              email={settings.data.email as string}
+              image={settings.data.contact[0].image}
+              ctaText={settings.data.contact[0].ctaText}
+            />
+          )}
         </GridWrapper>
       </body>
     </html>
