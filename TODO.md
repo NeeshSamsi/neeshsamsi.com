@@ -13,5 +13,5 @@
   - [ ] 50/50
   - [ ] 1/3 & 3/1
 
-- Switch image on hover
+- Switch project cover image on hover
 - Add lenis smooth scroll
