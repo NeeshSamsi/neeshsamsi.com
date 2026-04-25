@@ -5,7 +5,7 @@ import { cva, VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonStyles = cva(
-  "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
+  "group flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
   {
     variants: {
       type: {
@@ -55,6 +55,19 @@ interface Props extends VariantProps<typeof buttonStyles> {
   className?: string
 }
 
+function AnimatedLabel({ children }: { children: ReactNode }) {
+  return (
+    <span className="relative inline-block overflow-hidden">
+      <span className="block transition-transform duration-300 group-hover:-translate-y-full">
+        {children}
+      </span>
+      <span className="absolute inset-0 block translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+        {children}
+      </span>
+    </span>
+  )
+}
+
 export default function Button({
   element,
   type,
@@ -67,9 +80,11 @@ export default function Button({
 
   const classes = cn(styles, className)
 
+  const content = <AnimatedLabel>{children}</AnimatedLabel>
+
   switch (element) {
     case "button":
-      return <button {...{ className: classes }}>{children}</button>
+      return <button {...{ className: classes }}>{content}</button>
 
     case "link":
       if (!href)
@@ -78,11 +93,11 @@ export default function Button({
       if (href.startsWith("http")) {
         return (
           <a {...{ href, className: classes }} target="_blank">
-            {children}
+            {content}
           </a>
         )
       } else {
-        return <Link {...{ href, className: classes }}>{children}</Link>
+        return <Link {...{ href, className: classes }}>{content}</Link>
       }
   }
 }
