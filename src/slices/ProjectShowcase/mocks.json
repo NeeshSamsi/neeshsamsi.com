@@ -16,7 +16,7 @@
 			},
 			"limit": {
 				"__TYPE__": "FieldContent",
-				"value": "84",
+				"value": "0",
 				"type": "Number"
 			},
 			"cta": {
@@ -27,6 +27,11 @@
 			"projectType": {
 				"__TYPE__": "FieldContent",
 				"value": "Exploration & Play",
+				"type": "Select"
+			},
+			"usage": {
+				"__TYPE__": "FieldContent",
+				"value": "In-line Sections",
 				"type": "Select"
 			}
 		},

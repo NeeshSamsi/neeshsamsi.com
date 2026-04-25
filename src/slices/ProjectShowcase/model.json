@@ -12,6 +12,17 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
+        "usage": {
+          "type": "Select",
+          "config": {
+            "label": "Section Usage",
+            "placeholder": "",
+            "options": [
+              "In-line Sections",
+              "Standalone Page"
+            ]
+          }
+        },
         "heading": {
           "type": "StructuredText",
           "config": {
@@ -37,7 +48,7 @@
           "type": "Number",
           "config": {
             "label": "Limit",
-            "placeholder": "Number of works displayed"
+            "placeholder": "Number of projects displayed. Do not set in standalone mode."
           }
         },
         "cta": {

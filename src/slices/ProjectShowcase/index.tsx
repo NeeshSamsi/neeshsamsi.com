@@ -18,16 +18,17 @@ const ProjectShowcase = async ({
   slice,
 }: ProjectShowcaseProps): Promise<JSX.Element> => {
   const {
-    primary: { heading, cta, limit, projectType },
+    primary: { heading, cta, limit, projectType, usage },
   } = slice
 
   const selectedCategory = projectType ?? "Exploration & Play"
+  const isStandalone = usage === "Standalone Page"
 
   // Query prismic for the unified 'project' doc type and filter by the select field
   const documents = await client.getAllByType<Content.ProjectDocument>(
     "project",
     {
-      limit: limit ? limit : 5,
+      limit: !isStandalone && limit ? limit : undefined,
       filters: [prismic.filter.at("my.project.type", selectedCategory)],
       orderings: {
         field: "my.project.publishedDate",
@@ -61,9 +62,15 @@ const ProjectShowcase = async ({
       <div className="col-span-full">
         {asText(heading) && (
           <div className="flex flex-col-reverse items-start justify-between gap-2 sm:flex-row sm:items-end sm:gap-8">
-            <h2 className="w-full font-serif text-2xl font-normal xs:text-3xl sm:w-[70%] sm:text-4xl xl:w-[60%]">
-              {asText(heading)}
-            </h2>
+            {isStandalone ? (
+              <h1 className="w-full font-serif text-2xl font-normal xs:text-3xl sm:w-[70%] sm:text-4xl xl:w-[60%]">
+                {asText(heading)}
+              </h1>
+            ) : (
+              <h2 className="w-full font-serif text-2xl font-normal xs:text-3xl sm:w-[70%] sm:text-4xl xl:w-[60%]">
+                {asText(heading)}
+              </h2>
+            )}
             <div className="flex shrink-0 items-center gap-2 pb-1 text-sm font-light sm:gap-3 sm:text-lg">
               <PingDot className="size-1.5 sm:size-2" />
               <span>{selectedCategory}</span>
@@ -77,7 +84,7 @@ const ProjectShowcase = async ({
               <ProjectGrid items={gridItems} />
             </div>
 
-            {cta && (
+            {!isStandalone && cta && limit && (
               <div className="mt-6 flex justify-center sm:mt-16">
                 <Button
                   element="link"

@@ -1460,6 +1460,16 @@ export type ProjectOverviewSlice = prismic.SharedSlice<
  */
 export interface ProjectShowcaseSliceDefaultPrimary {
   /**
+   * Section Usage field in *ProjectShowcase → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_showcase.default.primary.usage
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  usage: prismic.SelectField<"In-line Sections" | "Standalone Page">
+
+  /**
    * Section Heading field in *ProjectShowcase → Default → Primary*
    *
    * - **Field Type**: Rich Text
@@ -1487,7 +1497,7 @@ export interface ProjectShowcaseSliceDefaultPrimary {
    * Limit field in *ProjectShowcase → Default → Primary*
    *
    * - **Field Type**: Number
-   * - **Placeholder**: Number of works displayed
+   * - **Placeholder**: Number of projects displayed. Do not set in standalone mode.
    * - **API ID Path**: project_showcase.default.primary.limit
    * - **Documentation**: https://prismic.io/docs/fields/number
    */
