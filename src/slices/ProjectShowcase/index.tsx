@@ -18,18 +18,23 @@ const ProjectShowcase = async ({
   slice,
 }: ProjectShowcaseProps): Promise<JSX.Element> => {
   const {
-    primary: { heading, cta, limit, projectType, usage },
+    primary: { heading, cta, limit, projectType, usage, exclude },
   } = slice
 
   const selectedCategory = projectType ?? "Exploration & Play"
   const isStandalone = usage === "Standalone Page"
+
+  const filters = [prismic.filter.at("my.project.type", selectedCategory)]
+  if (prismic.isFilled.contentRelationship(exclude)) {
+    filters.push(prismic.filter.not("document.id", exclude.id))
+  }
 
   // Query prismic for the unified 'project' doc type and filter by the select field
   const documents = await client.getAllByType<Content.ProjectDocument>(
     "project",
     {
       limit: !isStandalone && limit ? limit : undefined,
-      filters: [prismic.filter.at("my.project.type", selectedCategory)],
+      filters,
       orderings: {
         field: "my.project.publishedDate",
         direction: "desc",

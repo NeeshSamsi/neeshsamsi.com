@@ -57,6 +57,17 @@
             "label": "CTA Text",
             "placeholder": ""
           }
+        },
+        "exclude": {
+          "type": "Link",
+          "config": {
+            "label": "Exclude Project",
+            "select": "document",
+            "repeat": false,
+            "customtypes": [
+              "project"
+            ]
+          }
         }
       },
       "items": {}

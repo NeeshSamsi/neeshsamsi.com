@@ -33,6 +33,14 @@
 				"__TYPE__": "FieldContent",
 				"value": "In-line Sections",
 				"type": "Select"
+			},
+			"exclude": {
+				"__TYPE__": "LinkContent",
+				"key": "974d9bcd-b406-4ae6-9ccb-5192bb672b6a",
+				"value": {
+					"__TYPE__": "DocumentLink",
+					"id": "mock_document_id"
+				}
 			}
 		},
 		"items": [

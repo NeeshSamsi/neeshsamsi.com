@@ -1512,6 +1512,16 @@ export interface ProjectShowcaseSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   cta: prismic.KeyTextField
+
+  /**
+   * Exclude Project field in *ProjectShowcase → Default → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project_showcase.default.primary.exclude
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  exclude: prismic.ContentRelationshipField<"project">
 }
 
 /**
