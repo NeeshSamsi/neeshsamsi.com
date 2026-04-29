@@ -38,6 +38,7 @@ const FeaturedProject: FC<FeaturedProjectProps> = ({ slice }) => {
         <PrismicNextImage
           field={image}
           className="absolute inset-0 -z-10 h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover/featureImage:scale-102"
+          preload
         />
 
         {/* Gradient */}
