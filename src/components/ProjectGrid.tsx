@@ -7,7 +7,10 @@ import { cva } from "class-variance-authority"
 export type ProjectGridItemType = {
   id: Content.ProjectDocument["id"]
   link: string
-} & Pick<Content.ProjectDocumentData, "image" | "title" | "subtitle">
+} & Pick<
+  Content.ProjectDocumentData,
+  "image" | "hoverImage" | "title" | "subtitle"
+>
 
 interface ProjectGridProps {
   items: ProjectGridItemType[]
@@ -63,6 +66,14 @@ export default function ProjectGrid({ items }: ProjectGridProps) {
                 fill
                 sizes="(min-width: 768px) 50vw, 100vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-102"
+              />
+
+              <PrismicNextImage
+                field={item.hoverImage}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                fallbackAlt=""
+                className="object-cover opacity-0 transition-[opacity,transform] duration-500 group-hover:opacity-100"
               />
             </div>
 

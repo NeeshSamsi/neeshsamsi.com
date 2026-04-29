@@ -359,7 +359,7 @@ type ProjectDocumentDataSlicesSlice =
  */
 interface ProjectDocumentData {
   /**
-   * Cover Image field in *Project*
+   * Primary Cover Image (Mockup) field in *Project*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -368,6 +368,17 @@ interface ProjectDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/image
    */
   image: prismic.ImageField<never>
+
+  /**
+   * Secondary Cover Image (Hover) field in *Project*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project.hoverImage
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  hoverImage: prismic.ImageField<never>
 
   /**
    * Subtitle field in *Project*
@@ -967,7 +978,7 @@ export interface FeaturedProjectSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/content-relationship
    */
   featuredProject: ContentRelationshipFieldWithData<
-    [{ id: "project"; fields: ["image", "title", "type"] }]
+    [{ id: "project"; fields: ["image", "title", "type", "hoverImage"] }]
   >
 }
 

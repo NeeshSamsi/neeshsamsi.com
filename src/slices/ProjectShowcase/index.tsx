@@ -44,13 +44,14 @@ const ProjectShowcase = async ({
 
   // Map to the ProjectGrid format
   const gridItems: ProjectGridItemType[] = documents.map((doc) => {
-    const { title, subtitle, image, type } = doc.data
+    const { title, subtitle, image, hoverImage, type } = doc.data
 
     return {
       id: doc.id,
       title: title ?? "",
       subtitle: subtitle ?? "",
       image,
+      hoverImage,
       link: `/projects/${doc.uid}`,
     }
   })

@@ -15,7 +15,15 @@
       "image": {
         "type": "Image",
         "config": {
-          "label": "Cover Image",
+          "label": "Primary Cover Image (Mockup)",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "hoverImage": {
+        "type": "Image",
+        "config": {
+          "label": "Secondary Cover Image (Hover)",
           "constraint": {},
           "thumbnails": []
         }
