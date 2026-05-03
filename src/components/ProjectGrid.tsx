@@ -38,8 +38,8 @@ const gridItem = cva("col-span-1 self-start", {
 })
 
 const imageContainer = cva(
-  // Base: 16/9 on mobile for all items
-  "bg-darker relative w-full overflow-hidden rounded-xl border-[0.5px] border-lighter/50 aspect-video",
+  // Base: 16/9 on mobile for all items.
+  "bg-darker relative w-full overflow-hidden rounded-xl border-[0.5px] border-lighter/50 ring-[0.5px] ring-transparent ring-inset transition-shadow duration-500 group-hover:ring-lighter/50 aspect-video",
   {
     variants: {
       layout: {

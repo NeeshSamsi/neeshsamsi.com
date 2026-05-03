@@ -33,7 +33,7 @@ const FeaturedProject: FC<FeaturedProjectProps> = ({ slice }) => {
     >
       <PrismicNextLink
         field={featuredProject}
-        className="group/featureImage relative col-span-full flex aspect-video w-full flex-col justify-end overflow-hidden rounded-lg border-[0.5px] border-lighter/50"
+        className="group/featureImage relative col-span-full flex aspect-video w-full flex-col justify-end overflow-hidden rounded-lg border-[0.5px] border-lighter/50 ring-[0.5px] ring-transparent ring-inset transition-shadow duration-500 hover:ring-lighter/50"
       >
         <PrismicNextImage
           field={image}
