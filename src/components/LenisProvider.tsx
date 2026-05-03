@@ -5,6 +5,8 @@ import Lenis from "lenis"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
+import { setLenis } from "@/lib/lenis"
+
 gsap.registerPlugin(ScrollTrigger)
 
 const lenisOptions = {
@@ -21,6 +23,7 @@ const lenisOptions = {
 export default function LenisProvider() {
   useEffect(() => {
     const lenis = new Lenis(lenisOptions)
+    setLenis(lenis)
 
     // Forward Lenis scroll events to ScrollTrigger so triggers
     // recompute on every smooth-scroll tick.
@@ -39,6 +42,7 @@ export default function LenisProvider() {
       gsap.ticker.remove(update)
       lenis.off("scroll", ScrollTrigger.update)
       lenis.destroy()
+      setLenis(null)
     }
   }, [])
 

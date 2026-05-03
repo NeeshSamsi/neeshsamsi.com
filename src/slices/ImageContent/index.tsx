@@ -5,6 +5,8 @@ import { PrismicRichText } from "@prismicio/react"
 import { PrismicNextImage } from "@prismicio/next"
 import { cva } from "class-variance-authority"
 
+import ImageWithPreview from "@/components/ImagePreview"
+
 export type ImageContentProps = SliceComponentProps<Content.ImageContentSlice>
 
 const singleImage = cva(
@@ -123,9 +125,10 @@ const ImageContent = ({ slice }: ImageContentProps): JSX.Element => {
               original: originalDimensions,
             })}
           >
-            <PrismicNextImage
+            <ImageWithPreview
               field={image}
               sizes="50vw"
+              wrapperClassName="block h-full w-full"
               className={doubleImg({ original: originalDimensions })}
             />
           </div>
@@ -136,9 +139,10 @@ const ImageContent = ({ slice }: ImageContentProps): JSX.Element => {
               original: originalDimensions,
             })}
           >
-            <PrismicNextImage
+            <ImageWithPreview
               field={slice.primary.image2}
               sizes="50vw"
+              wrapperClassName="block h-full w-full"
               className={doubleImg({ original: originalDimensions })}
             />
           </div>
@@ -147,6 +151,7 @@ const ImageContent = ({ slice }: ImageContentProps): JSX.Element => {
         <PrismicNextImage
           field={image}
           sizes="100vw"
+          fallbackAlt=""
           className={singleImage({ original: originalDimensions })}
         />
       )}
