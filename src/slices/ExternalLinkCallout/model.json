@@ -1,0 +1,37 @@
+{
+  "id": "external_link_callout",
+  "type": "SharedSlice",
+  "name": "ExternalLinkCallout",
+  "description": "ExternalLinkCallout",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "ctaText": {
+          "type": "Text",
+          "config": {
+            "label": "Call to Action",
+            "placeholder": ""
+          }
+        },
+        "link": {
+          "type": "Link",
+          "config": {
+            "label": "Link",
+            "placeholder": "",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

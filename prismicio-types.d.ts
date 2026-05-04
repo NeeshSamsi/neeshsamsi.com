@@ -350,6 +350,7 @@ export type PlayDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PlayDocumentData>, "play", Lang>
 
 type ProjectDocumentDataSlicesSlice =
+  | ExternalLinkCalloutSlice
   | ImageContentSlice
   | ProjectOverviewSlice
   | RichTextSlice
@@ -963,6 +964,61 @@ type CodeBlockSliceVariation = CodeBlockSliceDefault
 export type CodeBlockSlice = prismic.SharedSlice<
   "code_block",
   CodeBlockSliceVariation
+>
+
+/**
+ * Primary content in *ExternalLinkCallout → Default → Primary*
+ */
+export interface ExternalLinkCalloutSliceDefaultPrimary {
+  /**
+   * Call to Action field in *ExternalLinkCallout → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: external_link_callout.default.primary.ctaText
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  ctaText: prismic.KeyTextField
+
+  /**
+   * Link field in *ExternalLinkCallout → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: external_link_callout.default.primary.link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>
+}
+
+/**
+ * Default variation for ExternalLinkCallout Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ExternalLinkCalloutSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ExternalLinkCalloutSliceDefaultPrimary>,
+  never
+>
+
+/**
+ * Slice variation for *ExternalLinkCallout*
+ */
+type ExternalLinkCalloutSliceVariation = ExternalLinkCalloutSliceDefault
+
+/**
+ * ExternalLinkCallout Shared Slice
+ *
+ * - **API ID**: `external_link_callout`
+ * - **Description**: ExternalLinkCallout
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ExternalLinkCalloutSlice = prismic.SharedSlice<
+  "external_link_callout",
+  ExternalLinkCalloutSliceVariation
 >
 
 /**
@@ -1819,6 +1875,10 @@ declare module "@prismicio/client" {
       CodeBlockSliceDefaultPrimary,
       CodeBlockSliceVariation,
       CodeBlockSliceDefault,
+      ExternalLinkCalloutSlice,
+      ExternalLinkCalloutSliceDefaultPrimary,
+      ExternalLinkCalloutSliceVariation,
+      ExternalLinkCalloutSliceDefault,
       FeaturedProjectSlice,
       FeaturedProjectSliceDefaultPrimary,
       FeaturedProjectSliceVariation,
