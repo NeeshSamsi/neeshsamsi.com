@@ -7,6 +7,7 @@ import { createClient } from "@/prismicio"
 import { components } from "@/slices"
 import { PrismicNextImage } from "@prismicio/next"
 import PingDot from "@/components/PingDot"
+import { formatDate } from "@/lib/utils"
 
 type Params = { uid: string }
 
@@ -25,6 +26,9 @@ export default async function Page({ params }: { params: Promise<Params> }) {
         </h3>
 
         <div className="col-span-full space-y-2 xs:col-span-8">
+          <p className="text-sm font-light text-lighter capitalize">
+            {formatDate(new Date(publishedDate!))}
+          </p>
           <h1 className="font-serif text-3xl md:text-4xl">{title}</h1>
           <h2 className="font-light text-lighter">{subtitle}</h2>
         </div>

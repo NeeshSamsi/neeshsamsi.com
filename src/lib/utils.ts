@@ -7,13 +7,20 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatDate(date: Date) {
-  const formatter = new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
+  // Intl.DateTimeFormat doesn't ship a "{month}, {year}" pattern in any
+  // locale, so let it do all the localization (full month name, year
+  // digits) via formatToParts, then join with our own comma separator.
+  // This keeps month/year derivation native and limits custom logic to
+  // just the joining character.
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    month: "long",
     year: "numeric",
-  })
+  }).formatToParts(date)
 
-  return formatter.format(date)
+  const month = parts.find((p) => p.type === "month")?.value ?? ""
+  const year = parts.find((p) => p.type === "year")?.value ?? ""
+
+  return `${month}, ${year}`
 }
 
 export function getSocialLinks(data: SettingsDocumentData) {
