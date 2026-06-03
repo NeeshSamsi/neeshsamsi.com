@@ -10,7 +10,7 @@ export default function SusuPage() {
     <iframe
       src="/experiments/susu/index.html"
       className="fixed inset-0 z-[9999] h-screen w-screen border-none bg-dark"
-      title="susu experiments"
+      title="susu experiments" allow="camera"
     />
   )
 }
