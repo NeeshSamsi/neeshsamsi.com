@@ -1,17 +1,17 @@
 name: neeshsamsi.com
 icon: null
 processes:
-  Next.js:
-    command: pnpm run dev
-    working_dir: null
-    auto_start: true
-    auto_restart: true
-    restart_when_changed: []
-    env: {}
   Prismic Slicemachine:
     command: pnpm slicemachine
     working_dir: null
-    auto_start: true
-    auto_restart: false
+    auto_start: false
+    auto_restart: true
+    restart_when_changed: []
+    env: {}
+  Next.js:
+    command: pnpm run dev
+    working_dir: null
+    auto_start: false
+    auto_restart: true
     restart_when_changed: []
     env: {}
