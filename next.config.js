@@ -26,5 +26,10 @@ module.exports = {
       destination: "https://linkedin.com/in/neeshsamsi",
       permanent: true,
     },
+    {
+      source: "/susu",
+      destination: "/experiments/susu",
+      permanent: true,
+    },
   ],
 }
