@@ -4,6 +4,12 @@ module.exports = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  rewrites: async () => [
+    {
+      source: "/u/:path*",
+      destination: "https://umami.neeshsamsi.com/:path*",
+    },
+  ],
   redirects: async () => [
     {
       source: "/stats",

@@ -3,7 +3,6 @@ import "./globals.css"
 import type { Metadata, Viewport } from "next"
 import { url } from "@/lib/config"
 
-import Script from "next/script"
 import { Poppins } from "next/font/google"
 import localFont from "next/font/local"
 
@@ -12,6 +11,7 @@ import Footer from "@/components/Footer"
 import GridWrapper from "@/components/GridWrapper"
 import ContactWidget from "@/components/ContactWidget"
 import LenisProvider from "@/components/LenisProvider"
+import Umami from "@/components/Umami"
 import { client } from "@/lib/prismic"
 
 const poppins = Poppins({
@@ -110,13 +110,7 @@ export default async function RootLayout({
       lang="en"
       className={`${poppins.variable} ${sunset.variable} scroll-p-6 bg-dark font-sans text-light selection:bg-brand/90 selection:text-dark`}
     >
-      {process.env.NODE_ENV === "production" && (
-        <Script
-          strategy="lazyOnload"
-          src="https://umami.neeshsamsi.com/script.js"
-          data-website-id="c98851cd-fce3-401d-aae0-6249488c14e1"
-        />
-      )}
+      <Umami />
       <body>
         <LenisProvider />
 
