@@ -1,13 +1,6 @@
 name: neeshsamsi.com
 icon: null
 processes:
-  Prismic Slicemachine:
-    command: pnpm slicemachine
-    working_dir: null
-    auto_start: false
-    auto_restart: true
-    restart_when_changed: []
-    env: {}
   Next.js:
     command: pnpm run dev
     working_dir: null

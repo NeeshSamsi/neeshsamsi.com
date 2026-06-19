@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "slicemachine": "start-slicemachine"
+    "prismic:status": "prismic status",
+    "prismic:push": "prismic push",
+    "prismic:pull": "prismic pull",
+    "prismic:sync": "prismic sync --watch",
+    "prismic:types": "prismic gen types"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -43,8 +47,8 @@
   "devDependencies": {
     "@slicemachine/adapter-next": "^0.3.96",
     "eslint": "9.39.4",
-    "shiki": "^4.2.0",
-    "slice-machine-ui": "^2.21.3"
+    "prismic": "^1.11.0",
+    "shiki": "^4.2.0"
   },
   "pnpm": {
     "overrides": {
