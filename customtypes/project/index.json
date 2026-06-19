@@ -67,7 +67,7 @@
             "external_link_callout": {
               "type": "SharedSlice"
             },
-            "image_content": {
+            "media_content": {
               "type": "SharedSlice"
             },
             "project_overview": {

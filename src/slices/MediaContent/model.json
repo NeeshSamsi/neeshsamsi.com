@@ -1,0 +1,133 @@
+{
+  "id": "media_content",
+  "type": "SharedSlice",
+  "name": "MediaContent",
+  "variations": [
+    {
+      "id": "default",
+      "name": "SingleMedia",
+      "description": "A single image or video",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/image_content/default/ea8290def65b79ede55d326c6e5e84982f7ddea6.png?auto=compress%2Cformat",
+      "docURL": "...",
+      "version": "initial",
+      "primary": {
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "video": {
+          "type": "Link",
+          "config": {
+            "label": "Video (optional - overrides the image, which becomes the poster)",
+            "placeholder": "",
+            "select": "media",
+            "allowText": false,
+            "repeat": false
+          }
+        },
+        "originalDimensions": {
+          "type": "Boolean",
+          "config": {
+            "label": "Original Dimensions",
+            "default_value": true,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "Optional - does not show anything if not provided",
+            "multi": "paragraph",
+            "allowTargetBlank": true
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "doubleMedia",
+      "name": "DoubleMedia",
+      "description": "Two slots side by side, each an image or video",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/image_content/doubleImage/fb5838db4896b0da35e1edca17e659bffe31149b.png?auto=compress%2Cformat",
+      "docURL": "...",
+      "version": "initial",
+      "primary": {
+        "layout": {
+          "type": "Select",
+          "config": {
+            "label": "Layout Type",
+            "placeholder": "",
+            "default_value": "Half & Half",
+            "options": [
+              "Half & Half",
+              "Wide Right",
+              "Wide Left"
+            ]
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image Left",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "video": {
+          "type": "Link",
+          "config": {
+            "label": "Video Left (optional - overrides Image Left, which becomes the poster)",
+            "placeholder": "",
+            "select": "media",
+            "allowText": false,
+            "repeat": false
+          }
+        },
+        "image2": {
+          "type": "Image",
+          "config": {
+            "label": "Image Right",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "video2": {
+          "type": "Link",
+          "config": {
+            "label": "Video Right (optional - overrides Image Right, which becomes the poster)",
+            "placeholder": "",
+            "select": "media",
+            "allowText": false,
+            "repeat": false
+          }
+        },
+        "originalDimensions": {
+          "type": "Boolean",
+          "config": {
+            "label": "Original Dimensions",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "Optional - does not show anything if not provided",
+            "multi": "paragraph",
+            "allowTargetBlank": true
+          }
+        }
+      },
+      "items": {}
+    }
+  ],
+  "description": "MediaContent"
+}

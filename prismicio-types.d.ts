@@ -314,7 +314,7 @@ interface PlayDocumentData {
  */
 export type PlayDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PlayDocumentData>, "play", Lang>;
 
-type ProjectDocumentDataSlicesSlice = ExternalLinkCalloutSlice | ImageContentSlice | ProjectOverviewSlice | RichTextSlice
+type ProjectDocumentDataSlicesSlice = ExternalLinkCalloutSlice | MediaContentSlice | ProjectOverviewSlice | RichTextSlice
 
 /**
  * Content for Project documents
@@ -1168,6 +1168,161 @@ type ImageContentSliceVariation = ImageContentSliceDefault | ImageContentSliceDo
 export type ImageContentSlice = prismic.SharedSlice<"image_content", ImageContentSliceVariation>;
 
 /**
+ * Primary content in *MediaContent → SingleMedia → Primary*
+ */
+export interface MediaContentSliceDefaultPrimary {
+	/**
+	 * Image field in *MediaContent → SingleMedia → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: media_content.default.primary.image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+	
+	/**
+	 * Video (optional - overrides the image, which becomes the poster) field in *MediaContent → SingleMedia → Primary*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: media_content.default.primary.video
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	video: prismic.LinkToMediaField<prismic.FieldState, never>;
+	
+	/**
+	 * Original Dimensions field in *MediaContent → SingleMedia → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: true
+	 * - **API ID Path**: media_content.default.primary.originalDimensions
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	originalDimensions: prismic.BooleanField;
+	
+	/**
+	 * Description field in *MediaContent → SingleMedia → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Optional - does not show anything if not provided
+	 * - **API ID Path**: media_content.default.primary.description
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	description: prismic.RichTextField;
+}
+
+/**
+ * SingleMedia variation for MediaContent Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: A single image or video
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type MediaContentSliceDefault = prismic.SharedSliceVariation<"default", Simplify<MediaContentSliceDefaultPrimary>, never>;
+
+/**
+ * Primary content in *MediaContent → DoubleMedia → Primary*
+ */
+export interface MediaContentSliceDoubleMediaPrimary {
+	/**
+	 * Layout Type field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: Half & Half
+	 * - **API ID Path**: media_content.doubleMedia.primary.layout
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	layout: prismic.SelectField<"Half & Half" | "Wide Right" | "Wide Left", "filled">;
+	
+	/**
+	 * Image Left field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: media_content.doubleMedia.primary.image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+	
+	/**
+	 * Video Left (optional - overrides Image Left, which becomes the poster) field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: media_content.doubleMedia.primary.video
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	video: prismic.LinkToMediaField<prismic.FieldState, never>;
+	
+	/**
+	 * Image Right field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: media_content.doubleMedia.primary.image2
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image2: prismic.ImageField<never>;
+	
+	/**
+	 * Video Right (optional - overrides Image Right, which becomes the poster) field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: media_content.doubleMedia.primary.video2
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	video2: prismic.LinkToMediaField<prismic.FieldState, never>;
+	
+	/**
+	 * Original Dimensions field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: media_content.doubleMedia.primary.originalDimensions
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	originalDimensions: prismic.BooleanField;
+	
+	/**
+	 * Description field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Optional - does not show anything if not provided
+	 * - **API ID Path**: media_content.doubleMedia.primary.description
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	description: prismic.RichTextField;
+}
+
+/**
+ * DoubleMedia variation for MediaContent Slice
+ *
+ * - **API ID**: `doubleMedia`
+ * - **Description**: Two slots side by side, each an image or video
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type MediaContentSliceDoubleMedia = prismic.SharedSliceVariation<"doubleMedia", Simplify<MediaContentSliceDoubleMediaPrimary>, never>;
+
+/**
+ * Slice variation for *MediaContent*
+ */
+type MediaContentSliceVariation = MediaContentSliceDefault | MediaContentSliceDoubleMedia
+
+/**
+ * MediaContent Shared Slice
+ *
+ * - **API ID**: `media_content`
+ * - **Description**: MediaContent
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type MediaContentSlice = prismic.SharedSlice<"media_content", MediaContentSliceVariation>;
+
+/**
  * Primary content in *Notes → Default → Primary*
  */
 export interface NotesSliceDefaultPrimary {
@@ -1724,6 +1879,12 @@ declare module "@prismicio/client" {
 			ImageContentSliceVariation,
 			ImageContentSliceDefault,
 			ImageContentSliceDoubleImage,
+			MediaContentSlice,
+			MediaContentSliceDefaultPrimary,
+			MediaContentSliceDoubleMediaPrimary,
+			MediaContentSliceVariation,
+			MediaContentSliceDefault,
+			MediaContentSliceDoubleMedia,
 			NotesSlice,
 			NotesSliceDefaultPrimary,
 			NotesSliceVariation,

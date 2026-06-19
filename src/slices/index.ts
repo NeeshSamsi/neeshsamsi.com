@@ -6,6 +6,7 @@ import ExternalLinkCallout from "./ExternalLinkCallout";
 import FeaturedProject from "./FeaturedProject";
 import Hero from "./Hero";
 import ImageContent from "./ImageContent";
+import MediaContent from "./MediaContent";
 import Notes from "./Notes";
 import PageHeading from "./PageHeading";
 import Play from "./Play";
@@ -22,6 +23,7 @@ export const components = {
 	featured_project: FeaturedProject,
 	hero: Hero,
 	image_content: ImageContent,
+	media_content: MediaContent,
 	notes: Notes,
 	page_heading: PageHeading,
 	play: Play,
