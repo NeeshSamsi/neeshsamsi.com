@@ -5,6 +5,19 @@ module.exports = {
     formats: ["image/avif", "image/webp"],
   },
   rewrites: async () => [
+    // Umami scripts are proxied through /u/ with neutral filenames so ad
+    // blockers don't match Umami's well-known names (script.js, recorder.js).
+    // a.js = Umami tracker (script.js), b.js = session recorder (recorder.js).
+    // Keep these in sync with the <Script src> paths in components/Umami.tsx.
+    {
+      source: "/u/a.js",
+      destination: "https://umami.neeshsamsi.com/script.js",
+    },
+    {
+      source: "/u/b.js",
+      destination: "https://umami.neeshsamsi.com/recorder.js",
+    },
+    // Catch-all so the data endpoint (/u/api/send) still reaches Umami.
     {
       source: "/u/:path*",
       destination: "https://umami.neeshsamsi.com/:path*",

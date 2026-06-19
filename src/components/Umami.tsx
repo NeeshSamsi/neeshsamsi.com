@@ -7,9 +7,11 @@ export default function Umami() {
 
   return (
     <>
-      <Script src="/u/script.js" data-website-id={WEBSITE_ID} strategy="afterInteractive" />
+      {/* a.js / b.js are ad-blocker-evading aliases for Umami's script.js /
+          recorder.js, proxied via the /u/ rewrites in next.config.js. */}
+      <Script src="/u/a.js" data-website-id={WEBSITE_ID} strategy="afterInteractive" />
       <Script
-        src="/u/recorder.js"
+        src="/u/b.js"
         data-website-id={WEBSITE_ID}
         data-sample-rate="0.15"
         data-mask-level="moderate"
