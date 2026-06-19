@@ -2,15 +2,14 @@
   "id": "project_showcase",
   "type": "SharedSlice",
   "name": "ProjectShowcase",
-  "description": "ProjectShowcase",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/project_showcase/default/64b07598d93e5ed1458caf49c2b170b149dca1f0.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "usage": {
           "type": "Select",
@@ -28,8 +27,8 @@
           "config": {
             "label": "Section Heading",
             "placeholder": "Will not show if left empty",
-            "allowTargetBlank": false,
-            "single": "heading2"
+            "single": "heading2",
+            "allowTargetBlank": false
           }
         },
         "projectType": {
@@ -37,11 +36,11 @@
           "config": {
             "label": "Project Type",
             "placeholder": "",
+            "default_value": "Exploration & Play",
             "options": [
               "Exploration & Play",
               "Client Work"
-            ],
-            "default_value": "Exploration & Play"
+            ]
           }
         },
         "limit": {
@@ -63,14 +62,15 @@
           "config": {
             "label": "Exclude Project",
             "select": "document",
-            "repeat": false,
             "customtypes": [
               "project"
-            ]
+            ],
+            "repeat": false
           }
         }
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "ProjectShowcase"
 }

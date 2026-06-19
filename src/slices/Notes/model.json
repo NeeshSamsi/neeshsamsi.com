@@ -2,23 +2,22 @@
   "id": "notes",
   "type": "SharedSlice",
   "name": "Notes",
-  "description": "Notes",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/notes/default/cc1743a48af22c525a83cea4c80d526d2f6e83ac.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "heading": {
           "type": "StructuredText",
           "config": {
             "label": "Section Heading",
             "placeholder": "Will not show if left empty",
-            "allowTargetBlank": false,
-            "single": "heading2"
+            "single": "heading2",
+            "allowTargetBlank": false
           }
         },
         "limit": {
@@ -38,5 +37,6 @@
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "Notes"
 }

@@ -2,23 +2,22 @@
   "id": "about",
   "type": "SharedSlice",
   "name": "About",
-  "description": "About",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/about/default/eb86a50299818786c2756228a653fe7a3fedc57b.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "heading": {
           "type": "StructuredText",
           "config": {
             "label": "Section Heading",
             "placeholder": "",
-            "allowTargetBlank": false,
-            "single": "heading2"
+            "single": "heading2",
+            "allowTargetBlank": false
           }
         },
         "cards": {
@@ -47,5 +46,6 @@
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "About"
 }

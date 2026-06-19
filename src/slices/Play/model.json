@@ -2,23 +2,22 @@
   "id": "play",
   "type": "SharedSlice",
   "name": "Play",
-  "description": "Play",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/play/default/a2ab153d444dcdf57b43722206bc5df49d5f7e6a.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "heading": {
           "type": "StructuredText",
           "config": {
             "label": "Section Heading",
             "placeholder": "Will not show if left empty",
-            "allowTargetBlank": false,
-            "single": "heading2"
+            "single": "heading2",
+            "allowTargetBlank": false
           }
         },
         "limit": {
@@ -38,5 +37,6 @@
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "Play"
 }

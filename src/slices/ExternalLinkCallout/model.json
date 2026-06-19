@@ -2,15 +2,14 @@
   "id": "external_link_callout",
   "type": "SharedSlice",
   "name": "ExternalLinkCallout",
-  "description": "ExternalLinkCallout",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/external_link_callout/default/9bf245bffa8edfba7040d95faeb76918e2399370.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "ctaText": {
           "type": "Text",
@@ -33,5 +32,6 @@
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "ExternalLinkCallout"
 }

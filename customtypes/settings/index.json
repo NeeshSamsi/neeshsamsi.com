@@ -1,9 +1,7 @@
 {
-  "format": "custom",
   "id": "settings",
   "label": "Site Settings",
   "repeatable": false,
-  "status": true,
   "json": {
     "Main": {
       "navLinks": {
@@ -17,8 +15,8 @@
               "config": {
                 "label": "Link",
                 "placeholder": "",
-                "allowTargetBlank": true,
                 "select": null,
+                "allowTargetBlank": true,
                 "allowText": true
               }
             }
@@ -37,8 +35,8 @@
         "config": {
           "label": "YouTube",
           "placeholder": "",
-          "allowTargetBlank": true,
           "select": null,
+          "allowTargetBlank": true,
           "allowText": false
         }
       },
@@ -47,8 +45,8 @@
         "config": {
           "label": "GitHub",
           "placeholder": "",
-          "allowTargetBlank": true,
           "select": null,
+          "allowTargetBlank": true,
           "allowText": false
         }
       },
@@ -57,8 +55,8 @@
         "config": {
           "label": "LinkedIn",
           "placeholder": "",
-          "allowTargetBlank": true,
           "select": null,
+          "allowTargetBlank": true,
           "allowText": false
         }
       },
@@ -67,8 +65,8 @@
         "config": {
           "label": "Instagram",
           "placeholder": "",
-          "allowTargetBlank": true,
           "select": null,
+          "allowTargetBlank": true,
           "allowText": false
         }
       },
@@ -145,5 +143,7 @@
         }
       }
     }
-  }
+  },
+  "status": true,
+  "format": "custom"
 }

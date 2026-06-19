@@ -1,0 +1,28 @@
+{
+  "repositoryName": "neeshsamsi",
+  "libraries": [
+    "./src/slices"
+  ],
+  "routes": [
+    {
+      "type": "notes",
+      "path": "/notes/:uid"
+    },
+    {
+      "type": "page",
+      "path": "/:uid"
+    },
+    {
+      "type": "play",
+      "path": "/play/:uid"
+    },
+    {
+      "type": "project",
+      "path": "/projects/:uid"
+    },
+    {
+      "type": "work",
+      "path": "/work/:uid"
+    }
+  ]
+}

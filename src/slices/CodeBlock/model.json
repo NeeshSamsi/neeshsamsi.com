@@ -2,21 +2,21 @@
   "id": "code_block",
   "type": "SharedSlice",
   "name": "CodeBlock",
-  "description": "CodeBlock",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/code_block/default/1cfe1541f6155393479d2aa6b75ebc5449cd8692.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "lang": {
           "type": "Select",
           "config": {
             "label": "Language",
             "placeholder": "",
+            "default_value": "TypeScript",
             "options": [
               "TypeScript",
               "JavaScript",
@@ -24,8 +24,7 @@
               "CSS",
               "Terminal",
               "JSON"
-            ],
-            "default_value": "TypeScript"
+            ]
           }
         },
         "code": {
@@ -33,12 +32,13 @@
           "config": {
             "label": "Code",
             "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "embed"
+            "multi": "embed",
+            "allowTargetBlank": true
           }
         }
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "CodeBlock"
 }

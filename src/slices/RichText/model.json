@@ -2,28 +2,30 @@
   "id": "rich_text",
   "type": "SharedSlice",
   "name": "RichText",
-  "description": "RichText",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/rich_text/default/e1cbfada05adde4702d2961ca29f791ca3a5384b.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "content": {
           "type": "StructuredText",
           "config": {
             "label": "Content",
             "placeholder": "",
-            "allowTargetBlank": true,
             "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item",
-            "labels": ["inline-code"]
+            "labels": [
+              "inline-code"
+            ],
+            "allowTargetBlank": true
           }
         }
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "RichText"
 }

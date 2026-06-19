@@ -2,22 +2,20 @@
   "id": "featured_project",
   "type": "SharedSlice",
   "name": "FeaturedProject",
-  "description": "FeaturedProject",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/featured_project/default/fcd19b3426ddbbffd6e8a1222ea5de5d9b564f56.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "featuredProject": {
           "type": "Link",
           "config": {
             "label": "Featured Project",
             "select": "document",
-            "repeat": false,
             "customtypes": [
               {
                 "id": "project",
@@ -28,11 +26,13 @@
                   "hoverImage"
                 ]
               }
-            ]
+            ],
+            "repeat": false
           }
         }
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "FeaturedProject"
 }

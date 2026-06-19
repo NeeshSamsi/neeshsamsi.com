@@ -2,15 +2,14 @@
   "id": "hero",
   "type": "SharedSlice",
   "name": "Hero",
-  "description": "Hero",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/hero/default/35bbfcfd1aea36d6dbd10e3956b07e5d05dd42bf.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "name": {
           "type": "Text",
@@ -43,5 +42,6 @@
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "Hero"
 }

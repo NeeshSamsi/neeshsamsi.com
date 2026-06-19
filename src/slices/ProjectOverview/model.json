@@ -2,15 +2,14 @@
   "id": "project_overview",
   "type": "SharedSlice",
   "name": "ProjectOverview",
-  "description": "ProjectOverview",
   "variations": [
     {
       "id": "default",
       "name": "Default",
+      "description": "Default",
+      "imageUrl": "https://images.prismic.io/neeshsamsi/shared-slices/project_overview/default/091c79834e7ee0686324f91748379260bbe18396.png?auto=compress%2Cformat",
       "docURL": "...",
       "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
       "primary": {
         "paragraphs": {
           "type": "Group",
@@ -23,8 +22,8 @@
                 "config": {
                   "label": "Title",
                   "placeholder": "",
-                  "allowTargetBlank": false,
-                  "single": "heading2"
+                  "single": "heading2",
+                  "allowTargetBlank": false
                 }
               },
               "description": {
@@ -32,8 +31,8 @@
                 "config": {
                   "label": "Description",
                   "placeholder": "",
-                  "allowTargetBlank": false,
-                  "multi": "paragraph"
+                  "multi": "paragraph",
+                  "allowTargetBlank": false
                 }
               }
             }
@@ -42,5 +41,6 @@
       },
       "items": {}
     }
-  ]
+  ],
+  "description": "ProjectOverview"
 }
