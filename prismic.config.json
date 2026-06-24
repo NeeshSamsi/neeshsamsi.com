@@ -13,16 +13,8 @@
       "path": "/:uid"
     },
     {
-      "type": "play",
-      "path": "/play/:uid"
-    },
-    {
       "type": "project",
       "path": "/projects/:uid"
-    },
-    {
-      "type": "work",
-      "path": "/work/:uid"
     }
   ]
 }
