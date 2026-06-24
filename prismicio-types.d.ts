@@ -46,7 +46,7 @@ type ContentRelationshipFieldWithData<
 		>
 }[Exclude<TCustomType[number], string>["id"]];
 
-type NotesDocumentDataSlicesSlice = CodeBlockSlice | RichTextSlice
+type NotesDocumentDataSlicesSlice = CodeBlockSlice | TextContentSlice
 
 /**
  * Content for Note documents
@@ -199,122 +199,7 @@ interface PageDocumentData {
  */
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-type PlayDocumentDataSlicesSlice = RichTextSlice | CodeBlockSlice
-
-/**
- * Content for Play documents
- */
-interface PlayDocumentData {
-	/**
-	 * Cover Image field in *Play*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.image
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	image: prismic.ImageField<never>;
-	
-	/**
-	 * Title field in *Play*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.title
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	title: prismic.RichTextField;
-	
-	/**
-	 * Description field in *Play*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.description
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	description: prismic.KeyTextField;
-	
-	/**
-	 * Tags field in *Play*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.tags
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	tags: prismic.KeyTextField;
-	
-	/**
-	 * Call to Action field in *Play*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.cta
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/link
-	 */
-	cta: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
-	
-	/**
-	 * Slice Zone field in *Play*
-	 *
-	 * - **Field Type**: Slice Zone
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.slices[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/slices
-	 */
-	slices: prismic.SliceZone<PlayDocumentDataSlicesSlice>;/**
-	 * Meta Title field in *Play*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: play.meta_title
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_title: prismic.KeyTextField;
-	
-	/**
-	 * Meta Description field in *Play*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: play.meta_description
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_description: prismic.KeyTextField;
-	
-	/**
-	 * Meta Image field in *Play*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.meta_image
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	meta_image: prismic.ImageField<never>;
-}
-
-/**
- * Play document from Prismic
- *
- * - **API ID**: `play`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type PlayDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PlayDocumentData>, "play", Lang>;
-
-type ProjectDocumentDataSlicesSlice = ExternalLinkCalloutSlice | MediaContentSlice | ProjectOverviewSlice | RichTextSlice
+type ProjectDocumentDataSlicesSlice = ExternalLinkCalloutSlice | MediaContentSlice | ProjectOverviewSlice | TextContentSlice
 
 /**
  * Content for Project documents
@@ -638,133 +523,7 @@ interface SettingsDocumentData {
  */
 export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
 
-type WorkDocumentDataSlicesSlice = RichTextSlice
-
-/**
- * Content for Work documents
- */
-interface WorkDocumentData {
-	/**
-	 * Cover Image field in *Work*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.image
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	image: prismic.ImageField<never>;
-	
-	/**
-	 * Title field in *Work*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.title
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	title: prismic.RichTextField;
-	
-	/**
-	 * Description field in *Work*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.description
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	description: prismic.KeyTextField;
-	
-	/**
-	 * Tags field in *Work*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.tags
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	tags: prismic.KeyTextField;
-	
-	/**
-	 * Call to Action field in *Work*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.cta
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/link
-	 */
-	cta: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
-	
-	/**
-	 * Publish Date field in *Work*
-	 *
-	 * - **Field Type**: Date
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.pubDate
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/date
-	 */
-	pubDate: prismic.DateField;
-	
-	/**
-	 * Slice Zone field in *Work*
-	 *
-	 * - **Field Type**: Slice Zone
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.slices[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/slices
-	 */
-	slices: prismic.SliceZone<WorkDocumentDataSlicesSlice>;/**
-	 * Meta Title field in *Work*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: work.meta_title
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_title: prismic.KeyTextField;
-	
-	/**
-	 * Meta Description field in *Work*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: work.meta_description
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_description: prismic.KeyTextField;
-	
-	/**
-	 * Meta Image field in *Work*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.meta_image
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	meta_image: prismic.ImageField<never>;
-}
-
-/**
- * Work document from Prismic
- *
- * - **API ID**: `work`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type WorkDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<WorkDocumentData>, "work", Lang>;
-
-export type AllDocumentTypes = NotesDocument | PageDocument | PlayDocument | ProjectDocument | SettingsDocument | WorkDocument;
+export type AllDocumentTypes = NotesDocument | PageDocument | ProjectDocument | SettingsDocument;
 
 /**
  * Item in *About → Default → Primary → Cards*
@@ -1172,6 +931,16 @@ export type ImageContentSlice = prismic.SharedSlice<"image_content", ImageConten
  */
 export interface MediaContentSliceDefaultPrimary {
 	/**
+	 * Section Title field in *MediaContent → SingleMedia → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Optional - does not show anything if not provided
+	 * - **API ID Path**: media_content.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
 	 * Image field in *MediaContent → SingleMedia → Primary*
 	 *
 	 * - **Field Type**: Image
@@ -1226,6 +995,16 @@ export type MediaContentSliceDefault = prismic.SharedSliceVariation<"default", S
  * Primary content in *MediaContent → DoubleMedia → Primary*
  */
 export interface MediaContentSliceDoubleMediaPrimary {
+	/**
+	 * Section Title field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Optional - does not show anything if not provided
+	 * - **API ID Path**: media_content.doubleMedia.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
 	/**
 	 * Layout Type field in *MediaContent → DoubleMedia → Primary*
 	 *
@@ -1760,6 +1539,54 @@ type RichTextSliceVariation = RichTextSliceDefault
 export type RichTextSlice = prismic.SharedSlice<"rich_text", RichTextSliceVariation>;
 
 /**
+ * Primary content in *TextContent → Default → Primary*
+ */
+export interface TextContentSliceDefaultPrimary {
+	/**
+	 * Section Title field in *TextContent → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Optional - does not show anything if not provided
+	 * - **API ID Path**: text_content.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Content field in *TextContent → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: text_content.default.primary.content
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	content: prismic.RichTextField;
+}
+
+/**
+ * Default variation for TextContent Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: An optional section title with rich text content
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TextContentSliceDefault = prismic.SharedSliceVariation<"default", Simplify<TextContentSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *TextContent*
+ */
+type TextContentSliceVariation = TextContentSliceDefault
+
+/**
+ * TextContent Shared Slice
+ *
+ * - **API ID**: `text_content`
+ * - **Description**: TextContent
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TextContentSlice = prismic.SharedSlice<"text_content", TextContentSliceVariation>;
+
+/**
  * Primary content in *Work → Default → Primary*
  */
 export interface WorkSliceDefaultPrimary {
@@ -1838,9 +1665,6 @@ declare module "@prismicio/client" {
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
-			PlayDocument,
-			PlayDocumentData,
-			PlayDocumentDataSlicesSlice,
 			ProjectDocument,
 			ProjectDocumentData,
 			ProjectDocumentDataSlicesSlice,
@@ -1848,9 +1672,6 @@ declare module "@prismicio/client" {
 			SettingsDocumentData,
 			SettingsDocumentDataNavLinksItem,
 			SettingsDocumentDataContactItem,
-			WorkDocument,
-			WorkDocumentData,
-			WorkDocumentDataSlicesSlice,
 			AllDocumentTypes,
 			AboutSlice,
 			AboutSliceDefaultPrimaryCardsItem,
@@ -1915,6 +1736,10 @@ declare module "@prismicio/client" {
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
 			RichTextSliceDefault,
+			TextContentSlice,
+			TextContentSliceDefaultPrimary,
+			TextContentSliceVariation,
+			TextContentSliceDefault,
 			WorkSlice,
 			WorkSliceDefaultPrimary,
 			WorkSliceVariation,

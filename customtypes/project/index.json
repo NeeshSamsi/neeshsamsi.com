@@ -73,7 +73,7 @@
             "project_overview": {
               "type": "SharedSlice"
             },
-            "rich_text": {
+            "text_content": {
               "type": "SharedSlice"
             }
           }

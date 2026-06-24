@@ -1,0 +1,37 @@
+{
+  "id": "text_content",
+  "type": "SharedSlice",
+  "name": "TextContent",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "An optional section title with rich text content",
+      "imageUrl": "",
+      "docURL": "...",
+      "version": "initial",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Section Title",
+            "placeholder": "Optional - does not show anything if not provided",
+            "single": "heading2",
+            "allowTargetBlank": false
+          }
+        },
+        "content": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Content",
+            "placeholder": "",
+            "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item",
+            "allowTargetBlank": true
+          }
+        }
+      },
+      "items": {}
+    }
+  ],
+  "description": "TextContent"
+}

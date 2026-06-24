@@ -1,0 +1,49 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "A section title"
+						}
+					}
+				]
+			},
+			"content": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Eiusmod velit sint eu officia labore dolor minim, with some bold and italic emphasis alongside a link to elsewhere."
+						}
+					},
+					{
+						"type": "list-item",
+						"content": {
+							"text": "An unordered list item"
+						}
+					},
+					{
+						"type": "list-item",
+						"content": {
+							"text": "Another unordered list item"
+						}
+					},
+					{
+						"type": "o-list-item",
+						"content": {
+							"text": "An ordered list item"
+						}
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

@@ -41,7 +41,7 @@
             "code_block": {
               "type": "SharedSlice"
             },
-            "rich_text": {
+            "text_content": {
               "type": "SharedSlice"
             }
           }

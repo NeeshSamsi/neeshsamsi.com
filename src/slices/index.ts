@@ -14,6 +14,7 @@ import ProjectOverview from "./ProjectOverview";
 import ProjectShowcase from "./ProjectShowcase";
 import Reviews from "./Reviews";
 import RichText from "./RichText";
+import TextContent from "./TextContent";
 import Work from "./Work";
 
 export const components = {
@@ -31,5 +32,6 @@ export const components = {
 	project_showcase: ProjectShowcase,
 	reviews: Reviews,
 	rich_text: RichText,
+	text_content: TextContent,
 	work: Work
 };
