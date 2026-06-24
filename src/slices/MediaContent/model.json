@@ -11,6 +11,15 @@
       "docURL": "...",
       "version": "initial",
       "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Section Title",
+            "placeholder": "Optional - does not show anything if not provided",
+            "single": "heading2",
+            "allowTargetBlank": false
+          }
+        },
         "image": {
           "type": "Image",
           "config": {
@@ -43,7 +52,7 @@
           "config": {
             "label": "Description",
             "placeholder": "Optional - does not show anything if not provided",
-            "multi": "paragraph",
+            "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item",
             "allowTargetBlank": true
           }
         }
@@ -58,6 +67,15 @@
       "docURL": "...",
       "version": "initial",
       "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Section Title",
+            "placeholder": "Optional - does not show anything if not provided",
+            "single": "heading2",
+            "allowTargetBlank": false
+          }
+        },
         "layout": {
           "type": "Select",
           "config": {
@@ -121,7 +139,7 @@
           "config": {
             "label": "Description",
             "placeholder": "Optional - does not show anything if not provided",
-            "multi": "paragraph",
+            "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item",
             "allowTargetBlank": true
           }
         }

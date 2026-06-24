@@ -3,6 +3,17 @@
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
 		"primary": {
+			"title": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "A section title"
+						}
+					}
+				]
+			},
 			"image": {
 				"origin": {
 					"id": "main",
@@ -54,6 +65,17 @@
 		"__TYPE__": "SharedSliceContent",
 		"variation": "doubleMedia",
 		"primary": {
+			"title": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "A section title"
+						}
+					}
+				]
+			},
 			"description": {
 				"__TYPE__": "StructuredTextContent",
 				"value": [

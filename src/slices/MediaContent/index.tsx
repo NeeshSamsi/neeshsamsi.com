@@ -3,15 +3,16 @@ import {
   type Content,
   type ImageField,
   type LinkToMediaField,
+  asText,
   isFilled,
 } from "@prismicio/client"
 import { type SliceComponentProps } from "@prismicio/react"
-import { PrismicRichText } from "@prismicio/react"
 import { PrismicNextImage } from "@prismicio/next"
 import { cva } from "class-variance-authority"
 
 import ImageWithPreview from "@/components/ImagePreview"
 import PrismicVideo from "@/components/PrismicVideo"
+import ProseRichText from "@/components/ProseRichText"
 
 export type MediaContentProps = SliceComponentProps<Content.MediaContentSlice>
 
@@ -174,7 +175,7 @@ function DoubleSlot({
 }
 
 const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
-  const { description, originalDimensions } = slice.primary
+  const { title, description, originalDimensions } = slice.primary
 
   return (
     <section
@@ -182,6 +183,13 @@ const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
       data-slice-variation={slice.variation}
       className="col-span-full mb-6 grid min-w-0 grid-cols-subgrid space-y-4 md:mb-8 md:space-y-6"
     >
+      {isFilled.richText(title) && (
+        // Mirrors the section titles in ProjectOverview / TextContent.
+        <h2 className="col-span-full font-serif text-2xl font-normal md:col-span-8">
+          {asText(title)}
+        </h2>
+      )}
+
       {slice.variation === "doubleMedia" ? (
         <div className={doubleRow}>
           <DoubleSlot
@@ -219,10 +227,11 @@ const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
         />
       )}
 
-      {description && (
-        <div className="col-span-full prose max-w-none leading-snug font-light text-light prose-invert md:col-span-8">
-          <PrismicRichText field={description} />
-        </div>
+      {isFilled.richText(description) && (
+        <ProseRichText
+          field={description}
+          className="col-span-full md:col-span-8"
+        />
       )}
     </section>
   )
