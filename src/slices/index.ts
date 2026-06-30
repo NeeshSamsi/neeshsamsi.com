@@ -9,13 +9,11 @@ import ImageContent from "./ImageContent";
 import MediaContent from "./MediaContent";
 import Notes from "./Notes";
 import PageHeading from "./PageHeading";
-import Play from "./Play";
 import ProjectOverview from "./ProjectOverview";
 import ProjectShowcase from "./ProjectShowcase";
 import Reviews from "./Reviews";
 import RichText from "./RichText";
 import TextContent from "./TextContent";
-import Work from "./Work";
 
 export const components = {
 	about: About,
@@ -27,11 +25,9 @@ export const components = {
 	media_content: MediaContent,
 	notes: Notes,
 	page_heading: PageHeading,
-	play: Play,
 	project_overview: ProjectOverview,
 	project_showcase: ProjectShowcase,
 	reviews: Reviews,
 	rich_text: RichText,
-	text_content: TextContent,
-	work: Work
+	text_content: TextContent
 };

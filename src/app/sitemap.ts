@@ -4,17 +4,12 @@ import { url } from "@/lib/config"
 import { client } from "@/lib/prismic"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const work = await client.getAllByType("work")
-  const play = await client.getAllByType("play")
+  const projects = await client.getAllByType("project")
   const notes = await client.getAllByType("notes")
 
-  const workUrls = work.map(({ uid, data: { pubDate } }) => ({
-    url: `${url}/work/${uid}`,
-    lastModified: new Date(pubDate!),
-  }))
-  const playUrls = play.map(({ uid, last_publication_date }) => ({
-    url: `${url}/play/${uid}`,
-    lastModified: new Date(last_publication_date),
+  const projectUrls = projects.map(({ uid, data: { publishedDate } }) => ({
+    url: `${url}/projects/${uid}`,
+    lastModified: new Date(publishedDate!),
   }))
   const notesUrls = notes.map(({ uid, last_publication_date }) => ({
     url: `${url}/notes/${uid}`,
@@ -40,5 +35,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  return [...staticUrls, ...workUrls, ...playUrls, ...notesUrls]
+  return [...staticUrls, ...projectUrls, ...notesUrls]
 }
