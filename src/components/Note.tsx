@@ -16,7 +16,7 @@ export default function Note({ slug, title, description, tags }: Props) {
       <div className="space-y-3 lg:space-y-4">
         <p>{tags}</p>
         <Link
-          href={`/work/${slug}`}
+          href={`/notes/${slug}`}
           className="block font-serif text-xl leading-tight text-light sm:text-[28px] xl:text-[32px]"
         >
           <h3>{asText(title)}</h3>
