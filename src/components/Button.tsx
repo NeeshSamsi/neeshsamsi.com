@@ -55,11 +55,15 @@ interface Props extends VariantProps<typeof buttonStyles> {
   className?: string
 }
 
-function AnimatedLabel({ children }: { children: ReactNode }) {
+export function AnimatedLabel({ children }: { children: ReactNode }) {
   return (
     <span className="relative inline-block overflow-hidden">
-      <span className="block transition-transform duration-300 group-hover:-translate-y-full">
-        {children}
+      {/* Transition-free wrapper a reveal can slide up (via [data-reveal-label])
+          without fighting the hover swap's own transform transition below. */}
+      <span data-reveal-label className="block">
+        <span className="block transition-transform duration-300 group-hover:-translate-y-full">
+          {children}
+        </span>
       </span>
       <span className="absolute inset-0 block translate-y-full transition-transform duration-300 group-hover:translate-y-0">
         {children}
