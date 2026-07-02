@@ -50,16 +50,27 @@ export default function FooterReveal({ children }: { children: ReactNode }) {
         const split =
           emailLines.length > 0
             ? SplitText.create(emailLines, {
+                // No `mask` — SplitText's fixed-px mask fights the fluid cqw
+                // text. Instead we clip the <p> ourselves during the slide with
+                // a BOTTOM-ONLY clip-path (top/left/right unbounded), so the
+                // text coming up from below is hidden but the ".com" is never
+                // shaved sideways. Cleared on complete (see buildTimeline).
                 type: "lines",
-                mask: "lines",
                 autoSplit: true,
-                onSplit: (self) => buildTimeline(self.lines),
+                onSplit: (self) => {
+                  gsap.set(emailLines, {
+                    clipPath: "inset(-100% -100% 0 -100%)",
+                  })
+                  return buildTimeline(self.lines)
+                },
               })
             : buildTimeline([])
 
         function buildTimeline(lines: Element[]) {
           const tl = gsap.timeline({
             scrollTrigger: { trigger, start: FOOTER.start, once: true },
+            // Drop the clip once revealed so nothing is clipped at rest.
+            onComplete: () => gsap.set(emailLines, { clipPath: "none" }),
           })
 
           if (lines.length) {
