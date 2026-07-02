@@ -5,8 +5,9 @@ import * as prismic from "@prismicio/client"
 import { client } from "@/lib/prismic"
 
 import Button from "@/components/Button"
+import RevealButton from "@/components/RevealButton"
 import ProjectGrid, { type ProjectGridItemType } from "@/components/ProjectGrid"
-import PingDot from "@/components/PingDot"
+import ProjectShowcaseHeading from "@/components/ProjectShowcaseHeading"
 
 export type ProjectShowcaseProps =
   SliceComponentProps<Content.ProjectShowcaseSlice>
@@ -67,21 +68,11 @@ const ProjectShowcase = async ({
     >
       <div className="col-span-full">
         {asText(heading) && (
-          <div className="flex flex-col-reverse items-start justify-between gap-2 sm:flex-row sm:items-end sm:gap-8">
-            {isStandalone ? (
-              <h1 className="w-full font-serif text-2xl font-normal xs:text-3xl sm:w-[70%] sm:text-4xl xl:w-[60%]">
-                {asText(heading)}
-              </h1>
-            ) : (
-              <h2 className="w-full font-serif text-2xl font-normal xs:text-3xl sm:w-[70%] sm:text-4xl xl:w-[60%]">
-                {asText(heading)}
-              </h2>
-            )}
-            <div className="flex shrink-0 items-center gap-2 pb-1 text-sm font-light sm:gap-3 sm:text-lg">
-              <PingDot className="size-1.5 sm:size-2" />
-              <span>{selectedCategory}</span>
-            </div>
-          </div>
+          <ProjectShowcaseHeading
+            heading={asText(heading)}
+            category={selectedCategory}
+            isStandalone={isStandalone}
+          />
         )}
 
         {gridItems.length > 0 ? (
@@ -92,15 +83,17 @@ const ProjectShowcase = async ({
 
             {!isStandalone && cta && limit && (
               <div className="mt-6 flex justify-center sm:mt-16">
-                <Button
-                  element="link"
-                  href={ctaRoute}
-                  type="outline"
-                  theme="light"
-                  className="text-xs sm:text-sm lg:text-base xl:text-lg"
-                >
-                  {cta}
-                </Button>
+                <RevealButton>
+                  <Button
+                    element="link"
+                    href={ctaRoute}
+                    type="outline"
+                    theme="light"
+                    className="text-xs sm:text-sm lg:text-base xl:text-lg"
+                  >
+                    {cta}
+                  </Button>
+                </RevealButton>
               </div>
             )}
           </>
