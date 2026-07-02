@@ -25,6 +25,13 @@ module.exports = {
   ],
   redirects: async () => [
     {
+      // The homepage is served at "/"; the catch-all also resolves "/home".
+      // Collapse the duplicate to a single canonical URL.
+      source: "/home",
+      destination: "/",
+      permanent: true,
+    },
+    {
       source: "/stats",
       destination:
         "https://umami.neeshsamsi.com/websites/6a4f158b-409d-4cdb-a2f0-3c081e73e846",
