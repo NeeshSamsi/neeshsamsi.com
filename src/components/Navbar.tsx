@@ -11,17 +11,23 @@ export default async function Navbar() {
 
   return (
     <NavbarContainer>
-      <Link
-        href="/"
-        className="font-serif text-base font-medium transition-colors hover:text-lighter sm:text-lg md:text-xl"
-      >
-        Neesh Samsi
-      </Link>
+      {/* Each item is a mask group: the intro slides its single child down
+          from above (see HomeIntro). */}
+      <span data-intro="navbar" className="inline-block">
+        <Link
+          href="/"
+          className="inline-block font-serif text-base font-medium transition-colors hover:text-lighter sm:text-lg md:text-xl"
+        >
+          Neesh Samsi
+        </Link>
+      </span>
 
       <ul className="flex items-start justify-between gap-4 font-light sm:items-center">
         {socialLinks.map(({ id, label, field }) => (
           <li key={`nav-link-${id}`}>
-            <NavLink field={field}>{label}</NavLink>
+            <span data-intro="navbar" className="inline-block">
+              <NavLink field={field}>{label}</NavLink>
+            </span>
           </li>
         ))}
       </ul>

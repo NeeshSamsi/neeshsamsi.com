@@ -2,6 +2,9 @@
 
 import { useActionState, useCallback, useEffect, useRef, useState } from "react"
 import { useFormStatus } from "react-dom"
+import { useGSAP } from "@gsap/react"
+import { gsap } from "gsap"
+import { AnimatedLabel } from "@/components/Button"
 import { PrismicNextImage } from "@prismicio/next"
 import type { ImageField } from "@prismicio/client"
 import { Field, Label, Input, Textarea } from "@headlessui/react"
@@ -74,6 +77,50 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
     const tid = setTimeout(() => setIsOpen(false), 5000)
     return () => clearTimeout(tid)
   }, [state.status])
+
+  // When the widget opens, reveal the Send button: it rises in and its label
+  // masks up — the same motion as the "show more" button, but on open rather
+  // than on scroll. Re-runs each open; useGSAP reverts it on close.
+  useGSAP(
+    () => {
+      if (!isOpen) return
+      const mm = gsap.matchMedia()
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const btn = cardRef.current?.querySelector<HTMLElement>(
+          "[data-submit-reveal]",
+        )
+        const label = cardRef.current?.querySelector<HTMLElement>(
+          "[data-reveal-label]",
+        )
+        if (!btn) return
+        const tl = gsap.timeline({ delay: 0.15 })
+        tl.from(
+          btn,
+          {
+            opacity: 0,
+            y: 16,
+            duration: 0.6,
+            ease: "power3.out",
+            clearProps: "transform",
+          },
+          0,
+        )
+        if (label) {
+          tl.from(
+            label,
+            {
+              yPercent: 100,
+              duration: 0.6,
+              ease: "power3.out",
+              clearProps: "transform",
+            },
+            0.2,
+          )
+        }
+      })
+    },
+    { dependencies: [isOpen], scope: cardRef },
+  )
 
   // Capture the browser's validity message into our styled UI and suppress
   // its default tooltip. Submission is still blocked natively.
@@ -185,15 +232,21 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
           />
         </div>
 
-        <span
-          className={cn(
-            "font-medium whitespace-nowrap text-light transition-all duration-300 ease-out",
-            isOpen
-              ? "text-base md:text-lg"
-              : "pr-4 pl-3 text-base leading-none group-hover:text-lighter md:pr-5 md:pl-4 md:text-lg",
-          )}
-        >
-          {ctaText}
+        {/* Mask + transition-free slide wrapper for the intro reveal; the inner
+            span keeps the morph transition + hover colour. */}
+        <span data-intro="contactMask" className="inline-block">
+          <span data-intro="contactText" className="inline-block">
+            <span
+              className={cn(
+                "font-medium whitespace-nowrap text-light transition-all duration-300 ease-out",
+                isOpen
+                  ? "text-base md:text-lg"
+                  : "pr-4 pl-3 text-base leading-none group-hover:text-lighter md:pr-5 md:pl-4 md:text-lg",
+              )}
+            >
+              {ctaText}
+            </span>
+          </span>
         </span>
       </div>
 
@@ -324,11 +377,12 @@ function SubmitButton() {
   const { pending } = useFormStatus()
   return (
     <button
+      data-submit-reveal
       type="submit"
       disabled={pending}
-      className="cursor-pointer self-end rounded-lg bg-brand px-5 py-2 text-sm font-medium text-dark transition-colors hover:bg-light disabled:cursor-not-allowed disabled:opacity-60"
+      className="group flex cursor-pointer items-center justify-center self-end rounded-lg bg-brand px-5 py-2 text-sm font-medium text-dark transition-colors hover:bg-light disabled:cursor-not-allowed disabled:opacity-60"
     >
-      {pending ? "Sending…" : "Send message"}
+      <AnimatedLabel>{pending ? "Sending…" : "Send message"}</AnimatedLabel>
     </button>
   )
 }

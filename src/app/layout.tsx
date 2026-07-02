@@ -1,4 +1,5 @@
 import "./globals.css"
+import "lenis/dist/lenis.css"
 
 import type { Metadata, Viewport } from "next"
 import { url } from "@/lib/config"
@@ -120,10 +121,18 @@ export default async function RootLayout({
 
         <GridWrapper className="pointer-events-none fixed inset-x-0 bottom-8 z-40">
           {settings.data.contact[0]?.ctaText && (
-            <ContactWidget
-              image={settings.data.contact[0].image}
-              ctaText={settings.data.contact[0].ctaText}
-            />
+            // Mask group for the intro: holds the grid placement + right
+            // alignment so the widget keeps its spot, while its single child
+            // (the widget) is slid up from below last (see HomeIntro).
+            <div
+              data-intro="contact"
+              className="col-span-full flex justify-end xs:col-span-8 xs:col-start-5 sm:col-span-6 sm:col-start-7 lg:col-span-4 lg:col-start-9"
+            >
+              <ContactWidget
+                image={settings.data.contact[0].image}
+                ctaText={settings.data.contact[0].ctaText}
+              />
+            </div>
           )}
         </GridWrapper>
       </body>
