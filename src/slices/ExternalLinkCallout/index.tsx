@@ -42,7 +42,7 @@ const ExternalLinkCallout: FC<ExternalLinkCalloutProps> = ({ slice }) => {
             </p>
           )}
           <div className="mt-2 flex items-center gap-3 md:gap-4">
-            <span className="text-5xl leading-none font-medium md:text-6xl lg:text-7xl">
+            <span className="text-4xl leading-none font-medium md:text-5xl lg:text-6xl">
               {label}
             </span>
             <ExternalLink
