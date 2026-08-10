@@ -24,31 +24,42 @@ function imageAspect(image: ImageField): string | undefined {
   return width && height ? `${width} / ${height}` : undefined
 }
 
-const singleImage = cva(
-  "col-span-full block w-full max-w-full min-w-0 rounded-lg",
-  {
-    variants: {
-      original: {
-        true: "",
-        false: "aspect-video object-cover",
-      },
+// Width options mirror the "Layout Type" pattern from the doubleMedia
+// variation: full-width on mobile, fraction of the 12-col grid at md+.
+const singleWidth = {
+  Full: "col-span-full",
+  "One Third": "col-span-full md:col-span-4",
+  Half: "col-span-full md:col-span-6",
+  "Two Third": "col-span-full md:col-span-8",
+}
+
+const singleImage = cva("block w-full max-w-full min-w-0 rounded-lg", {
+  variants: {
+    original: {
+      true: "",
+      false: "aspect-video object-cover",
     },
+    width: singleWidth,
   },
-)
+  defaultVariants: {
+    width: "Full",
+  },
+})
 
 // Box wrapper for a single video (mirrors singleImage, but the box holds the
 // <video> rather than being the image element itself).
-const singleVideoBox = cva(
-  "col-span-full block w-full max-w-full min-w-0 overflow-hidden rounded-lg",
-  {
-    variants: {
-      original: {
-        true: "",
-        false: "aspect-video",
-      },
+const singleVideoBox = cva("overflow-hidden rounded-lg min-w-0", {
+  variants: {
+    original: {
+      true: "",
+      false: "aspect-video",
     },
+    width: singleWidth,
   },
-)
+  defaultVariants: {
+    width: "Full",
+  },
+})
 
 const doubleRow =
   "col-span-full grid grid-cols-subgrid items-start gap-y-4 min-w-0 md:gap-y-0"
@@ -215,7 +226,10 @@ const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
           aspectRatio={
             originalDimensions ? imageAspect(slice.primary.image) : undefined
           }
-          wrapperClassName={singleVideoBox({ original: originalDimensions })}
+          wrapperClassName={singleVideoBox({
+            original: originalDimensions,
+            width: slice.primary.width || "Full",
+          })}
           className="h-full w-full object-cover"
         />
       ) : (
@@ -223,7 +237,10 @@ const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
           field={slice.primary.image}
           sizes="100vw"
           fallbackAlt=""
-          className={singleImage({ original: originalDimensions })}
+          className={singleImage({
+            original: originalDimensions,
+            width: slice.primary.width || "Full",
+          })}
         />
       )}
 

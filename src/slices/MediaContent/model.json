@@ -20,6 +20,20 @@
             "allowTargetBlank": false
           }
         },
+        "width": {
+          "type": "Select",
+          "config": {
+            "label": "Width",
+            "placeholder": "",
+            "default_value": "Full",
+            "options": [
+              "Full",
+              "One Third",
+              "Half",
+              "Two Third"
+            ]
+          }
+        },
         "image": {
           "type": "Image",
           "config": {

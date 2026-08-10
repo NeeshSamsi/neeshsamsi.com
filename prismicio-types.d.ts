@@ -941,6 +941,17 @@ export interface MediaContentSliceDefaultPrimary {
 	title: prismic.RichTextField;
 	
 	/**
+	 * Width field in *MediaContent → SingleMedia → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: Full
+	 * - **API ID Path**: media_content.default.primary.width
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	width: prismic.SelectField<"Full" | "One Third" | "Half" | "Two Third", "filled">;
+	
+	/**
 	 * Image field in *MediaContent → SingleMedia → Primary*
 	 *
 	 * - **Field Type**: Image
@@ -1196,64 +1207,6 @@ type PageHeadingSliceVariation = PageHeadingSliceDefault
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type PageHeadingSlice = prismic.SharedSlice<"page_heading", PageHeadingSliceVariation>;
-
-/**
- * Primary content in *Play → Default → Primary*
- */
-export interface PlaySliceDefaultPrimary {
-	/**
-	 * Section Heading field in *Play → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Will not show if left empty
-	 * - **API ID Path**: play.default.primary.heading
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	heading: prismic.RichTextField;
-	
-	/**
-	 * Limit field in *Play → Default → Primary*
-	 *
-	 * - **Field Type**: Number
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.default.primary.limit
-	 * - **Documentation**: https://prismic.io/docs/fields/number
-	 */
-	limit: prismic.NumberField;
-	
-	/**
-	 * CTA Text field in *Play → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: play.default.primary.cta
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	cta: prismic.KeyTextField;
-}
-
-/**
- * Default variation for Play Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type PlaySliceDefault = prismic.SharedSliceVariation<"default", Simplify<PlaySliceDefaultPrimary>, never>;
-
-/**
- * Slice variation for *Play*
- */
-type PlaySliceVariation = PlaySliceDefault
-
-/**
- * Play Shared Slice
- *
- * - **API ID**: `play`
- * - **Description**: Play
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type PlaySlice = prismic.SharedSlice<"play", PlaySliceVariation>;
 
 /**
  * Item in *ProjectOverview → Default → Primary → Paragraphs*
@@ -1586,64 +1539,6 @@ type TextContentSliceVariation = TextContentSliceDefault
  */
 export type TextContentSlice = prismic.SharedSlice<"text_content", TextContentSliceVariation>;
 
-/**
- * Primary content in *Work → Default → Primary*
- */
-export interface WorkSliceDefaultPrimary {
-	/**
-	 * Section Heading field in *Work → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Will not show if left empty
-	 * - **API ID Path**: work.default.primary.heading
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	heading: prismic.RichTextField;
-	
-	/**
-	 * Limit field in *Work → Default → Primary*
-	 *
-	 * - **Field Type**: Number
-	 * - **Placeholder**: Number of works displayed
-	 * - **API ID Path**: work.default.primary.limit
-	 * - **Documentation**: https://prismic.io/docs/fields/number
-	 */
-	limit: prismic.NumberField;
-	
-	/**
-	 * CTA Text field in *Work → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: work.default.primary.cta
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	cta: prismic.KeyTextField;
-}
-
-/**
- * Default variation for Work Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type WorkSliceDefault = prismic.SharedSliceVariation<"default", Simplify<WorkSliceDefaultPrimary>, never>;
-
-/**
- * Slice variation for *Work*
- */
-type WorkSliceVariation = WorkSliceDefault
-
-/**
- * Work Shared Slice
- *
- * - **API ID**: `work`
- * - **Description**: Work
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type WorkSlice = prismic.SharedSlice<"work", WorkSliceVariation>;
-
 declare module "@prismicio/client" {
 	interface CreateClient {
 		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
@@ -1714,10 +1609,6 @@ declare module "@prismicio/client" {
 			PageHeadingSliceDefaultPrimary,
 			PageHeadingSliceVariation,
 			PageHeadingSliceDefault,
-			PlaySlice,
-			PlaySliceDefaultPrimary,
-			PlaySliceVariation,
-			PlaySliceDefault,
 			ProjectOverviewSlice,
 			ProjectOverviewSliceDefaultPrimaryParagraphsItem,
 			ProjectOverviewSliceDefaultPrimary,
@@ -1739,11 +1630,7 @@ declare module "@prismicio/client" {
 			TextContentSlice,
 			TextContentSliceDefaultPrimary,
 			TextContentSliceVariation,
-			TextContentSliceDefault,
-			WorkSlice,
-			WorkSliceDefaultPrimary,
-			WorkSliceVariation,
-			WorkSliceDefault
+			TextContentSliceDefault
 		}
 	}
 }
