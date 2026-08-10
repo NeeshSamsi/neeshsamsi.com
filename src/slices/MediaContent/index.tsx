@@ -26,11 +26,14 @@ function imageAspect(image: ImageField): string | undefined {
 
 // Width options mirror the "Layout Type" pattern from the doubleMedia
 // variation: full-width on mobile, fraction of the 12-col grid at md+.
+// md:col-start-1 forces its own row regardless of span — otherwise grid
+// auto-placement packs a narrow box (e.g. One Third) into whatever columns
+// the title left over in the same row.
 const singleWidth = {
-  Full: "col-span-full",
-  "One Third": "col-span-full md:col-span-4",
-  Half: "col-span-full md:col-span-6",
-  "Two Third": "col-span-full md:col-span-8",
+  Full: "col-span-full md:col-start-1",
+  "One Third": "col-span-full md:col-span-4 md:col-start-1",
+  Half: "col-span-full md:col-span-6 md:col-start-1",
+  "Two Third": "col-span-full md:col-span-8 md:col-start-1",
 }
 
 const singleImage = cva("block w-full max-w-full min-w-0 rounded-lg", {
@@ -247,7 +250,7 @@ const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
       {isFilled.richText(description) && (
         <ProseRichText
           field={description}
-          className="col-span-full md:col-span-8"
+          className="col-span-full md:col-span-8 md:col-start-1"
         />
       )}
     </section>
