@@ -23,7 +23,7 @@ export default function ProseRichText({
   return (
     <div
       className={clsx(
-        "prose max-w-none leading-relaxed font-light text-light prose-invert marker:text-brand prose-a:font-light prose-a:text-light prose-a:transition-colors prose-a:hover:text-brand",
+        "prose max-w-none leading-relaxed font-light text-light prose-invert marker:text-brand prose-a:font-light prose-a:text-light prose-a:transition-colors prose-a:hover:text-brand prose-strong:text-light",
         className,
       )}
     >
