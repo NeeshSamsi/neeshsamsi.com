@@ -9,15 +9,34 @@ import {
 import {
   type CSSProperties,
   useCallback,
+  useEffect,
   useRef,
   useState,
   useSyncExternalStore,
 } from "react"
-import { Pause, Play, Volume2, VolumeX } from "lucide-react"
+import { Pause, Play } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)"
+
+// There's no single standard API for "does this <video> have an audio
+// track" — each engine exposes its own signal, so this ORs the lot to
+// maximize detection across browsers.
+type ProbedVideoElement = HTMLVideoElement & {
+  mozHasAudio?: boolean
+  webkitAudioDecodedByteCount?: number
+  audioTracks?: { length: number }
+}
+
+function detectHasAudio(video: HTMLVideoElement): boolean {
+  const probed = video as ProbedVideoElement
+  return Boolean(
+    probed.mozHasAudio ||
+      (probed.webkitAudioDecodedByteCount ?? 0) > 0 ||
+      (probed.audioTracks?.length ?? 0) > 0,
+  )
+}
 
 // Subscribe to the user's reduced-motion preference without setState-in-effect.
 function usePrefersReducedMotion() {
@@ -52,13 +71,6 @@ type Props = {
   wrapperClassName?: string
 }
 
-function formatTime(seconds: number) {
-  if (!Number.isFinite(seconds)) return "0:00"
-  const m = Math.floor(seconds / 60)
-  const s = Math.floor(seconds % 60)
-  return `${m}:${s.toString().padStart(2, "0")}`
-}
-
 function posterUrl(poster?: ImageField | string) {
   if (!poster) return undefined
   if (typeof poster === "string") return poster
@@ -77,6 +89,7 @@ export default function PrismicVideo({
   wrapperClassName,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const rafRef = useRef<number | null>(null)
 
   // Videos default to an ambient GIF-style clip: autoplay, muted, looped.
   // Controls are always available (revealed on hover) so a viewer can pause,
@@ -89,12 +102,49 @@ export default function PrismicVideo({
   const [isMuted, setIsMuted] = useState(wantsMuted)
   const [current, setCurrent] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [hasAudio, setHasAudio] = useState(false)
+
+  // Some detection signals (e.g. webkitAudioDecodedByteCount) only become
+  // accurate once decoding has actually started, not at loadedmetadata —
+  // so this re-checks on every timeupdate too until it flips true.
+  const checkHasAudio = useCallback(() => {
+    const video = videoRef.current
+    if (video && detectHasAudio(video)) setHasAudio(true)
+  }, [])
 
   // Respect reduced-motion by not autoplaying. The video still renders with its
   // poster as the resting frame; since it starts paused, the controls stay
   // visible (see below) so it remains playable on demand.
   const prefersReducedMotion = usePrefersReducedMotion()
   const allowAutoPlay = wantsAutoPlay && !prefersReducedMotion
+
+  // Drives the progress bar off rAF (not just the sparse `timeupdate` event)
+  // so its fill moves smoothly at playback rate instead of visibly stepping.
+  const handlePlay = useCallback(() => {
+    setIsPlaying(true)
+    const step = () => {
+      const video = videoRef.current
+      if (!video) return
+      setCurrent(video.currentTime)
+      rafRef.current = requestAnimationFrame(step)
+    }
+    rafRef.current ??= requestAnimationFrame(step)
+  }, [])
+
+  const handlePause = useCallback(() => {
+    setIsPlaying(false)
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+    }
+  }, [])
+
+  useEffect(
+    () => () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+    },
+    [],
+  )
 
   const togglePlay = useCallback(() => {
     const video = videoRef.current
@@ -113,7 +163,9 @@ export default function PrismicVideo({
   const onSeek = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const video = videoRef.current
     if (!video) return
-    video.currentTime = Number(e.target.value)
+    const value = Number(e.target.value)
+    video.currentTime = value
+    setCurrent(value)
   }, [])
 
   if (!isFilled.linkToMedia(field)) return null
@@ -146,64 +198,89 @@ export default function PrismicVideo({
         muted={wantsMuted}
         controls={false}
         onClick={togglePlay}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-        onTimeUpdate={(e) => setCurrent(e.currentTarget.currentTime)}
+        onPlay={handlePlay}
+        onPause={handlePause}
+        onLoadedMetadata={(e) => {
+          setDuration(e.currentTarget.duration)
+          checkHasAudio()
+        }}
+        onTimeUpdate={(e) => {
+          setCurrent(e.currentTarget.currentTime)
+          checkHasAudio()
+        }}
         className={cn("block h-full w-full cursor-pointer", className)}
       />
+
+      <button
+        type="button"
+        onClick={togglePlay}
+        aria-label={isPlaying ? "Pause" : "Play"}
+        className="pointer-events-auto absolute top-1/2 left-1/2 flex -translate-x-1/2 translate-y-[calc(-50%+8px)] scale-95 items-center justify-center rounded-full border-[0.5px] border-dark bg-light/40 p-5 text-dark opacity-0 backdrop-blur-md transition-all duration-300 group-hover:translate-y-[-50%] group-hover:scale-100 group-hover:opacity-100 focus-visible:translate-y-[-50%] focus-visible:scale-100 focus-visible:opacity-100"
+      >
+        <span className="relative block size-7">
+          <Play
+            aria-hidden="true"
+            strokeWidth={2}
+            className={cn(
+              "absolute inset-0 size-7 transition-all duration-300 ease-in-out",
+              isPlaying ? "rotate-90 opacity-0" : "rotate-0 opacity-100",
+            )}
+          />
+          <Pause
+            aria-hidden="true"
+            strokeWidth={2}
+            className={cn(
+              "absolute inset-0 size-7 transition-all duration-300 ease-in-out",
+              isPlaying ? "rotate-0 opacity-100" : "-rotate-90 opacity-0",
+            )}
+          />
+        </span>
+      </button>
 
       {/* Always rendered; revealed on hover/focus, and kept visible while
           paused so a stopped (or reduced-motion) video stays obviously playable. */}
       <div
         className={cn(
-          "pointer-events-none absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-dark/80 to-transparent px-3 pt-8 pb-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100",
-          !isPlaying && "opacity-100",
+          "pointer-events-none absolute inset-x-0 bottom-4 flex translate-y-2 flex-col items-end gap-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 focus-within:translate-y-0 focus-within:opacity-100",
+          !isPlaying && "translate-y-0 opacity-100",
         )}
       >
-        <button
-          type="button"
-          onClick={togglePlay}
-          aria-label={isPlaying ? "Pause" : "Play"}
-          className="pointer-events-auto shrink-0 text-light transition-colors hover:text-brand"
-        >
-          {isPlaying ? (
-            <Pause className="size-5" fill="currentColor" />
-          ) : (
-            <Play className="size-5" fill="currentColor" />
-          )}
-        </button>
+        <div className="relative mx-4 h-1 self-stretch">
+          {/* Visual track + fill only — kept separate from the interactive
+              input below so hiding the native thumb can't break the fill
+              rendering (a native styled thumb turned out unreliable). */}
+          <div className="pointer-events-none h-full w-full overflow-hidden rounded-full bg-dark/30 backdrop-blur-md">
+            <div
+              className="h-full rounded-full bg-dark"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
 
-        <input
-          type="range"
-          min={0}
-          max={duration || 0}
-          step={0.01}
-          value={current}
-          onChange={onSeek}
-          aria-label="Seek"
-          className="pointer-events-auto h-1 w-full cursor-pointer appearance-none rounded-full bg-light/30 accent-brand"
-          style={{
-            background: `linear-gradient(to right, var(--color-brand) ${progress}%, color-mix(in srgb, var(--color-light) 30%, transparent) ${progress}%)`,
-          }}
-        />
+          <input
+            type="range"
+            min={0}
+            max={duration || 0}
+            step={0.001}
+            value={current}
+            onChange={onSeek}
+            onPointerUp={(e) => e.currentTarget.blur()}
+            aria-label="Seek"
+            className="pointer-events-auto absolute inset-0 h-full w-full cursor-pointer opacity-0"
+          />
+        </div>
 
-        <span className="pointer-events-none shrink-0 text-xs tabular-nums text-light/80">
-          {formatTime(current)} / {formatTime(duration)}
-        </span>
-
-        <button
-          type="button"
-          onClick={toggleMute}
-          aria-label={isMuted ? "Unmute" : "Mute"}
-          className="pointer-events-auto shrink-0 text-light transition-colors hover:text-brand"
-        >
-          {isMuted ? (
-            <VolumeX className="size-5" />
-          ) : (
-            <Volume2 className="size-5" />
-          )}
-        </button>
+        {hasAudio && (
+          <button
+            type="button"
+            onClick={(e) => {
+              toggleMute()
+              e.currentTarget.blur()
+            }}
+            className="pointer-events-auto mr-4 shrink-0 rounded-md border-[0.5px] border-dark bg-light/40 px-4 py-2 text-sm font-light text-dark backdrop-blur-md transition-[width] duration-300 ease-in-out [interpolate-size:allow-keywords] md:text-lg"
+          >
+            {isMuted ? "Unmute" : "Mute"}
+          </button>
+        )}
       </div>
     </div>
   )
