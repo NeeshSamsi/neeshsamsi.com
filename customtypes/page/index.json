@@ -21,9 +21,6 @@
             "featured_project": {
               "type": "SharedSlice"
             },
-            "play": {
-              "type": "SharedSlice"
-            },
             "notes": {
               "type": "SharedSlice"
             },
@@ -34,9 +31,6 @@
               "type": "SharedSlice"
             },
             "reviews": {
-              "type": "SharedSlice"
-            },
-            "work": {
               "type": "SharedSlice"
             },
             "hero": {

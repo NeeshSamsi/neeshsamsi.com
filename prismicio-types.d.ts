@@ -139,7 +139,7 @@ interface NotesDocumentData {
  */
 export type NotesDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<NotesDocumentData>, "notes", Lang>;
 
-type PageDocumentDataSlicesSlice = ProjectShowcaseSlice | FeaturedProjectSlice | PlaySlice | NotesSlice | PageHeadingSlice | AboutSlice | ReviewsSlice | WorkSlice | HeroSlice
+type PageDocumentDataSlicesSlice = ProjectShowcaseSlice | FeaturedProjectSlice | NotesSlice | PageHeadingSlice | AboutSlice | ReviewsSlice | HeroSlice
 
 /**
  * Content for Page documents

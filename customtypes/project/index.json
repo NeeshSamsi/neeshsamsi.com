@@ -75,6 +75,12 @@
             },
             "text_content": {
               "type": "SharedSlice"
+            },
+            "image_content": {
+              "type": "SharedSlice"
+            },
+            "rich_text": {
+              "type": "SharedSlice"
             }
           }
         }
