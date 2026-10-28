@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { asImageSrc } from "@prismicio/client"
+import { asImageSrc, asText } from "@prismicio/client"
 import { SliceZone } from "@prismicio/react"
 
 import { createClient } from "@/prismicio"
@@ -51,15 +51,43 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { uid } = await params
   const client = createClient()
-  const page = await client.getByUID("project", uid).catch(() => notFound())
+  const { data } = await client.getByUID("project", uid).catch(() => notFound())
+
+  // The SEO tab is optional per project. When a field is empty, fall back to
+  // the project's own content so the social preview never inherits the
+  // site-wide bio and never ships an empty og:image.
+  const overview = data.slices.find(
+    (slice) => slice.slice_type === "project_overview",
+  )
+  const overviewText =
+    overview?.slice_type === "project_overview"
+      ? (asText(overview.primary.paragraphs[0]?.description) ?? "")
+      : ""
+
+  const title = data.meta_title || data.title || undefined
+  const description =
+    data.meta_description ||
+    truncate(overviewText, 160) ||
+    data.subtitle ||
+    undefined
+  const image =
+    asImageSrc(data.meta_image) ??
+    asImageSrc(data.image, { w: 1200, h: 630, fit: "crop" }) ??
+    undefined
+  const images = image ? [{ url: image }] : undefined
 
   return {
-    title: page.data.meta_title,
-    description: page.data.meta_description,
-    openGraph: {
-      images: [{ url: asImageSrc(page.data.meta_image) ?? "" }],
-    },
+    title,
+    description,
+    openGraph: { title, description, type: "article", images },
+    twitter: { card: "summary_large_image", title, description, images },
   }
+}
+
+function truncate(text: string, max: number) {
+  const clean = text.trim()
+  if (clean.length <= max) return clean
+  return `${clean.slice(0, max - 1).replace(/\s+\S*$/, "")}…`
 }
 
 export async function generateStaticParams() {
