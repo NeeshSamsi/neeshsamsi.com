@@ -11,6 +11,8 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { SplitText } from "gsap/SplitText"
 
+import { gridSlot, pairDelay } from "@/lib/project-grid"
+
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
 export type ProjectGridItemType = {
@@ -47,17 +49,6 @@ const REVEAL = {
   pairStagger: 0.15, // the 2nd item of each visible row-pair waits this long
 } as const
 
-type Layout = "wide-tall" | "tall-wide" | "wide-solo"
-
-// Maps cycle index to layout variant
-const CYCLE_LAYOUTS: Layout[] = [
-  "wide-tall",
-  "tall-wide",
-  "tall-wide",
-  "wide-tall",
-  "wide-solo",
-]
-
 const gridItem = cva("col-span-1 self-start", {
   variants: {
     layout: {
@@ -70,7 +61,7 @@ const gridItem = cva("col-span-1 self-start", {
 
 const imageContainer = cva(
   // Base: 16/9 on mobile for all items.
-  "bg-darker relative w-full overflow-hidden rounded-xl border-[0.5px] border-lighter/50 ring-[0.5px] ring-transparent ring-inset transition-shadow duration-500 group-hover:ring-lighter/50 aspect-video",
+  "relative w-full overflow-hidden rounded-xl border-[0.5px] border-lighter/50 ring-[0.5px] ring-transparent ring-inset transition-shadow duration-500 group-hover:ring-lighter/50 aspect-video",
   {
     variants: {
       layout: {
@@ -98,8 +89,9 @@ export default function ProjectGrid({ items }: ProjectGridProps) {
         gsap.utils
           .toArray<HTMLElement>("[data-reveal-item]", el)
           .forEach((item, index) => {
-            const imageBox =
-              item.querySelector<HTMLElement>("[data-reveal-image]")
+            const imageBox = item.querySelector<HTMLElement>(
+              "[data-reveal-image]",
+            )
             const textBlock =
               item.querySelector<HTMLElement>("[data-reveal-text]")
             const subtitle = item.querySelector<HTMLElement>(
@@ -107,14 +99,14 @@ export default function ProjectGrid({ items }: ProjectGridProps) {
             )
             const title = item.querySelector<HTMLElement>("[data-reveal-title]")
 
-            // Two items share a row and enter together, so the odd one of each
+            // Two items share a row and enter together, so the second one of each
             // pair waits pairStagger to stagger them. (On mobile it's one
             // column, so this is just a tiny rhythm between consecutive items.)
-            const pairDelay = (index % 2) * REVEAL.pairStagger
+            const delay = pairDelay(index, REVEAL.pairStagger)
 
             // Container + image: reveal when the item (the image) enters.
             const tlImage = gsap.timeline({
-              delay: pairDelay,
+              delay,
               scrollTrigger: { trigger: item, start: REVEAL.start, once: true },
             })
             tlImage.from(
@@ -148,7 +140,7 @@ export default function ProjectGrid({ items }: ProjectGridProps) {
               autoSplit: true,
               onSplit: (self) => {
                 const tlText = gsap.timeline({
-                  delay: pairDelay,
+                  delay,
                   scrollTrigger: {
                     trigger: textBlock ?? title,
                     start: REVEAL.textStart,
@@ -200,7 +192,7 @@ export default function ProjectGrid({ items }: ProjectGridProps) {
       className="grid grid-cols-1 gap-y-8 sm:grid-cols-12 sm:gap-x-6 sm:gap-y-16"
     >
       {items.map((item, index) => {
-        const layout = CYCLE_LAYOUTS[index % 5]
+        const { layout } = gridSlot(index)
 
         const content = (
           <div className="group flex h-full w-full cursor-pointer flex-col">
