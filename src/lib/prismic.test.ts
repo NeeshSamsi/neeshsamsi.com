@@ -76,6 +76,16 @@ describe("getByUIDOrNotFound", () => {
     expect(cacheTagPrismicPages).not.toHaveBeenCalled()
   })
 
+  // Prismic still resolves a document's previous UIDs, which would serve the
+  // same page at its old URL too. Only the current UID is a page.
+  it("renders the 404 page for a document's previous UID", async () => {
+    getByUID.mockResolvedValue({ id: "abc", uid: "best-rebrand", data: {} })
+
+    await expect(getByUIDOrNotFound("project", "best")).rejects.toThrow(
+      "NEXT_NOT_FOUND",
+    )
+  })
+
   it("rethrows every other failure instead of turning it into a 404", async () => {
     const outage = new Error("fetch failed")
     getByUID.mockRejectedValue(outage)

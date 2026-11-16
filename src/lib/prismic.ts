@@ -39,6 +39,9 @@ async function fetchByUID<TType extends UIDDocumentType>(
       throw error
     })
   cacheTagPrismicPages([page])
+  // Prismic also resolves a document's previous UIDs. Serving those would put
+  // the same page at its old URL too, so only the current UID is a page.
+  if (page.uid !== uid) notFound()
   return page
 }
 
