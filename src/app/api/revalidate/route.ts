@@ -1,7 +1,7 @@
 import { timingSafeEqual } from "node:crypto"
 
 import { NextResponse } from "next/server"
-import { revalidatePath, revalidateTag } from "next/cache"
+import { revalidateTag } from "next/cache"
 import { revalidatePrismicPages } from "@prismicio/next"
 
 import { env } from "@/lib/env"
@@ -37,9 +37,6 @@ export async function POST(request: Request) {
   if (isAPIUpdate(body)) {
     revalidatePrismicPages(body.documents)
     revalidateTag(PRISMIC_LISTS_TAG, { expire: 0 })
-    // On Vercel the prerendered sitemap ignores cache tags (pages honour
-    // them), so it is refreshed by path as well.
-    revalidatePath("/sitemap.xml")
   }
 
   return NextResponse.json({ revalidated: true, now: Date.now() })

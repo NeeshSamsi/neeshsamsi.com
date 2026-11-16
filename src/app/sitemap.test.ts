@@ -12,9 +12,14 @@ const docs: Record<string, { uid: string; last_publication_date: string }[]> = {
   notes: [{ uid: "a-note", last_publication_date: "2024-11-05T15:00:07+0000" }],
 }
 
-vi.mock("@/lib/prismic", () => ({
-  getAllByType: vi.fn(async (type: string) => docs[type]),
+const connection = vi.hoisted(() => vi.fn(async () => {}))
+
+vi.mock("@/prismicio", () => ({
+  createClient: () => ({
+    getAllByType: vi.fn(async (type: string) => docs[type]),
+  }),
 }))
+vi.mock("next/server", () => ({ connection }))
 vi.mock("@/lib/config", () => ({ url: "https://www.example.com" }))
 
 import sitemap from "./sitemap"
@@ -31,6 +36,16 @@ describe("sitemap", () => {
       "https://www.example.com/projects/golden-apple",
       "https://www.example.com/notes/a-note",
     ])
+  })
+
+  // On Vercel a prerendered sitemap ignores every on-demand refresh, so it is
+  // built per request from Prismic instead.
+  it("renders on each request", async () => {
+    connection.mockClear()
+
+    await sitemap()
+
+    expect(connection).toHaveBeenCalled()
   })
 
   it("reports when each document was last published", async () => {

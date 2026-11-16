@@ -1,13 +1,21 @@
 import { type MetadataRoute } from "next"
+import { connection } from "next/server"
 
 import { url } from "@/lib/config"
-import { getAllByType } from "@/lib/prismic"
+import { createClient } from "@/prismicio"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Built on each request, straight from Prismic. On Vercel a prerendered
+  // sitemap ignores every on-demand refresh (tags and paths alike, while pages
+  // honour them), so a cached one only changed on a deploy. Crawlers fetch it
+  // rarely, so the uncached queries cost little.
+  await connection()
+
+  const client = createClient()
   const [pages, projects, notes] = await Promise.all([
-    getAllByType("page"),
-    getAllByType("project"),
-    getAllByType("notes"),
+    client.getAllByType("page"),
+    client.getAllByType("project"),
+    client.getAllByType("notes"),
   ])
 
   // Every routed document comes from Prismic, so the sitemap follows the
