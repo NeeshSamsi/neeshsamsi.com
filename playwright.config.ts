@@ -16,7 +16,7 @@ export default defineConfig({
   use: {
     baseURL: process.env.E2E_BASE_URL ?? "http://localhost:3000",
     // Installed Google Chrome: Playwright's bundled Chromium has no H.264
-    // decoder, so the Prismic MP4s would never load in it.
+    // decoder, so the Mux video streams would never play in it.
     channel: "chrome",
     viewport: { width: 1280, height: 900 },
     trace: "retain-on-failure",

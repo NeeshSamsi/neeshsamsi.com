@@ -6,16 +6,22 @@ import { expect, load, test } from "./fixtures"
 const MOTION = "/projects/motion-class-with-po" // three silent clips
 const WITH_AUDIO = "/projects/3d-for-designers" // one clip with an audio track
 
-/** The parts of one PrismicVideo instance. */
+/**
+ * The parts of one PrismicVideo instance. The clips play from Mux through
+ * Video.js, whose controls carry the roles and labels used here.
+ */
 function player(page: Page, index = 0) {
   const video = page.locator("video").nth(index)
   const root = video.locator("xpath=..")
+  const seek = root.getByRole("slider", { name: "Seek" })
   return {
     root,
     video,
-    seek: root.getByRole("slider", { name: "Seek" }),
+    seek,
     toggle: root.getByRole("button", { name: /^(Play|Pause)$/ }),
-    fill: root.locator("div.bg-dark").first(),
+    fill: root.locator(".bg-dark").first(),
+    // The storyboard frame shown above the pointer on the seek bar.
+    thumbnail: seek.locator("xpath=..").locator("img"),
   }
 }
 
@@ -27,31 +33,62 @@ const state = (video: Locator) =>
     duration: v.duration,
   }))
 
+/**
+ * Brings a clip on screen once its player has replaced the poster. The poster
+ * is a placeholder element that is swapped out when the player chunk loads,
+ * so anything done before that would act on an element about to go away.
+ */
+async function show({ video, seek }: { video: Locator; seek: Locator }) {
+  await expect(seek).toBeAttached()
+  await video.scrollIntoViewIfNeeded()
+}
+
 // The centre of the frame is covered by the play/pause button, so "click the
 // video" means a corner of it.
 const clickVideo = (video: Locator) =>
   video.click({ position: { x: 24, y: 24 } })
 
-const seekMax = async (seek: Locator) => Number(await seek.getAttribute("max"))
-const seekValue = async (seek: Locator) => Number(await seek.inputValue())
+// The slider reports the clip's length and position through ARIA. Until the
+// player has loaded there is no slider yet, which counts as "no duration".
+const ariaNumber = async (seek: Locator, name: string) =>
+  (await seek.count()) ? Number(await seek.getAttribute(name)) : 0
+const seekMax = (seek: Locator) => ariaNumber(seek, "aria-valuemax")
+const seekValue = (seek: Locator) => ariaNumber(seek, "aria-valuenow")
 
 test.describe("PrismicVideo", () => {
+  test("plays from Mux, with the poster in place before the player loads", async ({
+    page,
+  }) => {
+    await load(page, MOTION)
+    const { video, seek } = player(page)
+    // The poster is part of the server-rendered HTML.
+    const html = await (await page.request.get(MOTION)).text()
+    expect(html).toMatch(/<video[^>]+poster="https:\/\/images\.prismic\.io\//)
+
+    await show({ video, seek })
+    await expect.poll(() => seekMax(seek)).toBeGreaterThan(0)
+    await expect.poll(async () => (await state(video)).paused).toBe(false)
+    // Chrome plays the HLS stream through Media Source Extensions, so the
+    // element's source is a blob; nothing is loaded from Prismic's file CDN.
+    const src = await video.evaluate((v: HTMLVideoElement) => v.currentSrc)
+    expect(src).toMatch(/^blob:|stream\.mux\.com/)
+  })
+
   test("shows duration and moving progress after a warm-cache reload", async ({
     page,
   }) => {
-    // On a warm cache the browser loads metadata and starts the autoplaying
-    // clip before React hydrates, so `loadedmetadata` and `play` fire with no
-    // listener attached. The UI still has to end up in step with the element.
+    // The controls have to end up in step with the element on every load,
+    // including reloads where the stream and the player chunk are cached.
     await load(page, MOTION)
     const { video, seek, toggle } = player(page)
-    await video.scrollIntoViewIfNeeded()
+    await show({ video, seek })
     await expect
       .poll(async () => (await state(video)).duration)
       .toBeGreaterThan(0)
 
     for (let reload = 1; reload <= 3; reload++) {
       await load(page)
-      await video.scrollIntoViewIfNeeded()
+      await show({ video, seek })
 
       const { duration } =
         await test.step(`reload ${reload}: metadata`, async () => {
@@ -76,7 +113,7 @@ test.describe("PrismicVideo", () => {
 
     for (let i = 0; i < count; i++) {
       const { video, seek } = player(page, i)
-      await video.scrollIntoViewIfNeeded()
+      await show({ video, seek })
       await expect.poll(() => seekMax(seek)).toBeGreaterThan(0)
     }
   })
@@ -86,8 +123,8 @@ test.describe("PrismicVideo", () => {
     browserProblems,
   }) => {
     await load(page, MOTION)
-    const { root, video, toggle } = player(page)
-    await video.scrollIntoViewIfNeeded()
+    const { root, video, seek, toggle } = player(page)
+    await show({ video, seek })
     await expect.poll(async () => (await state(video)).paused).toBe(false)
     const problemsAfterLoad = browserProblems.length
 
@@ -109,7 +146,7 @@ test.describe("PrismicVideo", () => {
   test("scrubs by dragging the progress bar", async ({ page }) => {
     await load(page, MOTION)
     const { video, seek, fill } = player(page)
-    await video.scrollIntoViewIfNeeded()
+    await show({ video, seek })
     await expect.poll(() => seekMax(seek)).toBeGreaterThan(0)
 
     // Pause so the position only changes because of the drag.
@@ -124,7 +161,8 @@ test.describe("PrismicVideo", () => {
     await page.mouse.down()
     await page.mouse.move(box.x + box.width * 0.45, y, { steps: 8 })
 
-    // Mid-drag the video already follows the pointer...
+    // Mid-drag the video already follows the pointer (Video.js seeks while
+    // dragging)...
     await expect
       .poll(async () => (await state(video)).currentTime / duration)
       .toBeGreaterThan(0.3)
@@ -133,12 +171,16 @@ test.describe("PrismicVideo", () => {
     await page.mouse.up()
 
     // ...and it lands where the pointer was released.
+    await expect
+      .poll(async () => (await state(video)).currentTime / duration)
+      .toBeGreaterThan(0.6)
     const landed = (await state(video)).currentTime / duration
-    expect(landed).toBeGreaterThan(0.6)
     expect(landed).toBeLessThan(0.8)
 
     // The visible fill and the slider agree with the element.
-    expect((await seekValue(seek)) / duration).toBeCloseTo(landed, 2)
+    await expect
+      .poll(async () => Math.abs((await seekValue(seek)) / duration - landed))
+      .toBeLessThan(0.01)
     const fillRatio = await fill.evaluate(
       (el) =>
         el.getBoundingClientRect().width /
@@ -149,6 +191,48 @@ test.describe("PrismicVideo", () => {
     expect((await state(video)).paused).toBe(true)
   })
 
+  test("shows a storyboard thumbnail above the pointer on the seek bar", async ({
+    page,
+  }) => {
+    await load(page, MOTION)
+    const { root, video, seek, thumbnail } = player(page)
+    await show({ video, seek })
+    await expect.poll(() => seekMax(seek)).toBeGreaterThan(0)
+
+    // Hovering the clip slides the controls into place; measure the bar there.
+    await root.hover()
+    await expect(seek.locator("xpath=../..")).toHaveCSS("opacity", "1")
+    await expect(seek.locator("xpath=../..")).toHaveCSS("translate", "0px")
+    const box = await seek.boundingBox()
+    if (!box) throw new Error("seek bar is not laid out")
+    const y = box.y + box.height / 2
+    const bubble = thumbnail.locator("xpath=..")
+
+    await page.mouse.move(box.x + box.width * 0.3, y)
+    await expect(thumbnail).toHaveAttribute(
+      "src",
+      /^https:\/\/image\.mux\.com\//,
+    )
+    await expect(bubble).toHaveCSS("opacity", "1")
+    // The bubble clips one frame out of the storyboard sprite, so measure it
+    // and not the image inside.
+    const first = await bubble.boundingBox()
+    if (!first) throw new Error("thumbnail is not laid out")
+    // It sits above the bar, around the pointer.
+    expect(first.y + first.height).toBeLessThanOrEqual(box.y)
+    expect(first.x).toBeLessThan(box.x + box.width * 0.3)
+    expect(first.x + first.width).toBeGreaterThan(box.x + box.width * 0.3)
+
+    // It follows the pointer...
+    await page.mouse.move(box.x + box.width * 0.7, y, { steps: 5 })
+    await expect
+      .poll(async () => (await bubble.boundingBox())?.x ?? 0)
+      .toBeGreaterThan(first.x + 20)
+    // ...without seeking the clip, and goes away with the pointer.
+    await page.mouse.move(5, 5)
+    await expect(bubble).toHaveCSS("opacity", "0")
+  })
+
   test("offers mute controls for a clip with audio once it plays", async ({
     page,
   }) => {
@@ -157,7 +241,7 @@ test.describe("PrismicVideo", () => {
 
     // The clip sits below the fold at this viewport; Chrome only autoplays
     // muted clips that are on screen.
-    await video.scrollIntoViewIfNeeded()
+    await show({ video, seek })
     await expect.poll(async () => (await state(video)).paused).toBe(false)
     await expect.poll(() => seekMax(seek)).toBeGreaterThan(0)
     expect((await state(video)).muted).toBe(true)
@@ -174,7 +258,7 @@ test.describe("PrismicVideo", () => {
   test("has no mute control for silent clips", async ({ page }) => {
     await load(page, MOTION)
     const { root, video, seek } = player(page)
-    await video.scrollIntoViewIfNeeded()
+    await show({ video, seek })
     await expect.poll(() => seekValue(seek)).toBeGreaterThan(0.5)
 
     await expect(root.getByRole("button", { name: /mute/i })).toHaveCount(0)
@@ -193,12 +277,12 @@ test.describe("PrismicVideo with reduced motion", () => {
     for (const visit of ["first load", "warm reload"]) {
       await test.step(visit, async () => {
         if (visit === "warm reload") await load(page)
-        await video.scrollIntoViewIfNeeded()
+        await show({ video, seek })
         await expect.poll(() => seekMax(seek)).toBeGreaterThan(0)
 
-        // The server renders `autoplay` (it can't know the preference), so
-        // the clip may start before hydration. It must be stopped, and stay
-        // stopped while on screen.
+        // The player only renders in the browser, where the preference is
+        // known, so the clip must never start, and must stay stopped while
+        // on screen.
         await expect.poll(async () => (await state(video)).paused).toBe(true)
         const settled = (await state(video)).currentTime
         await page.waitForTimeout(1500)
