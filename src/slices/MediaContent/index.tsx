@@ -13,6 +13,7 @@ import { cva } from "class-variance-authority"
 import ImageWithPreview from "@/components/ImagePreview"
 import PrismicVideo from "@/components/PrismicVideo"
 import ProseRichText from "@/components/ProseRichText"
+import { cn } from "@/lib/utils"
 
 export type MediaContentProps = SliceComponentProps<Content.MediaContentSlice>
 
@@ -67,79 +68,47 @@ const singleVideoBox = cva("overflow-hidden rounded-lg min-w-0", {
 const doubleRow =
   "col-span-full grid grid-cols-subgrid items-start gap-y-4 min-w-0 md:gap-y-0"
 
-const doubleBox = cva("overflow-hidden rounded-lg min-w-0", {
-  variants: {
-    side: { left: "", right: "" },
-    layout: {
-      "Half & Half": "",
-      "Wide Right": "",
-      "Wide Left": "",
-    },
-    original: { true: "", false: "" },
+type DoubleLayout = Content.MediaContentSliceDoubleMedia["primary"]["layout"]
+type Side = "left" | "right"
+
+// Per layout and side: the column span at md+ (the parent is a 12-col
+// subgrid; every box is full-width on mobile) and the aspect ratio applied
+// when "Original Dimensions" is off. Half & Half crops both sides to 16:9;
+// the wide layouts pair a square narrow side with a 16:9 wide side.
+const DOUBLE_LAYOUT: Record<
+  DoubleLayout,
+  Record<Side, { span: string; aspect: string }>
+> = {
+  "Half & Half": {
+    left: { span: "md:col-span-6", aspect: "aspect-video" },
+    right: { span: "md:col-span-6", aspect: "aspect-video" },
   },
-  compoundVariants: [
-    // Widths: full-width on mobile, side+layout col-span at md+
-    // (parent is a 12-col subgrid)
-    {
-      side: "left",
-      layout: "Half & Half",
-      class: "col-span-full md:col-span-6",
-    },
-    {
-      side: "right",
-      layout: "Half & Half",
-      class: "col-span-full md:col-span-6",
-    },
-    {
-      side: "left",
-      layout: "Wide Right",
-      class: "col-span-full md:col-span-4",
-    },
-    {
-      side: "right",
-      layout: "Wide Right",
-      class: "col-span-full md:col-span-8",
-    },
-    {
-      side: "left",
-      layout: "Wide Left",
-      class: "col-span-full md:col-span-8",
-    },
-    {
-      side: "right",
-      layout: "Wide Left",
-      class: "col-span-full md:col-span-4",
-    },
-    // Aspect ratios (only when original dimensions is off):
-    // - Half & Half -> both sides aspect-video
-    // - Wide layouts -> narrow side aspect-square, wide side aspect-[4/3]
-    { original: false, layout: "Half & Half", class: "aspect-video" },
-    {
-      original: false,
-      layout: "Wide Right",
-      side: "left",
-      class: "aspect-square",
-    },
-    {
-      original: false,
-      layout: "Wide Right",
-      side: "right",
-      class: "aspect-video",
-    },
-    {
-      original: false,
-      layout: "Wide Left",
-      side: "left",
-      class: "aspect-video",
-    },
-    {
-      original: false,
-      layout: "Wide Left",
-      side: "right",
-      class: "aspect-square",
-    },
-  ],
-})
+  "Wide Right": {
+    left: { span: "md:col-span-4", aspect: "aspect-square" },
+    right: { span: "md:col-span-8", aspect: "aspect-video" },
+  },
+  "Wide Left": {
+    left: { span: "md:col-span-8", aspect: "aspect-video" },
+    right: { span: "md:col-span-4", aspect: "aspect-square" },
+  },
+}
+
+function doubleBox({
+  side,
+  layout,
+  original,
+}: {
+  side: Side
+  layout: DoubleLayout
+  original: boolean
+}) {
+  const { span, aspect } = DOUBLE_LAYOUT[layout][side]
+  return cn(
+    "min-w-0 overflow-hidden rounded-lg col-span-full",
+    span,
+    !original && aspect,
+  )
+}
 
 const doubleImg = cva("block w-full max-w-full min-w-0", {
   variants: {
@@ -162,8 +131,8 @@ function DoubleSlot({
   image: ImageField
   video: LinkToMediaField
   original: boolean
-  side: "left" | "right"
-  layout: Content.MediaContentSliceDoubleMedia["primary"]["layout"]
+  side: Side
+  layout: DoubleLayout
 }): JSX.Element {
   return (
     <div className={doubleBox({ side, layout, original })}>
