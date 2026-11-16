@@ -12,9 +12,13 @@ export function formatDate(date: Date) {
   // digits) via formatToParts, then join with our own comma separator.
   // This keeps month/year derivation native and limits custom logic to
   // just the joining character.
+  //
+  // Prismic dates are UTC (date fields are UTC midnight), so format in UTC:
+  // in the server's local zone, "2025-01-01" reads as December west of UTC.
   const parts = new Intl.DateTimeFormat("en-GB", {
     month: "long",
     year: "numeric",
+    timeZone: "UTC",
   }).formatToParts(date)
 
   const month = parts.find((p) => p.type === "month")?.value ?? ""
