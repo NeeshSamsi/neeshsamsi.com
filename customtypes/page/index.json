@@ -26,15 +26,6 @@
             },
             "page_heading": {
               "type": "SharedSlice"
-            },
-            "about": {
-              "type": "SharedSlice"
-            },
-            "reviews": {
-              "type": "SharedSlice"
-            },
-            "hero": {
-              "type": "SharedSlice"
             }
           }
         }

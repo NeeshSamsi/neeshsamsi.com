@@ -139,7 +139,7 @@ interface NotesDocumentData {
  */
 export type NotesDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<NotesDocumentData>, "notes", Lang>;
 
-type PageDocumentDataSlicesSlice = ProjectShowcaseSlice | FeaturedProjectSlice | NotesSlice | PageHeadingSlice | AboutSlice | ReviewsSlice | HeroSlice
+type PageDocumentDataSlicesSlice = ProjectShowcaseSlice | FeaturedProjectSlice | NotesSlice | PageHeadingSlice
 
 /**
  * Content for Page documents
@@ -199,7 +199,7 @@ interface PageDocumentData {
  */
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-type ProjectDocumentDataSlicesSlice = ExternalLinkCalloutSlice | MediaContentSlice | ProjectOverviewSlice | TextContentSlice
+type ProjectDocumentDataSlicesSlice = ExternalLinkCalloutSlice | MediaContentSlice | ProjectOverviewSlice | TextContentSlice | ImageContentSlice | RichTextSlice
 
 /**
  * Content for Project documents
@@ -526,79 +526,6 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 export type AllDocumentTypes = NotesDocument | PageDocument | ProjectDocument | SettingsDocument;
 
 /**
- * Item in *About → Default → Primary → Cards*
- */
-export interface AboutSliceDefaultPrimaryCardsItem {
-	/**
-	 * Card Heading field in *About → Default → Primary → Cards*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.default.primary.cards[].heading
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	heading: prismic.KeyTextField;
-	
-	/**
-	 * Content field in *About → Default → Primary → Cards*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.default.primary.cards[].content
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	content: prismic.KeyTextField;
-}
-
-/**
- * Primary content in *About → Default → Primary*
- */
-export interface AboutSliceDefaultPrimary {
-	/**
-	 * Section Heading field in *About → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.default.primary.heading
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	heading: prismic.RichTextField;
-	
-	/**
-	 * Cards field in *About → Default → Primary*
-	 *
-	 * - **Field Type**: Group
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: about.default.primary.cards[]
-	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-	 */
-	cards: prismic.GroupField<Simplify<AboutSliceDefaultPrimaryCardsItem>>;
-}
-
-/**
- * Default variation for About Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type AboutSliceDefault = prismic.SharedSliceVariation<"default", Simplify<AboutSliceDefaultPrimary>, never>;
-
-/**
- * Slice variation for *About*
- */
-type AboutSliceVariation = AboutSliceDefault
-
-/**
- * About Shared Slice
- *
- * - **API ID**: `about`
- * - **Description**: About
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type AboutSlice = prismic.SharedSlice<"about", AboutSliceVariation>;
-
-/**
  * Primary content in *CodeBlock → Default → Primary*
  */
 export interface CodeBlockSliceDefaultPrimary {
@@ -732,74 +659,6 @@ type FeaturedProjectSliceVariation = FeaturedProjectSliceDefault
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type FeaturedProjectSlice = prismic.SharedSlice<"featured_project", FeaturedProjectSliceVariation>;
-
-/**
- * Primary content in *Hero → Default → Primary*
- */
-export interface HeroSliceDefaultPrimary {
-	/**
-	 * Hi I'm .. field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.name
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	name: prismic.KeyTextField;
-	
-	/**
-	 * Description field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.description
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	description: prismic.KeyTextField;
-	
-	/**
-	 * Work CTA field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.workCta
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	workCta: prismic.KeyTextField;
-	
-	/**
-	 * Contact CTA field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.contactCta
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	contactCta: prismic.KeyTextField;
-}
-
-/**
- * Default variation for Hero Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type HeroSliceDefault = prismic.SharedSliceVariation<"default", Simplify<HeroSliceDefaultPrimary>, never>;
-
-/**
- * Slice variation for *Hero*
- */
-type HeroSliceVariation = HeroSliceDefault
-
-/**
- * Hero Shared Slice
- *
- * - **API ID**: `hero`
- * - **Description**: Hero
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
 /**
  * Primary content in *ImageContent → SingleImage → Primary*
@@ -1361,99 +1220,6 @@ type ProjectShowcaseSliceVariation = ProjectShowcaseSliceDefault
 export type ProjectShowcaseSlice = prismic.SharedSlice<"project_showcase", ProjectShowcaseSliceVariation>;
 
 /**
- * Item in *Reviews → Default → Primary → Reviews*
- */
-export interface ReviewsSliceDefaultPrimaryReviewsItem {
-	/**
-	 * Avatar field in *Reviews → Default → Primary → Reviews*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: reviews.default.primary.reviews[].avatar
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	avatar: prismic.ImageField<never>;
-	
-	/**
-	 * Name field in *Reviews → Default → Primary → Reviews*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: reviews.default.primary.reviews[].name
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	name: prismic.KeyTextField;
-	
-	/**
-	 * Designation field in *Reviews → Default → Primary → Reviews*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: reviews.default.primary.reviews[].designation
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	designation: prismic.KeyTextField;
-	
-	/**
-	 * Review field in *Reviews → Default → Primary → Reviews*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: reviews.default.primary.reviews[].review
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	review: prismic.KeyTextField;
-}
-
-/**
- * Primary content in *Reviews → Default → Primary*
- */
-export interface ReviewsSliceDefaultPrimary {
-	/**
-	 * Section Heading field in *Reviews → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: reviews.default.primary.heading
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	heading: prismic.RichTextField;
-	
-	/**
-	 * Reviews field in *Reviews → Default → Primary*
-	 *
-	 * - **Field Type**: Group
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: reviews.default.primary.reviews[]
-	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
-	 */
-	reviews: prismic.GroupField<Simplify<ReviewsSliceDefaultPrimaryReviewsItem>>;
-}
-
-/**
- * Default variation for Reviews Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type ReviewsSliceDefault = prismic.SharedSliceVariation<"default", Simplify<ReviewsSliceDefaultPrimary>, never>;
-
-/**
- * Slice variation for *Reviews*
- */
-type ReviewsSliceVariation = ReviewsSliceDefault
-
-/**
- * Reviews Shared Slice
- *
- * - **API ID**: `reviews`
- * - **Description**: Reviews
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type ReviewsSlice = prismic.SharedSlice<"reviews", ReviewsSliceVariation>;
-
-/**
  * Primary content in *RichText → Default → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
@@ -1568,11 +1334,6 @@ declare module "@prismicio/client" {
 			SettingsDocumentDataNavLinksItem,
 			SettingsDocumentDataContactItem,
 			AllDocumentTypes,
-			AboutSlice,
-			AboutSliceDefaultPrimaryCardsItem,
-			AboutSliceDefaultPrimary,
-			AboutSliceVariation,
-			AboutSliceDefault,
 			CodeBlockSlice,
 			CodeBlockSliceDefaultPrimary,
 			CodeBlockSliceVariation,
@@ -1585,10 +1346,6 @@ declare module "@prismicio/client" {
 			FeaturedProjectSliceDefaultPrimary,
 			FeaturedProjectSliceVariation,
 			FeaturedProjectSliceDefault,
-			HeroSlice,
-			HeroSliceDefaultPrimary,
-			HeroSliceVariation,
-			HeroSliceDefault,
 			ImageContentSlice,
 			ImageContentSliceDefaultPrimary,
 			ImageContentSliceDoubleImagePrimary,
@@ -1618,11 +1375,6 @@ declare module "@prismicio/client" {
 			ProjectShowcaseSliceDefaultPrimary,
 			ProjectShowcaseSliceVariation,
 			ProjectShowcaseSliceDefault,
-			ReviewsSlice,
-			ReviewsSliceDefaultPrimaryReviewsItem,
-			ReviewsSliceDefaultPrimary,
-			ReviewsSliceVariation,
-			ReviewsSliceDefault,
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
