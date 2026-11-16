@@ -7,19 +7,22 @@ import { rateLimit } from "@/lib/rate-limit"
 import { contactFormSchema } from "@/lib/schemas"
 
 /**
- * State shape returned by `submitContact` and consumed by React 19's
- * `useActionState` hook on the client. It's a discriminated-ish union —
- * `status` drives the UI branch; the other fields carry detail.
+ * State returned by `submitContact` and consumed by React 19's
+ * `useActionState` hook on the client. `status` is the discriminant: only the
+ * error state carries detail.
  *
  * `values` is echoed back on error so the form re-renders with the user's
  * input preserved (since the inputs are uncontrolled with `defaultValue`).
  */
-export type ContactFormState = {
-  status: "idle" | "success" | "error"
-  fieldErrors?: Partial<Record<"email" | "message", string>>
-  formError?: string
-  values?: { email: string; message: string }
-}
+export type ContactFormState =
+  | { status: "idle" }
+  | { status: "success" }
+  | {
+      status: "error"
+      fieldErrors?: Partial<Record<"email" | "message", string>>
+      formError?: string
+      values: { email: string; message: string }
+    }
 
 // NOTE: This file has `"use server"`, so only async functions can be exported
 // from it at runtime. The matching `initialContactState` value lives at the
@@ -29,6 +32,19 @@ export type ContactFormState = {
 // Brand orange — must be an integer, not a hex string, per Discord's API.
 const DISCORD_EMBED_COLOR = 0xf39e21
 
+// Discord can hang; don't leave the visitor on "Sending…" indefinitely.
+const DISCORD_TIMEOUT_MS = 10_000
+
+const SEND_FAILED =
+  "Something went wrong sending your message. Please try again."
+
+function failure(
+  formError: string,
+  values: { email: string; message: string },
+): ContactFormState {
+  return { status: "error", formError, values }
+}
+
 export async function submitContact(
   _prev: ContactFormState,
   formData: FormData,
@@ -36,7 +52,9 @@ export async function submitContact(
   const raw = {
     email: formData.get("email"),
     message: formData.get("message"),
-    website: formData.get("website"), // honeypot
+    // Honeypot. A request without the field at all counts as an empty one, so
+    // it is validated like any other submission.
+    website: formData.get("website") ?? "",
   }
 
   // 1. Honeypot — silently return success so bots can't tell validation ran.
@@ -69,6 +87,8 @@ export async function submitContact(
     }
   }
 
+  const values = { email: parsed.data.email, message: parsed.data.message }
+
   // 3. Rate limit by client IP (first hop in x-forwarded-for).
   const h = await headers()
   const ip =
@@ -79,30 +99,32 @@ export async function submitContact(
   const rl = rateLimit(ip)
   if (!rl.ok) {
     const minutes = Math.max(1, Math.ceil(rl.retryAfterMs / 60000))
-    return {
-      status: "error",
-      formError: `Too many submissions. Please try again in ${minutes} minute${minutes === 1 ? "" : "s"}.`,
-      values: { email: parsed.data.email, message: parsed.data.message },
-    }
+    return failure(
+      `Too many submissions. Please try again in ${minutes} minute${minutes === 1 ? "" : "s"}.`,
+      values,
+    )
   }
 
   // 4. Figure out which page the form was submitted from, for the embed.
-  const pageUrl = h.get("referer") ?? "unknown"
+  const pageUrl = h.get("referer") || "unknown"
 
-  // 5. POST the rich embed to Discord.
+  // 5. POST the rich embed to Discord. The message goes in the embed
+  // description (4096-char limit); an embed field value is capped at 1024
+  // characters, which is shorter than the 2000 the form accepts.
   try {
     const res = await fetch(env.DISCORD_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(DISCORD_TIMEOUT_MS),
       body: JSON.stringify({
         content: "🔔 **New message received** \n",
         embeds: [
           {
             color: DISCORD_EMBED_COLOR,
+            description: values.message,
             fields: [
-              { name: "Email", value: parsed.data.email, inline: false },
-              { name: "Message", value: parsed.data.message, inline: false },
-              { name: "Page", value: pageUrl, inline: false },
+              { name: "Email", value: values.email, inline: false },
+              { name: "Page", value: pageUrl.slice(0, 1024), inline: false },
             ],
             timestamp: new Date().toISOString(),
           },
@@ -114,20 +136,11 @@ export async function submitContact(
       // Log server-side with detail; return a generic message to the client.
       const body = await res.text().catch(() => "<no body>")
       console.error("Discord webhook failed", res.status, body)
-      return {
-        status: "error",
-        formError:
-          "Something went wrong sending your message. Please try again.",
-        values: { email: parsed.data.email, message: parsed.data.message },
-      }
+      return failure(SEND_FAILED, values)
     }
   } catch (err) {
     console.error("Discord webhook threw", err)
-    return {
-      status: "error",
-      formError: "Something went wrong sending your message. Please try again.",
-      values: { email: parsed.data.email, message: parsed.data.message },
-    }
+    return failure(SEND_FAILED, values)
   }
 
   return { status: "success" }

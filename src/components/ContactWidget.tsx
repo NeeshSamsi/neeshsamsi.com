@@ -1,13 +1,20 @@
 "use client"
 
-import { useActionState, useCallback, useEffect, useRef, useState } from "react"
+import {
+  startTransition,
+  useActionState,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { useFormStatus } from "react-dom"
 import { useGSAP } from "@gsap/react"
 import { gsap } from "gsap"
 import { AnimatedLabel } from "@/components/Button"
 import { PrismicNextImage } from "@prismicio/next"
 import type { ImageField } from "@prismicio/client"
-import { Field, Label, Input, Textarea } from "@headlessui/react"
+import { Description, Field, Label, Input, Textarea } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 
 import { cn } from "@/lib/utils"
@@ -18,6 +25,18 @@ import { submitContact, type ContactFormState } from "@/app/actions/contact"
 // can only export async functions.
 const initialContactState: ContactFormState = { status: "idle" }
 
+// `useActionState` keeps the last result for as long as the widget is mounted
+// (it lives in the root layout, so: until a full page load). "reset" clears a
+// finished submission so the next open shows the form again.
+function contactReducer(
+  prev: ContactFormState,
+  payload: FormData | "reset",
+): ContactFormState | Promise<ContactFormState> {
+  return payload === "reset"
+    ? initialContactState
+    : submitContact(prev, payload)
+}
+
 interface ContactWidgetProps {
   image: ImageField
   ctaText: string
@@ -26,7 +45,7 @@ interface ContactWidgetProps {
 export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [state, formAction, isPending] = useActionState(
-    submitContact,
+    contactReducer,
     initialContactState,
   )
   // Client-side validation errors; merged with server errors at render time.
@@ -39,9 +58,34 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
 
   const handleOpen = useCallback(() => {
     setClientErrors({})
+    // A previous message was sent: start over with an empty form.
+    if (state.status === "success") {
+      startTransition(() => formAction("reset"))
+    }
     setIsOpen(true)
-  }, [])
+  }, [state.status, formAction])
   const handleClose = useCallback(() => setIsOpen(false), [])
+
+  // The closed pill is the only way in, so it has to work from the keyboard
+  // too. After a keyboard open, focus moves into the form; when the widget
+  // closes with focus still inside it, focus returns to the pill. Pointer
+  // opens are left alone (no focus ring, no on-screen keyboard on touch).
+  const headerRef = useRef<HTMLDivElement>(null)
+  const openedByKeyboard = useRef(false)
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (isOpen && openedByKeyboard.current) {
+      cardRef.current?.querySelector<HTMLElement>("#contact-email")?.focus()
+    } else if (
+      !isOpen &&
+      wasOpen.current &&
+      cardRef.current?.contains(document.activeElement)
+    ) {
+      headerRef.current?.focus()
+    }
+    if (!isOpen) openedByKeyboard.current = false
+    wasOpen.current = isOpen
+  }, [isOpen])
 
   // Close on Escape — but not while submitting.
   useEffect(() => {
@@ -170,8 +214,9 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
     }
   }
 
-  const emailError = clientErrors.email ?? state.fieldErrors?.email
-  const messageError = clientErrors.message ?? state.fieldErrors?.message
+  const serverError = state.status === "error" ? state : undefined
+  const emailError = clientErrors.email ?? serverError?.fieldErrors?.email
+  const messageError = clientErrors.message ?? serverError?.fieldErrors?.message
 
   return (
     <div
@@ -207,9 +252,29 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
       {/* Header morphs between pill button and modal header. Right padding
           in the open state reserves room for the absolute close button. */}
       <div
+        ref={headerRef}
         onClick={!isOpen ? handleOpen : undefined}
+        // A button only while closed; once open it is a plain header.
+        role={isOpen ? undefined : "button"}
+        tabIndex={isOpen ? undefined : 0}
+        aria-expanded={isOpen ? undefined : false}
+        // Named by its label alone; otherwise the portrait's alt text is read
+        // out as part of the button's name.
+        aria-label={isOpen ? undefined : ctaText}
+        onKeyDown={
+          isOpen
+            ? undefined
+            : (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault()
+                  openedByKeyboard.current = true
+                  handleOpen()
+                }
+              }
+        }
         className={cn(
-          "flex items-center transition-all duration-300 ease-out [interpolate-size:allow-keywords]",
+          // Inset focus outline: the card clips anything drawn outside it.
+          "flex items-center transition-all duration-300 ease-out [interpolate-size:allow-keywords] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-light",
           isOpen
             ? "gap-3 border-b border-lighter/20 p-3 pr-12 md:p-4 md:pr-14"
             : "h-12 md:h-14",
@@ -293,13 +358,12 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
                   type="email"
                   required
                   placeholder="you@example.com"
-                  defaultValue={state.values?.email ?? ""}
+                  defaultValue={serverError?.values.email ?? ""}
                   onInvalid={handleInvalid}
                   onInput={handleInput}
-                  aria-invalid={emailError ? true : undefined}
-                  aria-describedby={
-                    emailError ? "contact-email-error" : undefined
-                  }
+                  // Headless UI owns aria-invalid and aria-describedby on its
+                  // inputs: `invalid` and the <Description> below set them.
+                  invalid={Boolean(emailError)}
                   className={cn(
                     "w-full rounded-lg border bg-dark/50 px-3 py-2 text-sm text-light placeholder:text-lighter/50 focus:ring-1 focus:outline-none",
                     emailError
@@ -308,12 +372,9 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
                   )}
                 />
                 {emailError ? (
-                  <p
-                    id="contact-email-error"
-                    className="mt-1 text-xs text-red-400"
-                  >
+                  <Description as="p" className="mt-1 text-xs text-red-400">
                     {emailError}
-                  </p>
+                  </Description>
                 ) : null}
               </Field>
 
@@ -331,13 +392,12 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
                   minLength={5}
                   rows={3}
                   placeholder="What's on your mind?"
-                  defaultValue={state.values?.message ?? ""}
+                  defaultValue={serverError?.values.message ?? ""}
                   onInvalid={handleInvalid}
                   onInput={handleInput}
-                  aria-invalid={messageError ? true : undefined}
-                  aria-describedby={
-                    messageError ? "contact-message-error" : undefined
-                  }
+                  // Headless UI owns aria-invalid and aria-describedby on its
+                  // inputs: `invalid` and the <Description> below set them.
+                  invalid={Boolean(messageError)}
                   className={cn(
                     "w-full resize-none rounded-lg border bg-dark/50 px-3 py-2 text-sm text-light placeholder:text-lighter/50 focus:ring-1 focus:outline-none",
                     messageError
@@ -346,21 +406,18 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
                   )}
                 />
                 {messageError ? (
-                  <p
-                    id="contact-message-error"
-                    className="mt-1 text-xs text-red-400"
-                  >
+                  <Description as="p" className="mt-1 text-xs text-red-400">
                     {messageError}
-                  </p>
+                  </Description>
                 ) : null}
               </Field>
 
-              {state.formError ? (
+              {serverError?.formError ? (
                 <p
                   role="alert"
                   className="rounded-lg border border-red-400/40 bg-red-500/10 px-3 py-2 text-xs text-red-300"
                 >
-                  {state.formError}
+                  {serverError.formError}
                 </p>
               ) : null}
 

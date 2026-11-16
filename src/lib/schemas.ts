@@ -7,7 +7,8 @@ import { z } from "zod"
  * - `website` is a honeypot — it's rendered hidden to users, but bots that
  *   naively fill every input will populate it. The server action checks this
  *   before validation and silently drops the submission.
- * - 2000-char message limit matches Discord's embed-field value limit.
+ * - The 2000-char message limit fits Discord's embed description (4096),
+ *   where the server action puts it. An embed field value only holds 1024.
  */
 export const contactFormSchema = z.object({
   email: z
