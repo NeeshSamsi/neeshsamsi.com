@@ -1,5 +1,3 @@
-'use client'
-
 /**
  * SusuPage renders the Vite animation playground in a full-screen iframe.
  * We use 'fixed inset-0' to bypass the root layout's Navbar/Footer/Padding
