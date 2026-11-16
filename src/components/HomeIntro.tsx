@@ -60,9 +60,11 @@ const INTRO = {
 
 // Pre-hide the animated bits in the server HTML so there's no flash of the
 // finished layout before GSAP takes over on the client. Gated behind
-// no-preference so reduce-motion users just see the content immediately.
+// no-preference so reduce-motion users just see the content immediately, and
+// behind scripting so a browser without JavaScript, where GSAP never runs,
+// shows the finished layout instead of leaving these hidden.
 const PREHIDE_CSS = `
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
   [data-intro="card"],
   [data-intro="navbar"] > *,
   [data-intro="titles"] > *,
