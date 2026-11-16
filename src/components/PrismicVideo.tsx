@@ -112,11 +112,29 @@ export default function PrismicVideo({
     if (video && detectHasAudio(video)) setHasAudio(true)
   }, [])
 
+  // `duration` is NaN until metadata loads and Infinity for sources of
+  // unknown length; neither works as the seek range's max, so both count as
+  // "no duration yet".
+  const syncMetadata = useCallback(
+    (video: HTMLVideoElement) => {
+      setDuration(Number.isFinite(video.duration) ? video.duration : 0)
+      checkHasAudio()
+    },
+    [checkHasAudio],
+  )
+
   // Respect reduced-motion by not autoplaying. The video still renders with its
   // poster as the resting frame; since it starts paused, the controls stay
   // visible (see below) so it remains playable on demand.
   const prefersReducedMotion = usePrefersReducedMotion()
   const allowAutoPlay = wantsAutoPlay && !prefersReducedMotion
+
+  // The server can't read the motion preference, so it always renders
+  // autoPlay, and on a warm cache the browser can start the clip before
+  // hydration drops the attribute. Pause it once the real preference is known.
+  useEffect(() => {
+    if (!allowAutoPlay) videoRef.current?.pause()
+  }, [allowAutoPlay])
 
   // Drives the progress bar off rAF (not just the sparse `timeupdate` event)
   // so its fill moves smoothly at playback rate instead of visibly stepping.
@@ -139,17 +157,32 @@ export default function PrismicVideo({
     }
   }, [])
 
-  useEffect(
-    () => () => {
+  // The <video> is server-rendered with autoPlay, so on a warm cache the
+  // browser can load metadata and start playing before React hydrates and
+  // attaches onLoadedMetadata/onPlay. Those events are then never seen:
+  // duration stays 0 (empty fill, nothing to seek) and the rAF progress loop
+  // never starts. Catch up from the element's own state on mount.
+  useEffect(() => {
+    const video = videoRef.current
+    if (video) {
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        syncMetadata(video)
+      }
+      if (!video.paused) handlePlay()
+    }
+    return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
-    },
-    [],
-  )
+      // Reset so a StrictMode remount's handlePlay (`??=`) can restart it.
+      rafRef.current = null
+    }
+  }, [syncMetadata, handlePlay])
 
   const togglePlay = useCallback(() => {
     const video = videoRef.current
     if (!video) return
-    if (video.paused) video.play()
+    // play() rejects when the browser blocks or interrupts playback. The UI
+    // follows the element's own play/pause events, so there is nothing to undo.
+    if (video.paused) video.play().catch(() => {})
     else video.pause()
   }, [])
 
@@ -200,10 +233,7 @@ export default function PrismicVideo({
         onClick={togglePlay}
         onPlay={handlePlay}
         onPause={handlePause}
-        onLoadedMetadata={(e) => {
-          setDuration(e.currentTarget.duration)
-          checkHasAudio()
-        }}
+        onLoadedMetadata={(e) => syncMetadata(e.currentTarget)}
         onTimeUpdate={(e) => {
           setCurrent(e.currentTarget.currentTime)
           checkHasAudio()
@@ -248,8 +278,10 @@ export default function PrismicVideo({
         <div className="relative mx-4 h-1 self-stretch">
           {/* Visual track + fill only — kept separate from the interactive
               input below so hiding the native thumb can't break the fill
-              rendering (a native styled thumb turned out unreliable). */}
-          <div className="pointer-events-none h-full w-full overflow-hidden rounded-full bg-dark/30 backdrop-blur-md">
+              rendering (a native styled thumb turned out unreliable). The
+              track shares the buttons' light glass + dark hairline so it
+              reads over both dark and light footage. */}
+          <div className="pointer-events-none h-full w-full overflow-hidden rounded-full border-[0.5px] border-dark bg-light/40 backdrop-blur-md">
             <div
               className="h-full rounded-full bg-dark"
               style={{ width: `${progress}%` }}
