@@ -108,7 +108,6 @@ export default async function RootLayout({
       lang="en"
       className={`${poppins.variable} ${sunset.variable} scroll-p-6 bg-dark font-sans text-light selection:bg-brand/90 selection:text-dark`}
     >
-      <Umami />
       <body>
         <LenisProvider />
 
@@ -132,6 +131,7 @@ export default async function RootLayout({
             </div>
           )}
         </GridWrapper>
+        <Umami />
       </body>
     </html>
   )
