@@ -32,15 +32,24 @@
 
 - `src/prismicio.ts` - Prismic client configuration
 - `src/slices/` - Prismic slice components (CodeBlock, ExternalLinkCallout, FeaturedProject, MediaContent, Notes, PageHeading, ProjectOverview, ProjectShowcase, TextContent)
-- `src/lib/prismic.ts` - Shared Prismic client and `getByUIDOrNotFound`
+- `src/lib/prismic.ts` - Every Prismic read: `getByUIDOrNotFound`, `getSettings`, `getAllByType`
 - `src/lib/metadata.ts` - `buildPageMetadata`, used by every page's `generateMetadata`
-- `src/app/api/revalidate/route.ts` - On-demand ISR revalidation endpoint
+- `src/app/api/revalidate/route.ts` - Prismic webhook endpoint: checks the secret, then clears the cache for the changed documents
 
 ## Development notes
 
 - The Prismic Page Builder previews slices by framing `http://localhost:3000/slice-simulator` while `pnpm dev` is running, so `next.config.js` sends no frame-blocking headers and no CSP
 - Content edits happen in Prismic dashboard, not locally
-- **Stale content in local production builds.** In production mode every Prismic request is cached with `force-cache`, including the repository metadata that holds the master ref, and `next build` keeps those responses in `.next/cache/fetch-cache` between builds. A later local build reuses the cached ref, so it can render content as of the previous build without any message. Once Prismic has retired that ref, `@prismicio/client` logs `The ref (...) was invalid` (or `expired`) and retries with the latest master ref, so the build still succeeds. To build against current content, run `rm -rf .next/cache/fetch-cache` before `pnpm build`.
+
+## Prismic data and caching
+
+The site follows Prismic's Cache Components setup (`cacheComponents: true`, `@prismicio/next` v3).
+
+- **Read Prismic only through `src/lib/prismic.ts`.** Each function there is a `"use cache"` function with `cacheLife("max")` that calls `cacheTagPrismicPages(...)` on what it returns. A new kind of query gets a new function there in the same shape. `generateStaticParams` is the one exception and uses `createClient()` directly, as Prismic's template does.
+- **Previews.** `getPreviewRef()` is read outside the cached function and passed in as an argument. Never read cookies, headers or `searchParams` inside a `"use cache"` function.
+- **Publishing.** The Prismic webhook posts the changed document IDs to `/api/revalidate`, which calls `revalidatePrismicPages(ids)`. Only cache entries tagged with those IDs are cleared.
+- **Build rules.** A prerendered page fails the build if it reads uncached data, request data outside a Suspense boundary, or the current time (this is why the Shiki output in `src/slices/CodeBlock` is cached, and why `slice-simulator` has a `loading.tsx`).
+- **Local dev.** Prismic content stays cached while the dev server runs. Hard-refresh the page to fetch new content.
 
 ## Testing
 
