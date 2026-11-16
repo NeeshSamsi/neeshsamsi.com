@@ -4,10 +4,13 @@ const env = vi.hoisted(() => ({
   PRISMIC_WEBHOOK_SECRET: undefined as string | undefined,
 }))
 const revalidatePrismicPages = vi.hoisted(() => vi.fn())
+const revalidateTag = vi.hoisted(() => vi.fn())
 
 vi.mock("@/lib/env", () => ({ env }))
 vi.mock("@prismicio/next", () => ({ revalidatePrismicPages }))
+vi.mock("next/cache", () => ({ revalidateTag }))
 
+import { PRISMIC_LISTS_TAG } from "@/lib/prismic"
 import { POST } from "./route"
 
 function webhook(body?: unknown) {
@@ -20,6 +23,7 @@ function webhook(body?: unknown) {
 describe("POST /api/revalidate", () => {
   beforeEach(() => {
     revalidatePrismicPages.mockReset()
+    revalidateTag.mockReset()
     env.PRISMIC_WEBHOOK_SECRET = undefined
   })
 
@@ -33,6 +37,14 @@ describe("POST /api/revalidate", () => {
     expect(revalidatePrismicPages).toHaveBeenCalledWith(["doc-1", "doc-2"])
   })
 
+  it("refreshes every list, so a newly published document shows up", async () => {
+    await POST(webhook({ type: "api-update", documents: ["new-doc"] }))
+
+    expect(revalidateTag).toHaveBeenCalledWith(PRISMIC_LISTS_TAG, {
+      expire: 0,
+    })
+  })
+
   it.each([
     ["another webhook type", { type: "test-trigger", documents: ["doc-1"] }],
     ["an update without a document list", { type: "api-update" }],
@@ -42,6 +54,7 @@ describe("POST /api/revalidate", () => {
 
     expect(res.status).toBe(200)
     expect(revalidatePrismicPages).not.toHaveBeenCalled()
+    expect(revalidateTag).not.toHaveBeenCalled()
   })
 
   describe("with a secret configured", () => {
@@ -75,6 +88,7 @@ describe("POST /api/revalidate", () => {
       expect(res.status).toBe(401)
       expect(await res.json()).toEqual({ revalidated: false })
       expect(revalidatePrismicPages).not.toHaveBeenCalled()
+      expect(revalidateTag).not.toHaveBeenCalled()
     })
   })
 })

@@ -47,7 +47,7 @@ The site follows Prismic's Cache Components setup (`cacheComponents: true`, `@pr
 
 - **Read Prismic only through `src/lib/prismic.ts`.** Each function there is a `"use cache"` function with `cacheLife("max")` that calls `cacheTagPrismicPages(...)` on what it returns. A new kind of query gets a new function there in the same shape. `generateStaticParams` is the one exception and uses `createClient()` directly, as Prismic's template does.
 - **Previews.** `getPreviewRef()` is read outside the cached function and passed in as an argument. Never read cookies, headers or `searchParams` inside a `"use cache"` function.
-- **Publishing.** The Prismic webhook posts the changed document IDs to `/api/revalidate`, which calls `revalidatePrismicPages(ids)`. Only cache entries tagged with those IDs are cleared.
+- **Publishing.** The Prismic webhook posts the changed document IDs to `/api/revalidate`, which calls `revalidatePrismicPages(ids)` to clear the cache entries tagged with those IDs. It also clears `PRISMIC_LISTS_TAG`, which every list query in `src/lib/prismic.ts` carries: a newly published document has an ID no list was tagged with, so without it the lists, the home page and the sitemap would not show it until a deploy.
 - **Build rules.** A prerendered page fails the build if it reads uncached data, request data outside a Suspense boundary, or the current time (this is why the Shiki output in `src/slices/CodeBlock` is cached, and why `slice-simulator` has a `loading.tsx`).
 - **Local dev.** Prismic content stays cached while the dev server runs. Hard-refresh the page to fetch new content.
 

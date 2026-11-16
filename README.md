@@ -43,7 +43,7 @@ Content lives in the Prismic repository `neeshsamsi` and is edited in the Prismi
 - **Models.** Custom types are in `customtypes/` and slices in `src/slices/`. Change them locally, regenerate types with `pnpm prismic:types`, read `pnpm prismic:status`, then `pnpm prismic:push`. The Prismic CLI needs `prismic login` first.
 - **Slice previews.** The Prismic Page Builder loads `/slice-simulator` in a frame to preview slices.
 - **Bulk edits.** Scripted changes go through Prismic's Migration API. They land in the Migration release in the dashboard, where they are reviewed and published by hand.
-- **Publishing.** A Prismic webhook posts to `/api/revalidate` with a shared secret (`PRISMIC_WEBHOOK_SECRET`) and the IDs of the changed documents. The route clears the cache entries tagged with those IDs, so only the pages that use them are rebuilt.
+- **Publishing.** A Prismic webhook posts to `/api/revalidate` with a shared secret (`PRISMIC_WEBHOOK_SECRET`) and the IDs of the changed documents. The route clears the cache entries tagged with those IDs, so the pages that use them are rebuilt, and also rebuilds every list (the home page, `/work`, `/play`, `/notes` and the sitemap) so newly published documents appear in them.
 - **Caching.** The site uses Next.js Cache Components with `@prismicio/next` v3. Every Prismic read is a cached function in `src/lib/prismic.ts`.
 - **Previews.** `/api/preview` and `/api/exit-preview` handle Prismic draft previews, and `<PrismicPreview>` in the root layout loads the Prismic toolbar.
 

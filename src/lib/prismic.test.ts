@@ -5,6 +5,7 @@ const getByUID = vi.hoisted(() => vi.fn())
 const getSingle = vi.hoisted(() => vi.fn())
 const getAllByTypeMock = vi.hoisted(() => vi.fn())
 const cacheLife = vi.hoisted(() => vi.fn())
+const cacheTag = vi.hoisted(() => vi.fn())
 const cacheTagPrismicPages = vi.hoisted(() => vi.fn())
 const getPreviewRef = vi.hoisted(() => vi.fn())
 
@@ -16,7 +17,7 @@ vi.mock("@/prismicio", () => ({
   }),
 }))
 // "use cache" is a no-op outside Next, so the cached functions run directly.
-vi.mock("next/cache", () => ({ cacheLife }))
+vi.mock("next/cache", () => ({ cacheLife, cacheTag }))
 vi.mock("@prismicio/next", () => ({ cacheTagPrismicPages, getPreviewRef }))
 // The real notFound() throws a control-flow error Next catches; a sentinel
 // stands in for it here.
@@ -26,7 +27,12 @@ vi.mock("next/navigation", () => ({
   },
 }))
 
-import { getAllByType, getByUIDOrNotFound, getSettings } from "./prismic"
+import {
+  PRISMIC_LISTS_TAG,
+  getAllByType,
+  getByUIDOrNotFound,
+  getSettings,
+} from "./prismic"
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -105,5 +111,15 @@ describe("getAllByType", () => {
     })
     expect(cacheLife).toHaveBeenCalledWith("max")
     expect(cacheTagPrismicPages).toHaveBeenCalledWith(notes)
+  })
+
+  // A newly published document has an ID no list was tagged with, so every
+  // list also carries one shared tag that the webhook clears on each publish.
+  it("tags every list with the shared list tag", async () => {
+    getAllByTypeMock.mockResolvedValue([])
+
+    await getAllByType("project")
+
+    expect(cacheTag).toHaveBeenCalledWith(PRISMIC_LISTS_TAG)
   })
 })

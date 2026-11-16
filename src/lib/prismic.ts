@@ -1,4 +1,4 @@
-import { cacheLife } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
 import { notFound } from "next/navigation"
 import { NotFoundError, type Content } from "@prismicio/client"
 import { cacheTagPrismicPages, getPreviewRef } from "@prismicio/next"
@@ -10,6 +10,13 @@ import { createClient } from "@/prismicio"
 // clears it, tagged with the IDs of the documents it returned (and the
 // documents those link to). The preview ref is read outside the cache and
 // passed in, so draft content is cached apart from published content.
+
+/**
+ * Shared tag on every list query. Per-document tags only reach lists that
+ * already hold a changed document, so a newly published document would never
+ * appear in them; the webhook clears this tag on every publish.
+ */
+export const PRISMIC_LISTS_TAG = "prismic-lists"
 
 type UIDDocumentType = Exclude<Content.AllDocumentTypes["type"], "settings">
 type ListParams = Parameters<ReturnType<typeof createClient>["getAllByType"]>[1]
@@ -52,6 +59,7 @@ async function fetchAllByType<TType extends UIDDocumentType>(
   cacheLife("max")
   const pages = await createClient().getAllByType(type, { ...params, ref })
   cacheTagPrismicPages(pages)
+  cacheTag(PRISMIC_LISTS_TAG)
   return pages
 }
 

@@ -1,9 +1,11 @@
 import { timingSafeEqual } from "node:crypto"
 
 import { NextResponse } from "next/server"
+import { revalidateTag } from "next/cache"
 import { revalidatePrismicPages } from "@prismicio/next"
 
 import { env } from "@/lib/env"
+import { PRISMIC_LISTS_TAG } from "@/lib/prismic"
 
 function secretsMatch(received: unknown, expected: string) {
   if (typeof received !== "string") return false
@@ -30,8 +32,12 @@ export async function POST(request: Request) {
     }
   }
 
-  // Clears the cache entries tagged with each changed document's ID.
-  if (isAPIUpdate(body)) revalidatePrismicPages(body.documents)
+  // Clears the cache entries tagged with each changed document's ID, plus every
+  // list, so a newly published document also shows up in them.
+  if (isAPIUpdate(body)) {
+    revalidatePrismicPages(body.documents)
+    revalidateTag(PRISMIC_LISTS_TAG, { expire: 0 })
+  }
 
   return NextResponse.json({ revalidated: true, now: Date.now() })
 }
