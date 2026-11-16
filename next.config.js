@@ -4,6 +4,23 @@ module.exports = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  headers: async () => [
+    {
+      // Sent with every response. There is deliberately no Content-Security-Policy
+      // and no frame-blocking header (X-Frame-Options or frame-ancestors): the
+      // Prismic Page Builder loads /slice-simulator in a frame, and previews
+      // have to keep working. Add those only with allowances for Prismic.
+      source: "/:path*",
+      headers: [
+        { key: "X-Content-Type-Options", value: "nosniff" },
+        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        {
+          key: "Permissions-Policy",
+          value: "camera=(), microphone=(), geolocation=()",
+        },
+      ],
+    },
+  ],
   rewrites: async () => [
     // Umami scripts are proxied through /u/ with neutral filenames so ad
     // blockers don't match Umami's well-known names (script.js, recorder.js).
