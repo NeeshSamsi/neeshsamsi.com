@@ -9,7 +9,6 @@ import Notes from "./Notes";
 import PageHeading from "./PageHeading";
 import ProjectOverview from "./ProjectOverview";
 import ProjectShowcase from "./ProjectShowcase";
-import RichText from "./RichText";
 import TextContent from "./TextContent";
 
 export const components = {
@@ -22,6 +21,5 @@ export const components = {
 	page_heading: PageHeading,
 	project_overview: ProjectOverview,
 	project_showcase: ProjectShowcase,
-	rich_text: RichText,
 	text_content: TextContent
 };

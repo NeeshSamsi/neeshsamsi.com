@@ -199,7 +199,7 @@ interface PageDocumentData {
  */
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-type ProjectDocumentDataSlicesSlice = ExternalLinkCalloutSlice | MediaContentSlice | ProjectOverviewSlice | TextContentSlice | ImageContentSlice | RichTextSlice
+type ProjectDocumentDataSlicesSlice = ExternalLinkCalloutSlice | MediaContentSlice | ProjectOverviewSlice | TextContentSlice | ImageContentSlice
 
 /**
  * Content for Project documents
@@ -1220,44 +1220,6 @@ type ProjectShowcaseSliceVariation = ProjectShowcaseSliceDefault
 export type ProjectShowcaseSlice = prismic.SharedSlice<"project_showcase", ProjectShowcaseSliceVariation>;
 
 /**
- * Primary content in *RichText → Default → Primary*
- */
-export interface RichTextSliceDefaultPrimary {
-	/**
-	 * Content field in *RichText → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: rich_text.default.primary.content
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	content: prismic.RichTextField;
-}
-
-/**
- * Default variation for RichText Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type RichTextSliceDefault = prismic.SharedSliceVariation<"default", Simplify<RichTextSliceDefaultPrimary>, never>;
-
-/**
- * Slice variation for *RichText*
- */
-type RichTextSliceVariation = RichTextSliceDefault
-
-/**
- * RichText Shared Slice
- *
- * - **API ID**: `rich_text`
- * - **Description**: RichText
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type RichTextSlice = prismic.SharedSlice<"rich_text", RichTextSliceVariation>;
-
-/**
  * Primary content in *TextContent → Default → Primary*
  */
 export interface TextContentSliceDefaultPrimary {
@@ -1375,10 +1337,6 @@ declare module "@prismicio/client" {
 			ProjectShowcaseSliceDefaultPrimary,
 			ProjectShowcaseSliceVariation,
 			ProjectShowcaseSliceDefault,
-			RichTextSlice,
-			RichTextSliceDefaultPrimary,
-			RichTextSliceVariation,
-			RichTextSliceDefault,
 			TextContentSlice,
 			TextContentSliceDefaultPrimary,
 			TextContentSliceVariation,
