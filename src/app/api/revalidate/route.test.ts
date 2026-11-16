@@ -5,10 +5,11 @@ const env = vi.hoisted(() => ({
 }))
 const revalidatePrismicPages = vi.hoisted(() => vi.fn())
 const revalidateTag = vi.hoisted(() => vi.fn())
+const revalidatePath = vi.hoisted(() => vi.fn())
 
 vi.mock("@/lib/env", () => ({ env }))
 vi.mock("@prismicio/next", () => ({ revalidatePrismicPages }))
-vi.mock("next/cache", () => ({ revalidateTag }))
+vi.mock("next/cache", () => ({ revalidateTag, revalidatePath }))
 
 import { PRISMIC_LISTS_TAG } from "@/lib/prismic"
 import { POST } from "./route"
@@ -24,6 +25,7 @@ describe("POST /api/revalidate", () => {
   beforeEach(() => {
     revalidatePrismicPages.mockReset()
     revalidateTag.mockReset()
+    revalidatePath.mockReset()
     env.PRISMIC_WEBHOOK_SECRET = undefined
   })
 
@@ -45,6 +47,14 @@ describe("POST /api/revalidate", () => {
     })
   })
 
+  // On Vercel the prerendered sitemap ignores cache tags, so it is refreshed
+  // by path.
+  it("refreshes the sitemap", async () => {
+    await POST(webhook({ type: "api-update", documents: ["new-doc"] }))
+
+    expect(revalidatePath).toHaveBeenCalledWith("/sitemap.xml")
+  })
+
   it.each([
     ["another webhook type", { type: "test-trigger", documents: ["doc-1"] }],
     ["an update without a document list", { type: "api-update" }],
@@ -55,6 +65,7 @@ describe("POST /api/revalidate", () => {
     expect(res.status).toBe(200)
     expect(revalidatePrismicPages).not.toHaveBeenCalled()
     expect(revalidateTag).not.toHaveBeenCalled()
+    expect(revalidatePath).not.toHaveBeenCalled()
   })
 
   describe("with a secret configured", () => {
@@ -89,6 +100,7 @@ describe("POST /api/revalidate", () => {
       expect(await res.json()).toEqual({ revalidated: false })
       expect(revalidatePrismicPages).not.toHaveBeenCalled()
       expect(revalidateTag).not.toHaveBeenCalled()
+      expect(revalidatePath).not.toHaveBeenCalled()
     })
   })
 })
