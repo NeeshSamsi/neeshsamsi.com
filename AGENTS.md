@@ -2,13 +2,13 @@
 
 ## Commands
 
-- `pnpm dev` - Runs Next.js + Slice Machine concurrently (both required for CMS development)
+- `pnpm dev` - Next.js dev server (Turbopack) on port 3000
 - `pnpm build` - Production build
 - `pnpm lint` - ESLint check
 - `pnpm typecheck` - `tsc --noEmit`
 - `pnpm test` - Vitest unit and component tests (`pnpm test:watch` to watch)
 - `pnpm test:e2e` - Playwright browser tests against the dev server already running on port 3000
-- `pnpm slicemachine` - Run Slice Machine only
+- `pnpm prismic:status` / `prismic:pull` / `prismic:push` / `prismic:sync` / `prismic:types` - Prismic CLI: compare, download, upload or watch models, and regenerate `prismicio-types.d.ts`
 
 ## Architecture
 
@@ -31,15 +31,16 @@
 ## Key files
 
 - `src/prismicio.ts` - Prismic client configuration
-- `src/slices/` - Prismic slice components (CodeBlock, ExternalLinkCallout, FeaturedProject, MediaContent, Notes, PageHeading, ProjectOverview, ProjectShowcase, TextContent; ImageContent and RichText are deprecated in favour of MediaContent and TextContent)
+- `src/slices/` - Prismic slice components (CodeBlock, ExternalLinkCallout, FeaturedProject, MediaContent, Notes, PageHeading, ProjectOverview, ProjectShowcase, TextContent; ImageContent is deprecated in favour of MediaContent)
 - `src/lib/prismic.ts` - Shared Prismic client and `getByUIDOrNotFound`
 - `src/lib/metadata.ts` - `buildPageMetadata`, used by every page's `generateMetadata`
 - `src/app/api/revalidate/route.ts` - On-demand ISR revalidation endpoint
 
 ## Development notes
 
-- Slice Machine runs at `http://localhost:3000/slice-simulator` when `pnpm dev` is running
+- The Prismic Page Builder previews slices by framing `http://localhost:3000/slice-simulator` while `pnpm dev` is running, so `next.config.js` sends no frame-blocking headers and no CSP
 - Content edits happen in Prismic dashboard, not locally
+- **Stale content in local production builds.** In production mode every Prismic request is cached with `force-cache`, including the repository metadata that holds the master ref, and `next build` keeps those responses in `.next/cache/fetch-cache` between builds. A later local build reuses the cached ref, so it can render content as of the previous build without any message. Once Prismic has retired that ref, `@prismicio/client` logs `The ref (...) was invalid` (or `expired`) and retries with the latest master ref, so the build still succeeds. To build against current content, run `rm -rf .next/cache/fetch-cache` before `pnpm build`.
 
 ## Testing
 
