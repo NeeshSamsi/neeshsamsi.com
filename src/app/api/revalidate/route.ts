@@ -1,7 +1,7 @@
 import { timingSafeEqual } from "node:crypto"
 
 import { NextResponse } from "next/server"
-import { revalidateTag } from "next/cache"
+import { revalidatePrismicPages } from "@prismicio/next"
 
 import { env } from "@/lib/env"
 
@@ -14,12 +14,12 @@ function secretsMatch(received: unknown, expected: string) {
 
 export async function POST(request: Request) {
   const expected = env.PRISMIC_WEBHOOK_SECRET
+  const body: unknown = await request.json().catch(() => null)
 
   // Prismic sends the webhook's configured secret in the JSON body. Once a
   // secret is set here, anything without it is refused, so the cache can't be
   // purged on demand by an arbitrary caller.
   if (expected) {
-    const body: unknown = await request.json().catch(() => null)
     const received =
       typeof body === "object" && body !== null && "secret" in body
         ? body.secret
@@ -30,7 +30,21 @@ export async function POST(request: Request) {
     }
   }
 
-  revalidateTag("prismic", { expire: 0 })
+  // Clears the cache entries tagged with each changed document's ID.
+  if (isAPIUpdate(body)) revalidatePrismicPages(body.documents)
 
   return NextResponse.json({ revalidated: true, now: Date.now() })
+}
+
+function isAPIUpdate(
+  body: unknown,
+): body is { type: "api-update"; documents: string[] } {
+  return (
+    typeof body === "object" &&
+    body !== null &&
+    "type" in body &&
+    body.type === "api-update" &&
+    "documents" in body &&
+    Array.isArray(body.documents)
+  )
 }

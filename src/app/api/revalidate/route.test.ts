@@ -3,10 +3,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 const env = vi.hoisted(() => ({
   PRISMIC_WEBHOOK_SECRET: undefined as string | undefined,
 }))
-const revalidateTag = vi.hoisted(() => vi.fn())
+const revalidatePrismicPages = vi.hoisted(() => vi.fn())
 
 vi.mock("@/lib/env", () => ({ env }))
-vi.mock("next/cache", () => ({ revalidateTag }))
+vi.mock("@prismicio/next", () => ({ revalidatePrismicPages }))
 
 import { POST } from "./route"
 
@@ -19,16 +19,29 @@ function webhook(body?: unknown) {
 
 describe("POST /api/revalidate", () => {
   beforeEach(() => {
-    revalidateTag.mockReset()
+    revalidatePrismicPages.mockReset()
     env.PRISMIC_WEBHOOK_SECRET = undefined
   })
 
-  it("revalidates Prismic content when no secret is configured", async () => {
-    const res = await POST(webhook({ type: "api-update" }))
+  it("revalidates the changed documents when no secret is configured", async () => {
+    const res = await POST(
+      webhook({ type: "api-update", documents: ["doc-1", "doc-2"] }),
+    )
 
     expect(res.status).toBe(200)
     expect(await res.json()).toMatchObject({ revalidated: true })
-    expect(revalidateTag).toHaveBeenCalledWith("prismic", { expire: 0 })
+    expect(revalidatePrismicPages).toHaveBeenCalledWith(["doc-1", "doc-2"])
+  })
+
+  it.each([
+    ["another webhook type", { type: "test-trigger", documents: ["doc-1"] }],
+    ["an update without a document list", { type: "api-update" }],
+    ["a body that is not JSON", "not json"],
+  ])("clears nothing for %s", async (_label, body) => {
+    const res = await POST(webhook(body))
+
+    expect(res.status).toBe(200)
+    expect(revalidatePrismicPages).not.toHaveBeenCalled()
   })
 
   describe("with a secret configured", () => {
@@ -38,15 +51,19 @@ describe("POST /api/revalidate", () => {
 
     it("accepts a webhook carrying the secret", async () => {
       const res = await POST(
-        webhook({ type: "api-update", secret: "s3cret-value" }),
+        webhook({
+          type: "api-update",
+          secret: "s3cret-value",
+          documents: ["doc-1"],
+        }),
       )
 
       expect(res.status).toBe(200)
-      expect(revalidateTag).toHaveBeenCalledTimes(1)
+      expect(revalidatePrismicPages).toHaveBeenCalledWith(["doc-1"])
     })
 
     it.each([
-      ["no secret", { type: "api-update" }],
+      ["no secret", { type: "api-update", documents: ["doc-1"] }],
       ["the wrong secret", { secret: "s3cret-valuX" }],
       ["a secret of another length", { secret: "s3cret" }],
       ["a non-string secret", { secret: 12345 }],
@@ -57,7 +74,7 @@ describe("POST /api/revalidate", () => {
 
       expect(res.status).toBe(401)
       expect(await res.json()).toEqual({ revalidated: false })
-      expect(revalidateTag).not.toHaveBeenCalled()
+      expect(revalidatePrismicPages).not.toHaveBeenCalled()
     })
   })
 })
