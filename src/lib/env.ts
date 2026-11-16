@@ -17,6 +17,9 @@ export const env = createEnv({
       .string()
       .url()
       .startsWith("https://discord.com/api/webhooks/"),
+    // Shared secret for the Prismic webhook that calls /api/revalidate.
+    // Optional: when unset the endpoint accepts any POST, as it always has.
+    PRISMIC_WEBHOOK_SECRET: z.string().min(1).optional(),
   },
   experimental__runtimeEnv: process.env,
 })
