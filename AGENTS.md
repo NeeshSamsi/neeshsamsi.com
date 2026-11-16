@@ -5,11 +5,14 @@
 - `pnpm dev` - Runs Next.js + Slice Machine concurrently (both required for CMS development)
 - `pnpm build` - Production build
 - `pnpm lint` - ESLint check
+- `pnpm typecheck` - `tsc --noEmit`
+- `pnpm test` - Vitest unit and component tests (`pnpm test:watch` to watch)
+- `pnpm test:e2e` - Playwright browser tests against the dev server already running on port 3000
 - `pnpm slicemachine` - Run Slice Machine only
 
 ## Architecture
 
-- **Framework**: Next.js 15 (App Router) with Prismic CMS
+- **Framework**: Next.js 16 (App Router) with Prismic CMS
 - **Styling**: Tailwind CSS + @tailwindcss/typography
 - **Package manager**: pnpm (not npm/yarn)
 
@@ -19,7 +22,7 @@
 - **Do NOT add styles to `globals.css`** or create new CSS files unless the user explicitly requests it.
 - **Do NOT use `@apply`** unless the user explicitly requests it.
 - If you believe a global style or `@apply` is genuinely necessary, **ask for permission first** and explain why — do not add it silently.
-- Existing classes in `globals.css` (e.g. `.wrapper`, `.underline-animation`, `.inline-code`) are intentional and should not be removed or refactored without permission.
+- Existing classes in `globals.css` (`.custom-cols`, `.inline-code`) are intentional and should not be removed or refactored without permission.
 
 ## TypeScript rules
 
@@ -28,15 +31,23 @@
 ## Key files
 
 - `src/prismicio.ts` - Prismic client configuration
-- `src/slices/` - Prismic slice components (About, Hero, Notes, Play, Reviews, RichText, Work, CodeBlock, PageHeading)
-- `src/lib/prismic.ts` - Prismic helper utilities
+- `src/slices/` - Prismic slice components (CodeBlock, ExternalLinkCallout, FeaturedProject, MediaContent, Notes, PageHeading, ProjectOverview, ProjectShowcase, TextContent; ImageContent and RichText are deprecated in favour of MediaContent and TextContent)
+- `src/lib/prismic.ts` - Shared Prismic client and `getByUIDOrNotFound`
+- `src/lib/metadata.ts` - `buildPageMetadata`, used by every page's `generateMetadata`
 - `src/app/api/revalidate/route.ts` - On-demand ISR revalidation endpoint
 
 ## Development notes
 
 - Slice Machine runs at `http://localhost:3000/slice-simulator` when `pnpm dev` is running
 - Content edits happen in Prismic dashboard, not locally
-- No test suite exists in this project
+
+## Testing
+
+- **Vitest** (`pnpm test`): tests sit next to the code as `*.test.ts(x)` under `src/`. Node environment by default; a component test opts into jsdom with `// @vitest-environment jsdom` on its first line. Prismic, `next/*` and the network are mocked.
+- **Playwright** (`pnpm test:e2e`): specs live in `e2e/`. They reuse the running dev server and never start one, so the server must be up first (`E2E_BASE_URL` overrides `http://localhost:3000`). They run in the installed Google Chrome (`channel: "chrome"`) because Playwright's bundled Chromium cannot decode the H.264 clips; do not download Playwright browsers.
+- Navigate in specs with `load(page, path)` from `e2e/fixtures.ts`. The Turbopack dev server sometimes serves a framework chunk empty, which leaves the page unhydrated; `load` reloads when that happens.
+- The contact form posts to a real Discord webhook. E2E tests must never submit it (`e2e/contact.spec.ts` blocks every non-GET request); cover submission in Vitest with `fetch` mocked.
+- E2E tests read published Prismic content. Assert structure and behaviour and avoid asserting CMS copy.
 
 ## Video optimization for Prismic
 
