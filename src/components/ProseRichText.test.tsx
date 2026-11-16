@@ -1,0 +1,83 @@
+// @vitest-environment jsdom
+import { cleanup, render, screen } from "@testing-library/react"
+import type { RichTextField } from "@prismicio/client"
+import { afterEach, describe, expect, it } from "vitest"
+
+import ProseRichText from "./ProseRichText"
+
+afterEach(cleanup)
+
+const text = "Read the case study, the brief and the studio site."
+
+// One paragraph with a document link, a file link and a web link.
+const field = [
+  {
+    type: "paragraph",
+    text,
+    direction: "ltr",
+    spans: [
+      {
+        type: "hyperlink",
+        start: text.indexOf("case study"),
+        end: text.indexOf("case study") + "case study".length,
+        data: {
+          link_type: "Document",
+          id: "abc",
+          uid: "best",
+          type: "project",
+          lang: "en-gb",
+          tags: [],
+          slug: "best",
+          isBroken: false,
+          url: "/projects/best",
+        },
+      },
+      {
+        type: "hyperlink",
+        start: text.indexOf("brief"),
+        end: text.indexOf("brief") + "brief".length,
+        data: {
+          link_type: "Media",
+          id: "file",
+          kind: "document",
+          name: "brief.pdf",
+          size: "1",
+          url: "https://neeshsamsi.cdn.prismic.io/neeshsamsi/brief.pdf",
+        },
+      },
+      {
+        type: "hyperlink",
+        start: text.indexOf("studio site"),
+        end: text.indexOf("studio site") + "studio site".length,
+        data: { link_type: "Web", url: "https://www.yummycolours.com" },
+      },
+    ],
+  },
+] as unknown as RichTextField
+
+describe("ProseRichText links", () => {
+  it("opens links to other sites in a new tab without leaking the opener", () => {
+    render(<ProseRichText field={field} />)
+    const link = screen.getByRole("link", { name: "studio site" })
+
+    expect(link.getAttribute("href")).toBe("https://www.yummycolours.com")
+    expect(link.getAttribute("target")).toBe("_blank")
+    expect(link.getAttribute("rel")).toBe("noopener noreferrer")
+  })
+
+  it("opens linked files in a new tab", () => {
+    render(<ProseRichText field={field} />)
+    const link = screen.getByRole("link", { name: "brief" })
+
+    expect(link.getAttribute("target")).toBe("_blank")
+    expect(link.getAttribute("rel")).toBe("noopener noreferrer")
+  })
+
+  it("keeps links to pages on this site in the same tab", () => {
+    render(<ProseRichText field={field} />)
+    const link = screen.getByRole("link", { name: "case study" })
+
+    expect(link.getAttribute("href")).toBe("/projects/best")
+    expect(link.hasAttribute("target")).toBe(false)
+  })
+})

@@ -1,7 +1,27 @@
 import { type JSX } from "react"
 import { type RichTextField } from "@prismicio/client"
-import { PrismicRichText } from "@prismicio/react"
+import { type JSXMapSerializer, PrismicRichText } from "@prismicio/react"
+import { PrismicNextLink } from "@prismicio/next"
 import clsx from "clsx"
+
+// Links to other sites and to files open in a new tab, whatever the editor's
+// "open in new tab" setting, so a reader never loses their place in a case
+// study. Links to documents on this site stay in the tab and navigate
+// client-side through next/link.
+const components: JSXMapSerializer = {
+  hyperlink: ({ node, children }) =>
+    node.data.link_type === "Document" ? (
+      <PrismicNextLink field={node.data}>{children}</PrismicNextLink>
+    ) : (
+      <PrismicNextLink
+        field={node.data}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </PrismicNextLink>
+    ),
+}
 
 /**
  * Shared rich text content block used across slices (e.g. TextContent,
@@ -27,7 +47,7 @@ export default function ProseRichText({
         className,
       )}
     >
-      <PrismicRichText field={field} />
+      <PrismicRichText field={field} components={components} />
     </div>
   )
 }
