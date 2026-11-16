@@ -1,19 +1,18 @@
-import { Metadata } from "next"
-import { notFound } from "next/navigation"
+import type { Metadata, ResolvingMetadata } from "next"
 import { SliceZone } from "@prismicio/react"
 
-import { createClient } from "@/prismicio"
 import { components } from "@/slices"
 import Article from "@/components/Article"
 import { asText } from "@prismicio/client"
+import { buildPageMetadata } from "@/lib/metadata"
+import { client, getByUIDOrNotFound } from "@/lib/prismic"
 import { formatDate } from "@/lib/utils"
 
 type Params = Promise<{ uid: string }>
 
 export default async function Page(props: { params: Params }) {
   const { uid } = await props.params
-  const client = createClient()
-  const page = await client.getByUID("notes", uid).catch(() => notFound())
+  const page = await getByUIDOrNotFound("notes", uid)
 
   const {
     last_publication_date: pubDate,
@@ -24,7 +23,7 @@ export default async function Page(props: { params: Params }) {
     <div className="col-span-full grid grid-cols-subgrid">
       <div className="col-span-full">
         <div className="mx-auto mt-8 max-w-[65ch] space-y-3 text-center md:mt-12 md:space-y-6">
-          <h1 className="text-balance font-serif text-3xl font-medium text-brand md:text-4xl xl:text-5xl">
+          <h1 className="font-serif text-3xl font-medium text-balance text-brand md:text-4xl xl:text-5xl">
             {asText(title)}
           </h1>
           <div className="flex flex-col-reverse items-center justify-center gap-2 text-base font-light text-light sm:flex-row sm:text-lg md:text-xl xl:text-2xl">
@@ -42,24 +41,27 @@ export default async function Page(props: { params: Params }) {
   )
 }
 
-export async function generateMetadata(props: {
-  params: Params
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: { params: Params },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const { uid } = await props.params
-  const client = createClient()
-  const page = await client.getByUID("notes", uid).catch(() => notFound())
+  const page = await getByUIDOrNotFound("notes", uid)
 
-  return {
-    title: page.data.meta_title,
-    description: page.data.meta_description,
-    openGraph: {
-      images: [page.data.meta_image.url!],
+  return buildPageMetadata(
+    {
+      path: `/notes/${uid}`,
+      // The SEO tab is optional; fall back to the note's own title and blurb.
+      title: page.data.meta_title || asText(page.data.title),
+      description: page.data.meta_description || page.data.description,
+      image: page.data.meta_image.url,
+      type: "article",
     },
-  }
+    parent,
+  )
 }
 
 export async function generateStaticParams() {
-  const client = createClient()
   const pages = await client.getAllByType("notes")
 
   return pages.map((page) => {

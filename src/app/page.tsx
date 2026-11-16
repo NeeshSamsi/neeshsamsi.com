@@ -1,14 +1,13 @@
-import { Metadata } from "next"
-import { notFound } from "next/navigation"
+import type { Metadata, ResolvingMetadata } from "next"
 import { SliceZone } from "@prismicio/react"
 
-import { createClient } from "@/prismicio"
 import { components } from "@/slices"
 import HomeIntro from "@/components/HomeIntro"
+import { buildPageMetadata } from "@/lib/metadata"
+import { getByUIDOrNotFound } from "@/lib/prismic"
 
 export default async function Page() {
-  const client = createClient()
-  const page = await client.getByUID("page", "home").catch(() => notFound())
+  const page = await getByUIDOrNotFound("page", "home")
 
   return (
     <>
@@ -18,15 +17,19 @@ export default async function Page() {
   )
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const client = createClient()
-  const page = await client.getByUID("page", "home").catch(() => notFound())
+export async function generateMetadata(
+  _props: unknown,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const page = await getByUIDOrNotFound("page", "home")
 
-  return {
-    title: page.data.meta_title,
-    description: page.data.meta_description,
-    openGraph: {
-      images: [page.data.meta_image.url!],
+  return buildPageMetadata(
+    {
+      path: "/",
+      title: page.data.meta_title,
+      description: page.data.meta_description,
+      image: page.data.meta_image.url,
     },
-  }
+    parent,
+  )
 }

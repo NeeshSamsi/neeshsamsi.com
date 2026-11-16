@@ -12,6 +12,15 @@ import ProjectShowcaseHeading from "@/components/ProjectShowcaseHeading"
 export type ProjectShowcaseProps =
   SliceComponentProps<Content.ProjectShowcaseSlice>
 
+/** "Exploration & Play" -> "exploration-and-play" */
+function sectionId(category: string) {
+  return category
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+}
+
 /**
  * Component for "ProjectShowcase" Slices.
  */
@@ -45,7 +54,7 @@ const ProjectShowcase = async ({
 
   // Map to the ProjectGrid format
   const gridItems: ProjectGridItemType[] = documents.map((doc) => {
-    const { title, subtitle, image, hoverImage, type } = doc.data
+    const { title, subtitle, image, hoverImage } = doc.data
 
     return {
       id: doc.id,
@@ -63,7 +72,8 @@ const ProjectShowcase = async ({
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      id="project-showcase"
+      // One id per category: the home page renders a showcase for each.
+      id={sectionId(selectedCategory)}
       className="col-span-full my-8 grid grid-cols-subgrid sm:my-12"
     >
       <div className="col-span-full">

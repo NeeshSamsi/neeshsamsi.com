@@ -93,9 +93,6 @@ export async function generateMetadata() {
       creator: twitter,
       card: "summary",
     },
-    alternates: {
-      canonical: "/",
-    },
   } satisfies Metadata
 }
 
