@@ -6,7 +6,8 @@ import { components } from "@/slices"
 import { PrismicNextImage } from "@prismicio/next"
 import PingDot from "@/components/PingDot"
 import { buildPageMetadata } from "@/lib/metadata"
-import { client, getByUIDOrNotFound } from "@/lib/prismic"
+import { getByUIDOrNotFound } from "@/lib/prismic"
+import { createClient } from "@/prismicio"
 import { formatDate } from "@/lib/utils"
 
 type Params = { uid: string }
@@ -88,6 +89,7 @@ function truncate(text: string, max: number) {
 }
 
 export async function generateStaticParams() {
+  const client = createClient()
   const pages = await client.getAllByType("project")
 
   return pages.map((page) => ({ uid: page.uid }))

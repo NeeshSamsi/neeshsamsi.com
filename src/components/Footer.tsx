@@ -1,4 +1,4 @@
-import { client } from "@/lib/prismic"
+import { getSettings } from "@/lib/prismic"
 import NavLink from "@/components/NavLink"
 import GridWrapper from "@/components/GridWrapper"
 import FooterReveal from "@/components/FooterReveal"
@@ -16,7 +16,7 @@ interface FooterLinkGroupProps {
 }
 
 export default async function Footer() {
-  const { data } = await client.getSingle("settings")
+  const { data } = await getSettings()
   const socialLinks = getSocialLinks(data)
 
   return (

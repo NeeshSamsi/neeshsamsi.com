@@ -13,7 +13,9 @@ import GridWrapper from "@/components/GridWrapper"
 import ContactWidget from "@/components/ContactWidget"
 import LenisProvider from "@/components/LenisProvider"
 import Umami from "@/components/Umami"
-import { client } from "@/lib/prismic"
+import { PrismicPreview } from "@prismicio/next"
+import { getSettings } from "@/lib/prismic"
+import { repositoryName } from "@/prismicio"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -45,7 +47,7 @@ const sunset = localFont({
 export async function generateViewport() {
   const {
     data: { themeColor },
-  } = await client.getSingle("settings")
+  } = await getSettings()
   if (!themeColor) {
     throw new Error("Invalid Site Settings")
   }
@@ -58,7 +60,7 @@ export async function generateViewport() {
 export async function generateMetadata() {
   const {
     data: { title, description, ogImage, siteName, twitter, themeColor },
-  } = await client.getSingle("settings")
+  } = await getSettings()
 
   if (
     !title ||
@@ -101,7 +103,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const settings = await client.getSingle("settings")
+  const settings = await getSettings()
 
   return (
     <html
@@ -133,6 +135,7 @@ export default async function RootLayout({
         </GridWrapper>
         <Umami />
       </body>
+      <PrismicPreview repositoryName={repositoryName} />
     </html>
   )
 }

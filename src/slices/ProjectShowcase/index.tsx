@@ -2,7 +2,7 @@ import { type JSX } from "react"
 import { type SliceComponentProps } from "@prismicio/react"
 import { type Content, asText } from "@prismicio/client"
 import * as prismic from "@prismicio/client"
-import { client } from "@/lib/prismic"
+import { getAllByType } from "@/lib/prismic"
 
 import Button from "@/components/Button"
 import RevealButton from "@/components/RevealButton"
@@ -40,17 +40,14 @@ const ProjectShowcase = async ({
   }
 
   // Query prismic for the unified 'project' doc type and filter by the select field
-  const documents = await client.getAllByType<Content.ProjectDocument>(
-    "project",
-    {
-      limit: !isStandalone && limit ? limit : undefined,
-      filters,
-      orderings: {
-        field: "my.project.publishedDate",
-        direction: "desc",
-      },
+  const documents = await getAllByType("project", {
+    limit: !isStandalone && limit ? limit : undefined,
+    filters,
+    orderings: {
+      field: "my.project.publishedDate",
+      direction: "desc",
     },
-  )
+  })
 
   // Map to the ProjectGrid format
   const gridItems: ProjectGridItemType[] = documents.map((doc) => {

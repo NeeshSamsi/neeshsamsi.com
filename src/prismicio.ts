@@ -1,5 +1,4 @@
 import * as prismic from "@prismicio/client"
-import * as prismicNext from "@prismicio/next"
 import config from "../prismic.config.json"
 
 /**
@@ -41,17 +40,9 @@ export const routes: prismic.ClientConfig["routes"] = [
  *
  * @param config - Configuration for the Prismic client.
  */
-export const createClient = (config: prismicNext.CreateClientConfig = {}) => {
-  const client = prismic.createClient(repositoryName, {
+export const createClient = (config: prismic.ClientConfig = {}) => {
+  return prismic.createClient(repositoryName, {
     routes,
-    fetchOptions:
-      process.env.NODE_ENV === "production"
-        ? { next: { tags: ["prismic"] }, cache: "force-cache" }
-        : { next: { revalidate: 5 } },
     ...config,
   })
-
-  prismicNext.enableAutoPreviews({ client })
-
-  return client
 }

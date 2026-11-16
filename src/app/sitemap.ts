@@ -1,13 +1,13 @@
 import { type MetadataRoute } from "next"
 
 import { url } from "@/lib/config"
-import { client } from "@/lib/prismic"
+import { getAllByType } from "@/lib/prismic"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [pages, projects, notes] = await Promise.all([
-    client.getAllByType("page"),
-    client.getAllByType("project"),
-    client.getAllByType("notes"),
+    getAllByType("page"),
+    getAllByType("project"),
+    getAllByType("notes"),
   ])
 
   // Every routed document comes from Prismic, so the sitemap follows the

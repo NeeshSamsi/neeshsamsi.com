@@ -5,7 +5,8 @@ import { components } from "@/slices"
 import Article from "@/components/Article"
 import { asText } from "@prismicio/client"
 import { buildPageMetadata } from "@/lib/metadata"
-import { client, getByUIDOrNotFound } from "@/lib/prismic"
+import { getByUIDOrNotFound } from "@/lib/prismic"
+import { createClient } from "@/prismicio"
 import { formatDate } from "@/lib/utils"
 
 type Params = Promise<{ uid: string }>
@@ -62,6 +63,7 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
+  const client = createClient()
   const pages = await client.getAllByType("notes")
 
   return pages.map((page) => {

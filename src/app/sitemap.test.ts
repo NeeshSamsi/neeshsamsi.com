@@ -13,7 +13,7 @@ const docs: Record<string, { uid: string; last_publication_date: string }[]> = {
 }
 
 vi.mock("@/lib/prismic", () => ({
-  client: { getAllByType: vi.fn(async (type: string) => docs[type]) },
+  getAllByType: vi.fn(async (type: string) => docs[type]),
 }))
 vi.mock("@/lib/config", () => ({ url: "https://www.example.com" }))
 

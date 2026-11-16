@@ -1,11 +1,11 @@
-import { client } from "@/lib/prismic"
+import { getSettings } from "@/lib/prismic"
 import Link from "next/link"
 import NavLink from "@/components/NavLink"
 import NavbarContainer from "@/components/NavbarContainer"
 import { getSocialLinks } from "@/lib/utils"
 
 export default async function Navbar() {
-  const { data } = await client.getSingle("settings")
+  const { data } = await getSettings()
 
   const socialLinks = getSocialLinks(data)
 

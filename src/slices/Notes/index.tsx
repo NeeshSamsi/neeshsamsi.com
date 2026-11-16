@@ -1,7 +1,7 @@
 import { type JSX } from "react"
 import { asText, type Content } from "@prismicio/client"
 import { type SliceComponentProps } from "@prismicio/react"
-import { client } from "@/lib/prismic"
+import { getAllByType } from "@/lib/prismic"
 import SectionHeading from "@/components/SectionHeading"
 import Button from "@/components/Button"
 import Note from "@/components/Note"
@@ -19,7 +19,7 @@ const Notes = async ({ slice }: NotesProps): Promise<JSX.Element> => {
     primary: { heading, cta, limit },
   } = slice
 
-  const notes = await client.getAllByType("notes", {
+  const notes = await getAllByType("notes", {
     limit: limit ? limit : undefined,
     orderings: {
       field: "document.last_publication_date",

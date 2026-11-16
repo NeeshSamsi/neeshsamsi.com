@@ -3,7 +3,8 @@ import { SliceZone } from "@prismicio/react"
 
 import { components } from "@/slices"
 import { buildPageMetadata, humanizeUid } from "@/lib/metadata"
-import { client, getByUIDOrNotFound } from "@/lib/prismic"
+import { getByUIDOrNotFound } from "@/lib/prismic"
+import { createClient } from "@/prismicio"
 
 type Params = { uid: string }
 
@@ -34,6 +35,7 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
+  const client = createClient()
   const pages = await client.getAllByType("page")
 
   return pages.map((page) => {

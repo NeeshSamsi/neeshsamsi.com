@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
+  // Prismic content is cached with "use cache" functions (see src/lib/prismic.ts).
+  cacheComponents: true,
+  // Next asks for an explicit value alongside cacheComponents. Off keeps link
+  // prefetching as it was before the migration.
+  partialPrefetching: false,
   images: {
     formats: ["image/avif", "image/webp"],
   },
