@@ -65,7 +65,11 @@ export default function ImageWithPreview({
         />
       </button>
 
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        aria-label={field.alt || "Image preview"}
+      >
         <Dialog.Panel
           // data-lenis-prevent tells Lenis to leave wheel events inside
           // the panel alone so it can scroll natively. z-50 sits the
@@ -75,11 +79,14 @@ export default function ImageWithPreview({
           data-lenis-prevent
           className="fixed inset-0 z-50 w-screen overflow-y-auto overscroll-y-none bg-dark/70 px-14 py-14 backdrop-blur-sm"
         >
-          <XCircleIcon
-            className="fixed top-4 right-4 z-50 aspect-square w-10 cursor-pointer"
-            strokeWidth={1.5}
+          <button
+            type="button"
+            aria-label="Close preview"
             onClick={() => setIsOpen(false)}
-          />
+            className="fixed top-4 right-4 z-50 block aspect-square w-10 cursor-pointer"
+          >
+            <XCircleIcon className="w-full" strokeWidth={1.5} />
+          </button>
           <PrismicNextImage
             field={field}
             sizes="100vw"
