@@ -75,9 +75,6 @@
             },
             "text_content": {
               "type": "SharedSlice"
-            },
-            "image_content": {
-              "type": "SharedSlice"
             }
           }
         }

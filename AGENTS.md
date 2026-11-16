@@ -31,7 +31,7 @@
 ## Key files
 
 - `src/prismicio.ts` - Prismic client configuration
-- `src/slices/` - Prismic slice components (CodeBlock, ExternalLinkCallout, FeaturedProject, MediaContent, Notes, PageHeading, ProjectOverview, ProjectShowcase, TextContent; ImageContent is deprecated in favour of MediaContent)
+- `src/slices/` - Prismic slice components (CodeBlock, ExternalLinkCallout, FeaturedProject, MediaContent, Notes, PageHeading, ProjectOverview, ProjectShowcase, TextContent)
 - `src/lib/prismic.ts` - Shared Prismic client and `getByUIDOrNotFound`
 - `src/lib/metadata.ts` - `buildPageMetadata`, used by every page's `generateMetadata`
 - `src/app/api/revalidate/route.ts` - On-demand ISR revalidation endpoint
