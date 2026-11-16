@@ -4,36 +4,29 @@ import { url } from "@/lib/config"
 import { client } from "@/lib/prismic"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const projects = await client.getAllByType("project")
-  const notes = await client.getAllByType("notes")
+  const [pages, projects, notes] = await Promise.all([
+    client.getAllByType("page"),
+    client.getAllByType("project"),
+    client.getAllByType("notes"),
+  ])
 
-  const projectUrls = projects.map(({ uid, data: { publishedDate } }) => ({
-    url: `${url}/projects/${uid}`,
-    lastModified: new Date(publishedDate!),
-  }))
-  const notesUrls = notes.map(({ uid, last_publication_date }) => ({
-    url: `${url}/notes/${uid}`,
-    lastModified: new Date(last_publication_date),
-  }))
+  // Every routed document comes from Prismic, so the sitemap follows the
+  // content: new pages appear and unpublished ones drop out on their own.
+  const entry = (path: string, lastPublished: string) => ({
+    url: `${url}${path}`,
+    lastModified: new Date(lastPublished),
+  })
 
-  const staticUrls = [
-    {
-      url: `${url}/`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${url}/work`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${url}/play`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${url}/notes`,
-      lastModified: new Date(),
-    },
+  return [
+    ...pages.map(({ uid, last_publication_date }) =>
+      // The home document is served at "/" ("/home" redirects there).
+      entry(uid === "home" ? "/" : `/${uid}`, last_publication_date),
+    ),
+    ...projects.map(({ uid, last_publication_date }) =>
+      entry(`/projects/${uid}`, last_publication_date),
+    ),
+    ...notes.map(({ uid, last_publication_date }) =>
+      entry(`/notes/${uid}`, last_publication_date),
+    ),
   ]
-
-  return [...staticUrls, ...projectUrls, ...notesUrls]
 }
