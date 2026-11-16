@@ -41,7 +41,7 @@ const Notes = async ({ slice }: NotesProps): Promise<JSX.Element> => {
 
             <Button
               element="link"
-              href="/work"
+              href="/notes"
               type="outline"
               theme="light"
               className="h-fit text-xs md:text-sm lg:text-base xl:text-lg"

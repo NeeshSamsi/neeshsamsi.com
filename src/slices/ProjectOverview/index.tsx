@@ -26,9 +26,9 @@ const ProjectOverview: FC<ProjectOverviewProps> = ({ slice }) => {
       {slice.primary.paragraphs.map(({ title, description }, i) => (
         <Fragment key={i}>
           <div className="col-span-full md:col-span-5 lg:col-span-4">
-            <h3 className="mb-2 font-serif text-2xl font-normal">
+            <h2 className="mb-2 font-serif text-2xl font-normal">
               {asText(title)}
-            </h3>
+            </h2>
             <p className="leading-relaxed font-light text-lighter">
               {asText(description)}
             </p>

@@ -1,8 +1,8 @@
 import { type JSX } from "react"
-import { asHTML, asText, type Content } from "@prismicio/client"
+import { asText, type Content } from "@prismicio/client"
 import { type SliceComponentProps } from "@prismicio/react"
 
-import highlighter, { getHighlighter, languages } from "@/lib/shiki"
+import highlighter, { resolveLanguage } from "@/lib/shiki"
 
 /**
  * Props for `CodeBlock`.
@@ -20,7 +20,7 @@ const CodeBlock = async ({ slice }: CodeBlockProps): Promise<JSX.Element> => {
   const shiki = await highlighter
 
   const html = shiki.codeToHtml(asText(code, "\n"), {
-    lang: languages[lang],
+    lang: resolveLanguage(lang),
     theme: "aurora-x",
   })
 
