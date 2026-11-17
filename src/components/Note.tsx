@@ -1,6 +1,7 @@
 import { asText, type Content } from "@prismicio/client"
 import Link from "next/link"
 import Button from "@/components/Button"
+import Tracked from "@/components/Tracked"
 import { ArrowLongRightIcon } from "@heroicons/react/24/outline"
 
 type Props = Omit<
@@ -11,6 +12,8 @@ type Props = Omit<
 }
 
 export default function Note({ slug, title, description, tags }: Props) {
+  const event = { name: "note_card_click", data: { note: slug } }
+
   return (
     <div className="flex flex-col justify-between space-y-4 text-sm text-lighter sm:text-base lg:space-y-6 lg:text-lg xl:text-xl">
       <div className="space-y-3 lg:space-y-4">
@@ -19,7 +22,9 @@ export default function Note({ slug, title, description, tags }: Props) {
           href={`/notes/${slug}`}
           className="block font-serif text-xl leading-tight text-light sm:text-[28px] xl:text-[32px]"
         >
-          <h3>{asText(title)}</h3>
+          <Tracked event={event}>
+            <h3>{asText(title)}</h3>
+          </Tracked>
         </Link>
         <p>{description}</p>
       </div>
@@ -30,6 +35,7 @@ export default function Note({ slug, title, description, tags }: Props) {
           type="solid"
           theme="light"
           className="group"
+          event={event}
         >
           <span>Read note</span>
           <ArrowLongRightIcon

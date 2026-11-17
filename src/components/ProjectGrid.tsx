@@ -17,6 +17,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText)
 
 export type ProjectGridItemType = {
   id: Content.ProjectDocument["id"]
+  uid: Content.ProjectDocument["uid"]
   link: string
 } & Pick<
   Content.ProjectDocumentData,
@@ -25,6 +26,8 @@ export type ProjectGridItemType = {
 
 interface ProjectGridProps {
   items: ProjectGridItemType[]
+  /** Slug of the showcase the grid sits in, recorded with each card click. */
+  section: string
 }
 
 /* ────────────────────────────────────────────────────────────────────────
@@ -74,7 +77,7 @@ const imageContainer = cva(
   },
 )
 
-export default function ProjectGrid({ items }: ProjectGridProps) {
+export default function ProjectGrid({ items, section }: ProjectGridProps) {
   const root = useRef<HTMLDivElement>(null)
 
   useGSAP(
@@ -195,7 +198,15 @@ export default function ProjectGrid({ items }: ProjectGridProps) {
         const { layout } = gridSlot(index)
 
         const content = (
-          <div className="group flex h-full w-full cursor-pointer flex-col">
+          // The click event sits on this wrapper inside the link, never on the
+          // anchor (see "Analytics (Umami)" in AGENTS.md).
+          <div
+            data-umami-event="project_card_click"
+            data-umami-event-project={item.uid}
+            data-umami-event-position={index + 1}
+            data-umami-event-section={section}
+            className="group flex h-full w-full cursor-pointer flex-col"
+          >
             <div data-reveal-image className={imageContainer({ layout })}>
               <PrismicNextImage
                 field={item.image}

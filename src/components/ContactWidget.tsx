@@ -19,6 +19,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 
 import { cn } from "@/lib/utils"
 import { contactFormSchema } from "@/lib/schemas"
+import { track } from "@/lib/umami"
 import { submitContact, type ContactFormState } from "@/app/actions/contact"
 
 // Lives here rather than in the action file because "use server" modules
@@ -55,6 +56,9 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
   }>({})
   const cardRef = useRef<HTMLDivElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
+  // Set by the pill's key handler just before it opens the widget.
+  const openedByKeyboard = useRef(false)
+  const invalidReported = useRef(false)
 
   const handleOpen = useCallback(() => {
     setClientErrors({})
@@ -62,16 +66,30 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
     if (state.status === "success") {
       startTransition(() => formAction("reset"))
     }
+    track("contact_open", {
+      trigger: openedByKeyboard.current ? "keyboard" : "pointer",
+    })
     setIsOpen(true)
   }, [state.status, formAction])
-  const handleClose = useCallback(() => setIsOpen(false), [])
+  // Only whether the visitor had typed something is recorded, never the text.
+  const handleClose = useCallback((method: "escape" | "outside" | "button") => {
+    const fields = formRef.current?.querySelectorAll<
+      HTMLInputElement | HTMLTextAreaElement
+    >("#contact-email, #contact-message")
+    track("contact_close", {
+      had_input: Array.from(fields ?? []).some(
+        (field) => field.value.trim() !== "",
+      ),
+      method,
+    })
+    setIsOpen(false)
+  }, [])
 
   // The closed pill is the only way in, so it has to work from the keyboard
   // too. After a keyboard open, focus moves into the form; when the widget
   // closes with focus still inside it, focus returns to the pill. Pointer
   // opens are left alone (no focus ring, no on-screen keyboard on touch).
   const headerRef = useRef<HTMLDivElement>(null)
-  const openedByKeyboard = useRef(false)
   const wasOpen = useRef(false)
   useEffect(() => {
     if (isOpen && openedByKeyboard.current) {
@@ -91,7 +109,7 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
   useEffect(() => {
     if (!isOpen) return
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !isPending) handleClose()
+      if (e.key === "Escape" && !isPending) handleClose("escape")
     }
     document.addEventListener("keydown", handler)
     return () => document.removeEventListener("keydown", handler)
@@ -103,7 +121,7 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
     const handler = (e: MouseEvent) => {
       if (isPending) return
       if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
-        handleClose()
+        handleClose("outside")
       }
     }
     // Delay so the opening click doesn't immediately close it.
@@ -121,6 +139,15 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
     const tid = setTimeout(() => setIsOpen(false), 5000)
     return () => clearTimeout(tid)
   }, [state.status])
+
+  // Analytics: each result of the server action is one event. The error event
+  // carries the action's short code, never the message shown to the visitor.
+  useEffect(() => {
+    if (state.status === "success") track("contact_sent")
+    else if (state.status === "error") {
+      track("contact_error", { kind: state.code })
+    }
+  }, [state])
 
   // When the widget opens, reveal the Send button: it rises in and its label
   // masks up — the same motion as the "show more" button, but on open rather
@@ -172,6 +199,13 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
     HTMLInputElement | HTMLTextAreaElement
   > = (e) => {
     e.preventDefault()
+    // A blocked submit fires `invalid` on every failing field in the same
+    // task: count it as one error.
+    if (!invalidReported.current) {
+      invalidReported.current = true
+      track("contact_error", { kind: "validation" })
+      setTimeout(() => (invalidReported.current = false), 0)
+    }
     const input = e.currentTarget
     const name = input.name as "email" | "message"
     let msg = input.validationMessage
@@ -235,7 +269,7 @@ export default function ContactWidget({ image, ctaText }: ContactWidgetProps) {
         type="button"
         onClick={(e) => {
           e.stopPropagation()
-          if (!isPending) handleClose()
+          if (!isPending) handleClose("button")
         }}
         disabled={isPending}
         tabIndex={isOpen ? 0 : -1}
@@ -435,6 +469,8 @@ function SubmitButton() {
   return (
     <button
       data-submit-reveal
+      // Counts the attempt: it fires even when validation blocks the submit.
+      data-umami-event="contact_submit_click"
       type="submit"
       disabled={pending}
       className="group flex cursor-pointer items-center justify-center self-end rounded-lg bg-brand px-5 py-2 text-sm font-medium text-dark transition-colors hover:bg-light disabled:cursor-not-allowed disabled:opacity-60"

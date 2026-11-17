@@ -48,6 +48,7 @@ export default function ImageWithPreview({
     <>
       <button
         type="button"
+        data-umami-event="image_preview_open"
         onClick={() => setIsOpen(true)}
         className={cn(
           // Same stroke style as ProjectGrid + FeaturedProject, but

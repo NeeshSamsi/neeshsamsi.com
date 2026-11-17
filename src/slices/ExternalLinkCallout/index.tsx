@@ -3,6 +3,7 @@ import { Content, asLink } from "@prismicio/client"
 import { SliceComponentProps } from "@prismicio/react"
 import { PrismicNextLink } from "@prismicio/next"
 import { ExternalLink } from "lucide-react"
+import { eventAttributes, outboundEvent } from "@/lib/umami"
 
 /**
  * Props for `ExternalLinkCallout`.
@@ -32,6 +33,9 @@ const ExternalLinkCallout: FC<ExternalLinkCalloutProps> = ({ slice }) => {
     >
       <PrismicNextLink
         field={link}
+        // Undefined for a link to a page on this site, which must not carry
+        // the attributes (see "Analytics (Umami)" in AGENTS.md).
+        {...eventAttributes(outboundEvent("callout", url))}
         className="group relative col-span-full block w-fit overflow-hidden py-2 text-light transition-colors duration-500 ease-out hover:text-dark md:py-4"
       >
         {/* Foreground content sits above the animated background fill. */}

@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from "@testing-library/react"
 import type { RichTextField } from "@prismicio/client"
+import { PrismicRichText } from "@prismicio/react"
 import { afterEach, describe, expect, it } from "vitest"
 
-import ProseRichText from "./ProseRichText"
+import ProseRichText, { proseComponents, proseHyperlink } from "./ProseRichText"
 
 afterEach(cleanup)
 
@@ -79,5 +80,36 @@ describe("ProseRichText links", () => {
 
     expect(link.getAttribute("href")).toBe("/projects/best")
     expect(link.hasAttribute("target")).toBe(false)
+  })
+
+  it("records a click on a link to another site, by hostname only", () => {
+    render(<ProseRichText field={field} />)
+    const link = screen.getByRole("link", { name: "studio site" })
+
+    expect(link.getAttribute("data-umami-event")).toBe("outbound_click")
+    expect(link.getAttribute("data-umami-event-kind")).toBe("inline")
+    expect(link.getAttribute("data-umami-event-host")).toBe(
+      "www.yummycolours.com",
+    )
+  })
+
+  // The tracker turns a click on a tracked same-tab anchor into a full page
+  // load, so a link that navigates inside the site must carry no attributes.
+  it("leaves links to pages on this site untracked", () => {
+    render(<ProseRichText field={field} />)
+    const link = screen.getByRole("link", { name: "case study" })
+
+    expect(link.hasAttribute("data-umami-event")).toBe(false)
+  })
+
+  it("shares its link serializer for other rich text", () => {
+    render(<PrismicRichText field={field} components={proseComponents} />)
+
+    expect(
+      screen
+        .getByRole("link", { name: "studio site" })
+        .getAttribute("data-umami-event"),
+    ).toBe("outbound_click")
+    expect(proseComponents.hyperlink).toBe(proseHyperlink)
   })
 })

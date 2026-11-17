@@ -114,6 +114,7 @@ describe("submitContact", () => {
 
     expect(result).toEqual({
       status: "error",
+      code: "validation",
       fieldErrors: {
         email: "Please enter a valid email address.",
         message: "Message must be at least 5 characters.",
@@ -149,6 +150,7 @@ describe("submitContact", () => {
 
     expect(result).toEqual({
       status: "error",
+      code: "send_failed",
       formError: "Something went wrong sending your message. Please try again.",
       values: valid,
     })
@@ -159,7 +161,11 @@ describe("submitContact", () => {
 
     const result = await submitContact(idle, form(valid))
 
-    expect(result).toMatchObject({ status: "error", values: valid })
+    expect(result).toMatchObject({
+      status: "error",
+      code: "send_failed",
+      values: valid,
+    })
     expect(result).toHaveProperty("formError")
   })
 
@@ -172,7 +178,11 @@ describe("submitContact", () => {
 
     const blocked = await submitContact(idle, form(valid))
 
-    expect(blocked).toMatchObject({ status: "error", values: valid })
+    expect(blocked).toMatchObject({
+      status: "error",
+      code: "rate_limit",
+      values: valid,
+    })
     expect(blocked).toHaveProperty(
       "formError",
       "Too many submissions. Please try again in 10 minutes.",

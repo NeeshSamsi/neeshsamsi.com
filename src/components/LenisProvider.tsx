@@ -6,6 +6,7 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 import { setLenis } from "@/lib/lenis"
+import { identify } from "@/lib/umami"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -62,6 +63,8 @@ export default function LenisProvider() {
     }
 
     sync()
+    // Analytics: how many visitors see the site without its animations.
+    identify({ reduced_motion: reducedMotion.matches })
     reducedMotion.addEventListener("change", sync)
     return () => {
       reducedMotion.removeEventListener("change", sync)

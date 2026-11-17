@@ -55,6 +55,7 @@ const ProjectShowcase = async ({
 
     return {
       id: doc.id,
+      uid: doc.uid,
       title: title ?? "",
       subtitle: subtitle ?? "",
       image,
@@ -63,6 +64,7 @@ const ProjectShowcase = async ({
     }
   })
 
+  const section = sectionId(selectedCategory)
   const ctaRoute = selectedCategory === "Client Work" ? "/work" : "/play"
 
   return (
@@ -70,7 +72,7 @@ const ProjectShowcase = async ({
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
       // One id per category: the home page renders a showcase for each.
-      id={sectionId(selectedCategory)}
+      id={section}
       className="col-span-full my-8 grid grid-cols-subgrid sm:my-12"
     >
       <div className="col-span-full">
@@ -85,7 +87,7 @@ const ProjectShowcase = async ({
         {gridItems.length > 0 ? (
           <>
             <div className="mt-8">
-              <ProjectGrid items={gridItems} />
+              <ProjectGrid items={gridItems} section={section} />
             </div>
 
             {!isStandalone && cta && limit && (
@@ -97,6 +99,7 @@ const ProjectShowcase = async ({
                     type="outline"
                     theme="light"
                     className="text-xs sm:text-sm lg:text-base xl:text-lg"
+                    event={{ name: "showcase_cta_click", data: { section } }}
                   >
                     {cta}
                   </Button>

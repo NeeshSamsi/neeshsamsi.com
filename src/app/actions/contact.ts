@@ -19,10 +19,15 @@ export type ContactFormState =
   | { status: "success" }
   | {
       status: "error"
+      // What went wrong, as a fixed short code. It is what analytics records
+      // (`contact_error`); the messages below are for the visitor only.
+      code: ContactErrorCode
       fieldErrors?: Partial<Record<"email" | "message", string>>
       formError?: string
       values: { email: string; message: string }
     }
+
+export type ContactErrorCode = "validation" | "rate_limit" | "send_failed"
 
 // NOTE: This file has `"use server"`, so only async functions can be exported
 // from it at runtime. The matching `initialContactState` value lives at the
@@ -39,10 +44,11 @@ const SEND_FAILED =
   "Something went wrong sending your message. Please try again."
 
 function failure(
+  code: ContactErrorCode,
   formError: string,
   values: { email: string; message: string },
 ): ContactFormState {
-  return { status: "error", formError, values }
+  return { status: "error", code, formError, values }
 }
 
 export async function submitContact(
@@ -79,6 +85,7 @@ export async function submitContact(
     }
     return {
       status: "error",
+      code: "validation",
       fieldErrors,
       values: {
         email: typeof raw.email === "string" ? raw.email : "",
@@ -100,6 +107,7 @@ export async function submitContact(
   if (!rl.ok) {
     const minutes = Math.max(1, Math.ceil(rl.retryAfterMs / 60000))
     return failure(
+      "rate_limit",
       `Too many submissions. Please try again in ${minutes} minute${minutes === 1 ? "" : "s"}.`,
       values,
     )
@@ -136,11 +144,11 @@ export async function submitContact(
       // Log server-side with detail; return a generic message to the client.
       const body = await res.text().catch(() => "<no body>")
       console.error("Discord webhook failed", res.status, body)
-      return failure(SEND_FAILED, values)
+      return failure("send_failed", SEND_FAILED, values)
     }
   } catch (err) {
     console.error("Discord webhook threw", err)
-    return failure(SEND_FAILED, values)
+    return failure("send_failed", SEND_FAILED, values)
   }
 
   return { status: "success" }

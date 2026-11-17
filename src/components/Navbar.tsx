@@ -26,7 +26,15 @@ export default async function Navbar() {
         {socialLinks.map(({ id, label, field }) => (
           <li key={`nav-link-${id}`}>
             <span data-intro="navbar" className="inline-block">
-              <NavLink field={field}>{label}</NavLink>
+              <NavLink
+                field={field}
+                event={{
+                  name: "outbound_click",
+                  data: { kind: "social", target: id, location: "navbar" },
+                }}
+              >
+                {label}
+              </NavLink>
             </span>
           </li>
         ))}

@@ -1,17 +1,29 @@
+import { asLink } from "@prismicio/client"
 import { PrismicNextLink, type PrismicNextLinkProps } from "@prismicio/next"
 import { cn } from "@/lib/utils"
+import { eventAttributes, type UmamiEvent } from "@/lib/umami"
 
 export default function NavLink({
   className,
   children,
+  event,
   ...props
-}: PrismicNextLinkProps) {
+}: PrismicNextLinkProps & {
+  /** Umami event recorded when the link is clicked. */
+  event?: UmamiEvent
+}) {
   // Fall back to the link field's text when children aren't provided
   // (PrismicNextLink does this automatically, but we need the value
   // to duplicate it inside the slide-up animation).
   const label =
     children ??
     (props.field && "text" in props.field ? props.field.text : undefined)
+
+  // The event's attributes sit on the anchor only for a link to another site.
+  // On a link to a page here they would force a full page load, so they go on
+  // the label inside it (see "Analytics (Umami)" in AGENTS.md).
+  const attributes = eventAttributes(event)
+  const isExternal = /^https?:\/\//.test(asLink(props.field) ?? "")
 
   return (
     <PrismicNextLink
@@ -23,8 +35,12 @@ export default function NavLink({
         className,
       )}
       {...props}
+      {...(isExternal ? attributes : {})}
     >
-      <span className="relative inline-block overflow-hidden">
+      <span
+        className="relative inline-block overflow-hidden"
+        {...(isExternal ? {} : attributes)}
+      >
         <span className="block transition-transform duration-300 group-hover:-translate-y-full group-focus:-translate-y-full">
           {label}
         </span>

@@ -6,8 +6,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import type { ContactFormState } from "@/app/actions/contact"
 
 const submitContact = vi.hoisted(() => vi.fn())
+const track = vi.hoisted(() => vi.fn())
 
 vi.mock("@/app/actions/contact", () => ({ submitContact }))
+vi.mock("@/lib/umami", () => ({ track }))
 // Image optimisation is irrelevant here and needs the Next runtime.
 vi.mock("@prismicio/next", () => ({ PrismicNextImage: () => null }))
 
@@ -33,6 +35,7 @@ async function send(user: ReturnType<typeof userEvent.setup>) {
 describe("ContactWidget", () => {
   beforeEach(() => {
     submitContact.mockReset()
+    track.mockReset()
     // GSAP's matchMedia (used for the reduced-motion gate) needs this API.
     vi.stubGlobal("matchMedia", (query: string) => ({
       matches: false,
@@ -128,6 +131,7 @@ describe("ContactWidget", () => {
   it("shows a server failure and keeps what the visitor typed", async () => {
     submitContact.mockResolvedValue({
       status: "error",
+      code: "send_failed",
       formError: "Something went wrong sending your message. Please try again.",
       values: { email: "someone@example.com", message: "Hello there" },
     } satisfies ContactFormState)
@@ -146,6 +150,7 @@ describe("ContactWidget", () => {
   it("shows server-side field errors next to their fields", async () => {
     submitContact.mockResolvedValue({
       status: "error",
+      code: "validation",
       fieldErrors: { email: "Please enter a valid email address." },
       values: { email: "someone@example.com", message: "Hello there" },
     } satisfies ContactFormState)
@@ -159,5 +164,134 @@ describe("ContactWidget", () => {
     expect(email().getAttribute("aria-invalid")).toBe("true")
     expect(email().getAttribute("aria-describedby")).toBe(error.id)
     expect(message().getAttribute("aria-invalid")).toBeNull()
+  })
+
+  describe("analytics", () => {
+    const events = (name: string) =>
+      track.mock.calls.filter(([event]) => event === name)
+
+    it("records how the widget was opened", async () => {
+      const user = setup()
+
+      await user.click(pill())
+      expect(track).toHaveBeenLastCalledWith("contact_open", {
+        trigger: "pointer",
+      })
+
+      await user.keyboard("{Escape}")
+      pill().focus()
+      await user.keyboard("{Enter}")
+      expect(track).toHaveBeenLastCalledWith("contact_open", {
+        trigger: "keyboard",
+      })
+    })
+
+    it("records how the widget was closed and whether anything was typed", async () => {
+      const user = setup()
+      await user.click(pill())
+
+      await user.click(
+        screen.getByRole("button", { name: "Close contact form" }),
+      )
+      expect(track).toHaveBeenLastCalledWith("contact_close", {
+        had_input: false,
+        method: "button",
+      })
+
+      await user.click(pill())
+      await user.type(message(), "Hello there")
+      await user.keyboard("{Escape}")
+      expect(track).toHaveBeenLastCalledWith("contact_close", {
+        had_input: true,
+        method: "escape",
+      })
+
+      await user.click(pill())
+      await user.click(document.body)
+      expect(track).toHaveBeenLastCalledWith("contact_close", {
+        had_input: true,
+        method: "outside",
+      })
+    })
+
+    it("records a sent message once, with no data", async () => {
+      submitContact.mockResolvedValue({
+        status: "success",
+      } satisfies ContactFormState)
+      const user = setup()
+      await user.click(pill())
+
+      await send(user)
+      await screen.findByText(/message sent/i)
+
+      expect(events("contact_sent")).toEqual([["contact_sent"]])
+      expect(events("contact_error")).toEqual([])
+    })
+
+    it.each(["validation", "rate_limit", "send_failed"] as const)(
+      "records a %s failure by its code",
+      async (code) => {
+        submitContact.mockResolvedValue({
+          status: "error",
+          code,
+          formError: "Shown to the visitor only.",
+          values: { email: "someone@example.com", message: "Hello there" },
+        } satisfies ContactFormState)
+        const user = setup()
+        await user.click(pill())
+
+        await send(user)
+        await screen.findByRole("alert")
+
+        expect(events("contact_error")).toEqual([
+          ["contact_error", { kind: code }],
+        ])
+        expect(events("contact_sent")).toEqual([])
+      },
+    )
+
+    it("records a submit blocked by browser validation as one error", async () => {
+      const user = setup()
+      await user.click(pill())
+
+      // Both fields are empty, so both report themselves invalid.
+      await user.click(screen.getByRole("button", { name: /send message/i }))
+
+      await screen.findByText("Email is required.")
+      expect(events("contact_error")).toEqual([
+        ["contact_error", { kind: "validation" }],
+      ])
+      expect(submitContact).not.toHaveBeenCalled()
+    })
+
+    it("never puts what the visitor typed into an event", async () => {
+      submitContact.mockResolvedValue({
+        status: "error",
+        code: "send_failed",
+        formError: "Shown to the visitor only.",
+        values: { email: "someone@example.com", message: "Hello there" },
+      } satisfies ContactFormState)
+      const user = setup()
+      await user.click(pill())
+      await send(user)
+      await screen.findByRole("alert")
+      await user.keyboard("{Escape}")
+
+      const recorded = JSON.stringify(track.mock.calls)
+      expect(recorded).not.toContain("someone@example.com")
+      expect(recorded).not.toContain("Hello there")
+      expect(recorded).not.toContain("Shown to the visitor")
+    })
+
+    it("marks the send button so each attempt is counted", async () => {
+      const user = setup()
+      await user.click(pill())
+
+      expect(
+        screen
+          .getByRole("button", { name: /send message/i })
+          .getAttribute("data-umami-event"),
+      ).toBe("contact_submit_click")
+    })
   })
 })
