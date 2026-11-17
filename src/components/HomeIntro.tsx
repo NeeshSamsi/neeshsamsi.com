@@ -71,6 +71,19 @@ const PREHIDE_CSS = `
   [data-intro="contact"] > * { opacity: 0; }
 }`
 
+// Next keeps the home page mounted but hidden after you navigate away from it
+// (Cache Components preserves UI state with React's <Activity>). A hidden
+// <style> still applies, and the navbar and contact widget belong to the
+// layout, so they would stay invisible on every other page once GSAP's inline
+// styles are reverted. The stylesheet is switched off while the page is
+// hidden, as Next's "Preserving UI state" guide does for page-level styles.
+function enableWhileVisible(style: HTMLStyleElement | null) {
+  if (style) style.media = ""
+  return () => {
+    if (style) style.media = "not all"
+  }
+}
+
 // Mask groups clip their single child during the reveal. We grab that child
 // as the actual tween target so the wrapper can stay put and do the clipping.
 function maskInners(group: string) {
@@ -201,5 +214,10 @@ export default function HomeIntro() {
     })
   }, [])
 
-  return <style dangerouslySetInnerHTML={{ __html: PREHIDE_CSS }} />
+  return (
+    <style
+      ref={enableWhileVisible}
+      dangerouslySetInnerHTML={{ __html: PREHIDE_CSS }}
+    />
+  )
 }

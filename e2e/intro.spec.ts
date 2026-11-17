@@ -40,4 +40,29 @@ test.describe("home intro with JavaScript", () => {
       await page.evaluate((query) => matchMedia(query).matches, PREHIDE_QUERY),
     ).toBe(true)
   })
+
+  // Next keeps the home page mounted but hidden after a client-side
+  // navigation. Its pre-hide stylesheet must not reach the navbar and contact
+  // pill, which belong to the layout and so appear on the next page too.
+  test("leaves the navbar and contact pill visible after navigating away", async ({
+    page,
+  }) => {
+    await load(page, "/")
+    const navItems = page.locator('[data-intro="navbar"] > *')
+    await expect(navItems.first()).toHaveCSS("opacity", "1")
+
+    await page.locator('a[href^="/projects/"]').first().click()
+    await expect(page).toHaveURL(/\/projects\//)
+
+    for (const selector of [
+      '[data-intro="navbar"] > *',
+      '[data-intro="contact"] > *',
+    ]) {
+      const targets = page.locator(selector)
+      expect(await targets.count(), selector).toBeGreaterThan(0)
+      for (const target of await targets.all()) {
+        await expect(target, selector).toHaveCSS("opacity", "1")
+      }
+    }
+  })
 })
