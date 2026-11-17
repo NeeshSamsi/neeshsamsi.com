@@ -1,6 +1,8 @@
 import { FC, Fragment } from "react"
 import { Content, asText } from "@prismicio/client"
-import { SliceComponentProps } from "@prismicio/react"
+import { PrismicRichText, SliceComponentProps } from "@prismicio/react"
+
+import { proseComponents } from "@/components/ProseRichText"
 
 /**
  * Props for `ProjectOverview`.
@@ -29,9 +31,16 @@ const ProjectOverview: FC<ProjectOverviewProps> = ({ slice }) => {
             <h2 className="mb-2 font-serif text-2xl font-normal">
               {asText(title)}
             </h2>
-            <p className="leading-relaxed font-light text-lighter">
-              {asText(description)}
-            </p>
+            {/* Descriptions allow links, bold and italic. Links behave as
+                they do in ProseRichText (other sites open in a new tab) and
+                are styled like its links: body colour, underlined, the
+                accent colour on hover. */}
+            <div className="space-y-3 leading-relaxed font-light text-lighter [&_a]:underline [&_a]:transition-colors [&_a:hover]:text-brand">
+              <PrismicRichText
+                field={description}
+                components={proseComponents}
+              />
+            </div>
           </div>
 
           {/* Inject a single 4-column spacer after every 2nd item.

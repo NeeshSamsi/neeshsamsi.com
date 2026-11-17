@@ -31,7 +31,7 @@
                 "config": {
                   "label": "Description",
                   "placeholder": "",
-                  "multi": "paragraph",
+                  "multi": "paragraph,strong,em,hyperlink",
                   "allowTargetBlank": false
                 }
               }
