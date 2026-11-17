@@ -178,8 +178,13 @@ export default function PrismicVideoPlayer(props: PrismicVideoProps) {
 
         <ControlBar>
           {/* The track shares the buttons' light glass + dark hairline so it
-              reads over both dark and light footage. */}
-          <TimeSlider.Root className="group/slider pointer-events-auto relative mx-4 h-1 cursor-pointer self-stretch">
+              reads over both dark and light footage. `pauseOnDrag` holds
+              the clip still while scrubbing and resumes it on release if it
+              was playing. */}
+          <TimeSlider.Root
+            pauseOnDrag
+            className="group/slider pointer-events-auto relative mx-4 h-1 cursor-pointer self-stretch"
+          >
             <TimeSlider.Track className="block h-full w-full overflow-hidden rounded-full border-[0.5px] border-dark bg-light/40 backdrop-blur-md">
               <TimeSlider.Fill className="block h-full w-(--media-slider-fill) rounded-full bg-dark" />
             </TimeSlider.Track>

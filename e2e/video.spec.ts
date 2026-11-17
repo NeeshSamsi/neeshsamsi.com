@@ -191,6 +191,39 @@ test.describe("PrismicVideo", () => {
     expect((await state(video)).paused).toBe(true)
   })
 
+  test("holds a playing clip still while scrubbing and resumes it on release", async ({
+    page,
+  }) => {
+    await load(page, MOTION)
+    const { video, seek } = player(page)
+    await show({ video, seek })
+    await expect.poll(() => seekMax(seek)).toBeGreaterThan(0)
+    await expect.poll(async () => (await state(video)).paused).toBe(false)
+
+    const box = await seek.boundingBox()
+    if (!box) throw new Error("seek bar is not laid out")
+    const y = box.y + box.height / 2
+    await page.mouse.move(box.x + box.width * 0.2, y)
+    await page.mouse.down()
+    await page.mouse.move(box.x + box.width * 0.5, y, { steps: 8 })
+
+    // Paused for as long as the pointer is held, so the frame under it stays
+    // put. (The last throttled seek can still land after the pause, so the
+    // position itself may move once.)
+    await expect.poll(async () => (await state(video)).paused).toBe(true)
+    await page.waitForTimeout(500)
+    expect((await state(video)).paused).toBe(true)
+    const dropped = (await state(video)).currentTime
+
+    await page.mouse.up()
+
+    // Playing again from where it was dropped.
+    await expect.poll(async () => (await state(video)).paused).toBe(false)
+    await expect
+      .poll(async () => (await state(video)).currentTime)
+      .toBeGreaterThan(dropped)
+  })
+
   test("shows a storyboard thumbnail above the pointer on the seek bar", async ({
     page,
   }) => {
