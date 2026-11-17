@@ -334,3 +334,81 @@ test.describe("PrismicVideo with reduced motion", () => {
     await expect(toggle).toHaveAccessibleName("Pause")
   })
 })
+
+test.describe("PrismicVideo on a touch screen", () => {
+  // A phone-sized screen with touch input and no hover.
+  test.use({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+  })
+
+  // Chrome turns touches into pointer events, which is what Video.js listens
+  // to. Playwright only offers taps, so the drag goes through Chrome's own
+  // touch input.
+  async function touchDrag(page: Page, from: number, to: number, y: number) {
+    const cdp = await page.context().newCDPSession(page)
+    const touch = (type: "touchStart" | "touchMove" | "touchEnd", x: number) =>
+      cdp.send("Input.dispatchTouchEvent", {
+        type,
+        touchPoints: type === "touchEnd" ? [] : [{ x, y }],
+      })
+    await touch("touchStart", from)
+    for (let step = 1; step <= 8; step++) {
+      await touch("touchMove", from + ((to - from) * step) / 8)
+    }
+    await touch("touchEnd", to)
+    await cdp.detach()
+  }
+
+  test("pauses on a tap, shows the controls, and resumes on the next tap", async ({
+    page,
+  }) => {
+    await load(page, MOTION)
+    const { video, seek, toggle } = player(page)
+    await show({ video, seek })
+    await expect.poll(async () => (await state(video)).paused).toBe(false)
+
+    const box = await video.boundingBox()
+    if (!box) throw new Error("video is not laid out")
+    await page.touchscreen.tap(box.x + 24, box.y + 24)
+    await expect.poll(async () => (await state(video)).paused).toBe(true)
+    // There is no hover on a touch screen, so a paused clip keeps its
+    // controls on show.
+    await expect(toggle).toHaveAccessibleName("Play")
+    await expect(seek.locator("xpath=../..")).toHaveCSS("opacity", "1")
+
+    await page.touchscreen.tap(box.x + 24, box.y + 24)
+    await expect.poll(async () => (await state(video)).paused).toBe(false)
+  })
+
+  test("scrubs when a finger drags the seek bar", async ({ page }) => {
+    await load(page, MOTION)
+    const { video, seek } = player(page)
+    await show({ video, seek })
+    await expect.poll(() => seekMax(seek)).toBeGreaterThan(0)
+
+    // Pause first so the bar is on show and only the drag moves the clip.
+    const frame = await video.boundingBox()
+    if (!frame) throw new Error("video is not laid out")
+    await page.touchscreen.tap(frame.x + 24, frame.y + 24)
+    await expect.poll(async () => (await state(video)).paused).toBe(true)
+    await expect(seek.locator("xpath=../..")).toHaveCSS("opacity", "1")
+    const { duration } = await state(video)
+
+    const box = await seek.boundingBox()
+    if (!box) throw new Error("seek bar is not laid out")
+    await touchDrag(
+      page,
+      box.x + box.width * 0.2,
+      box.x + box.width * 0.7,
+      box.y + box.height / 2,
+    )
+
+    await expect
+      .poll(async () => (await state(video)).currentTime / duration)
+      .toBeGreaterThan(0.6)
+    expect((await state(video)).currentTime / duration).toBeLessThan(0.8)
+    expect((await state(video)).paused).toBe(true)
+  })
+})
