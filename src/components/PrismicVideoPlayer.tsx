@@ -10,6 +10,7 @@ import {
   Slider,
   TimeSlider,
 } from "@videojs/react"
+import { MuxData } from "@videojs/react/extensions/mux-data"
 import { MuxVideo } from "@videojs/react/media/mux-video"
 import { videoFeatures } from "@videojs/react/video"
 import {
@@ -22,6 +23,7 @@ import {
 } from "react"
 import { Pause, Play } from "lucide-react"
 
+import { isProductionDeployment } from "@/lib/deployment"
 import { videoPosterUrl } from "@/lib/mux"
 import { cn } from "@/lib/utils"
 import { detectHasAudio } from "@/lib/video-audio"
@@ -142,6 +144,14 @@ export default function PrismicVideoPlayer(props: PrismicVideoProps) {
           onTimeUpdate={checkHasAudio}
           className={videoClassName(props)}
         />
+
+        {/* Mux Data reports each view's startup time, rebuffering, failures
+            and watch time to the Mux dashboard. Views go to the environment
+            that owns the playback ID, so no key is needed. Like Umami, it
+            runs on the production deployment only, so local work, previews
+            and the e2e suite add no views. Cookies stay off to keep the site
+            cookie-free. */}
+        {isProductionDeployment && <MuxData disableCookies />}
 
         {/* Clicking or tapping the picture toggles playback. */}
         <Gesture type="tap" action="togglePaused" />
