@@ -52,6 +52,13 @@
             "repeat": false
           }
         },
+        "muxPlaybackId": {
+          "type": "Text",
+          "config": {
+            "label": "Mux playback ID (optional, overrides the image, which becomes the poster)",
+            "placeholder": "Playback ID from Mux"
+          }
+        },
         "originalDimensions": {
           "type": "Boolean",
           "config": {
@@ -121,6 +128,13 @@
             "repeat": false
           }
         },
+        "muxPlaybackId": {
+          "type": "Text",
+          "config": {
+            "label": "Mux playback ID Left (optional, overrides the left image, which becomes the poster)",
+            "placeholder": "Playback ID from Mux"
+          }
+        },
         "image2": {
           "type": "Image",
           "config": {
@@ -137,6 +151,13 @@
             "select": "media",
             "allowText": false,
             "repeat": false
+          }
+        },
+        "muxPlaybackId2": {
+          "type": "Text",
+          "config": {
+            "label": "Mux playback ID Right (optional, overrides the right image, which becomes the poster)",
+            "placeholder": "Playback ID from Mux"
           }
         },
         "originalDimensions": {

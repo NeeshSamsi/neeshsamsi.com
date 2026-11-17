@@ -2,7 +2,7 @@ import { type JSX } from "react"
 import {
   type Content,
   type ImageField,
-  type LinkToMediaField,
+  type KeyTextField,
   asText,
   isFilled,
 } from "@prismicio/client"
@@ -13,6 +13,7 @@ import { cva } from "class-variance-authority"
 import ImageWithPreview from "@/components/ImagePreview"
 import PrismicVideo from "@/components/PrismicVideo"
 import ProseRichText from "@/components/ProseRichText"
+import { muxPlaybackId } from "@/lib/mux"
 import { cn } from "@/lib/utils"
 
 export type MediaContentProps = SliceComponentProps<Content.MediaContentSlice>
@@ -119,26 +120,27 @@ const doubleImg = cva("block w-full max-w-full min-w-0", {
   },
 })
 
-// Renders one slot — a video if its Link-to-Media is filled (the image becomes
-// the poster), otherwise the image. Used for both sides of DoubleMedia.
+// Renders one slot — a video if its Mux playback ID is filled (the image
+// becomes the poster), otherwise the image. Used for both sides of DoubleMedia.
 function DoubleSlot({
   image,
-  video,
+  playbackId,
   original,
   side,
   layout,
 }: {
   image: ImageField
-  video: LinkToMediaField
+  playbackId: KeyTextField
   original: boolean
   side: Side
   layout: DoubleLayout
 }): JSX.Element {
+  const videoId = muxPlaybackId(playbackId)
   return (
     <div className={doubleBox({ side, layout, original })}>
-      {isFilled.linkToMedia(video) ? (
+      {videoId ? (
         <PrismicVideo
-          field={video}
+          playbackId={videoId}
           poster={image}
           fill={!original}
           aspectRatio={original ? imageAspect(image) : undefined}
@@ -159,6 +161,12 @@ function DoubleSlot({
 
 const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
   const { title, description, originalDimensions } = slice.primary
+  // A slot plays a video only when its Mux playback ID is filled. The older
+  // `video` / `video2` Link to Media fields are no longer read.
+  const singleVideoId =
+    slice.variation === "default"
+      ? muxPlaybackId(slice.primary.muxPlaybackId)
+      : null
 
   return (
     <section
@@ -177,22 +185,22 @@ const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
         <div className={doubleRow}>
           <DoubleSlot
             image={slice.primary.image}
-            video={slice.primary.video}
+            playbackId={slice.primary.muxPlaybackId}
             original={originalDimensions}
             side="left"
             layout={slice.primary.layout}
           />
           <DoubleSlot
             image={slice.primary.image2}
-            video={slice.primary.video2}
+            playbackId={slice.primary.muxPlaybackId2}
             original={originalDimensions}
             side="right"
             layout={slice.primary.layout}
           />
         </div>
-      ) : isFilled.linkToMedia(slice.primary.video) ? (
+      ) : singleVideoId ? (
         <PrismicVideo
-          field={slice.primary.video}
+          playbackId={singleVideoId}
           poster={slice.primary.image}
           fill={false}
           aspectRatio={

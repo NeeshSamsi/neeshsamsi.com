@@ -706,6 +706,16 @@ export interface MediaContentSliceDefaultPrimary {
 	video: prismic.LinkToMediaField<prismic.FieldState, never>;
 	
 	/**
+	 * Mux playback ID (optional, overrides the image, which becomes the poster) field in *MediaContent → SingleMedia → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Playback ID from Mux
+	 * - **API ID Path**: media_content.default.primary.muxPlaybackId
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	muxPlaybackId: prismic.KeyTextField;
+	
+	/**
 	 * Original Dimensions field in *MediaContent → SingleMedia → Primary*
 	 *
 	 * - **Field Type**: Boolean
@@ -782,6 +792,16 @@ export interface MediaContentSliceDoubleMediaPrimary {
 	video: prismic.LinkToMediaField<prismic.FieldState, never>;
 	
 	/**
+	 * Mux playback ID Left (optional, overrides the left image, which becomes the poster) field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Playback ID from Mux
+	 * - **API ID Path**: media_content.doubleMedia.primary.muxPlaybackId
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	muxPlaybackId: prismic.KeyTextField;
+	
+	/**
 	 * Image Right field in *MediaContent → DoubleMedia → Primary*
 	 *
 	 * - **Field Type**: Image
@@ -800,6 +820,16 @@ export interface MediaContentSliceDoubleMediaPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
 	 */
 	video2: prismic.LinkToMediaField<prismic.FieldState, never>;
+	
+	/**
+	 * Mux playback ID Right (optional, overrides the right image, which becomes the poster) field in *MediaContent → DoubleMedia → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Playback ID from Mux
+	 * - **API ID Path**: media_content.doubleMedia.primary.muxPlaybackId2
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	muxPlaybackId2: prismic.KeyTextField;
 	
 	/**
 	 * Original Dimensions field in *MediaContent → DoubleMedia → Primary*

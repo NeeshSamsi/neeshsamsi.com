@@ -54,57 +54,19 @@ The site follows Prismic's Cache Components setup (`cacheComponents: true`, `@pr
 ## Testing
 
 - **Vitest** (`pnpm test`): tests sit next to the code as `*.test.ts(x)` under `src/`. Node environment by default; a component test opts into jsdom with `// @vitest-environment jsdom` on its first line. Prismic, `next/*` and the network are mocked.
-- **Playwright** (`pnpm test:e2e`): specs live in `e2e/`. They reuse the running dev server and never start one, so the server must be up first (`E2E_BASE_URL` overrides `http://localhost:3000`). They run in the installed Google Chrome (`channel: "chrome"`) because Playwright's bundled Chromium cannot decode the H.264 clips; do not download Playwright browsers.
+- **Playwright** (`pnpm test:e2e`): specs live in `e2e/`. They reuse the running dev server and never start one, so the server must be up first (`E2E_BASE_URL` overrides `http://localhost:3000`). They run in the installed Google Chrome (`channel: "chrome"`) because Playwright's bundled Chromium cannot decode the H.264 video in the Mux streams; do not download Playwright browsers.
 - Navigate in specs with `load(page, path)` from `e2e/fixtures.ts`. The Turbopack dev server sometimes serves a framework chunk empty, which leaves the page unhydrated; `load` reloads when that happens.
 - The contact form posts to a real Discord webhook. E2E tests must never submit it (`e2e/contact.spec.ts` blocks every non-GET request); cover submission in Vitest with `fetch` mocked.
 - E2E tests read published Prismic content. Assert structure and behaviour and avoid asserting CMS copy.
 
-## Video optimization for Prismic
+## Video (Mux)
 
-Videos are uploaded to Prismic's media library and referenced via a "Link to Media" field (see `src/slices/MediaContent/model.json`, rendered by `src/components/PrismicVideo.tsx`). Prismic serves the uploaded file as-is from its CDN with HTTP range-request support — it does **not** transcode or generate adaptive-bitrate streams. So all optimization has to happen locally, before upload, with these goals:
+Clips are hosted on Mux and played with Video.js v10, which is the web player Mux documents. Prismic holds only the playback ID.
 
-- **Fast start** — `-movflags +faststart` moves the MP4 `moov` atom to the front so playback can begin before the whole file downloads. Without this, progressive streaming/seeking from the Prismic CDN is effectively broken.
-- **Broad compatibility** — H.264 (`libx264`) in `yuv420p` pixel format plays everywhere without extra config.
-- **Small file size** — Prismic enforces a per-asset upload cap on the media library (varies by plan — check the repository dashboard if an upload is rejected). Favor CRF-based encoding over fixed bitrate to keep quality/size balanced, and cap resolution at 1920px on the long edge (this site never renders video wider than the viewport).
-- **Strip audio when unused** — `PrismicVideo` defaults every clip to autoplay/muted/loop ("GIF-style" ambient background). If the clip has no audible content, drop the audio track entirely to save size.
-
-### Commands
-
-Run from wherever the source file lives; swap `input.mov` / `output.mp4` as needed.
-
-**Ambient/background clip (autoplay, muted, loop — the default `PrismicVideo` use case, no audio needed):**
-
-```bash
-ffmpeg -i input.mov \
-  -vf "scale='min(1920,iw)':'min(1920,ih)':force_original_aspect_ratio=decrease:force_divisible_by=2" \
-  -c:v libx264 -profile:v high -pix_fmt yuv420p \
-  -preset slow -crf 26 \
-  -movflags +faststart \
-  -an \
-  output.mp4
-```
-
-**Standard clip with audio (viewer may unmute via the controls in `PrismicVideo`):**
-
-```bash
-ffmpeg -i input.mov \
-  -vf "scale='min(1920,iw)':'min(1920,ih)':force_original_aspect_ratio=decrease:force_divisible_by=2" \
-  -c:v libx264 -profile:v high -pix_fmt yuv420p \
-  -preset slow -crf 23 \
-  -movflags +faststart \
-  -c:a aac -b:a 128k -ac 2 \
-  output.mp4
-```
-
-**Poster frame (optional — extracts a still to use as the `Image` field, shown before playback starts):**
-
-```bash
-ffmpeg -i output.mp4 -ss 00:00:01 -vframes 1 -q:v 2 poster.jpg
-```
-
-### Notes
-
-- Lower CRF = higher quality/larger file. 23 is a good default for clips with audible/foreground content; 26 is fine for background loops where fine detail matters less. Go as high as 28–30 if a clip still exceeds the upload cap.
-- `scale=...force_divisible_by=2` avoids odd dimensions, which `libx264`/`yuv420p` reject.
-- Check the result before uploading: `ffprobe -v error -show_entries format=size,duration -of default=noprint_wrappers=1 output.mp4`.
-- `-preset slow` trades encode time for compression efficiency; drop to `medium` if iterating quickly on settings.
+- **Content model.** The MediaContent slice (`src/slices/MediaContent/model.json`) has an optional Key Text field `muxPlaybackId` (SingleMedia), and `muxPlaybackId` + `muxPlaybackId2` (DoubleMedia, left and right). A slot is a video exactly when its playback ID is filled; otherwise it shows its image. The slot's image is the poster and gives the aspect ratio in "Original Dimensions" mode, so set it for every clip. Without an image the poster is Mux's own frame (`https://image.mux.com/{PLAYBACK_ID}/thumbnail.webp`).
+- **Asset settings.** Every asset is created with `video_quality: "plus"`, `max_resolution_tier: "1080p"` and a `public` playback policy. Mux encodes the adaptive stream and scales larger sources down, so upload the original export. Do not compress or resize it first.
+- **Adding a clip.** Run `node --env-file=.env.local scripts/mux-upload.mjs <file-or-url> [--title "Name"]`, then paste the playback ID it prints into the slice's "Mux playback ID" field and publish. `--dry-run` prints the request without contacting Mux. `MUX_TOKEN_ID` and `MUX_TOKEN_SECRET` (in `.env.local`) are used by this script only. The site never needs them at runtime, and they must never get a `NEXT_PUBLIC_` name.
+- **Player.** `src/components/PrismicVideo.tsx` renders the poster and loads `src/components/PrismicVideoPlayer.tsx` in the browser. The player is a Video.js `Player` with Mux's `MuxVideo` media component and Video.js's own parts for the controls (`PlayButton`, `MuteButton`, `TimeSlider`, `Slider.Thumbnail`, `Gesture`), styled with Tailwind to the site's look. `MuxVideo` adds Mux's storyboard track, which the slider thumbnail reads. Clips default to ambient playback (autoplay, muted, loop) and stay paused under reduced motion.
+- **Why the player is browser-only.** Video.js reads the clock while rendering, which breaks the "Build rules" above for a prerendered page, and it brings an HLS engine that pages without video should not download. Keep the dynamic `import()` in `PrismicVideo.tsx`; do not import `PrismicVideoPlayer` statically.
+- **Mute button.** It is shown only for clips with sound. `src/lib/video-audio.ts` detects that from the `<video>` element, because Video.js's audio track list stays empty for a clip with a single audio track.
+- **Docs.** Mux: [Video.js for Web](https://www.mux.com/docs/guides/playback-videojs-with-mux), [images and storyboards](https://www.mux.com/docs/guides/get-images-from-a-video), [direct uploads](https://www.mux.com/docs/guides/upload-files-directly). Video.js: version-matched docs ship in `node_modules/@videojs/react/docs` (start with `reference/components/mux-video.md` and `guides/thumbnails.md`).

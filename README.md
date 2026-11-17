@@ -57,4 +57,4 @@ Content lives in the Prismic repository `neeshsamsi` and is edited in the Prismi
 
 ## Video
 
-Clips are currently uploaded to Prismic's media library (encoding settings are in `AGENTS.md`). Video is moving to Mux.
+Clips are hosted on Mux and played with Video.js. Upload one with `node --env-file=.env.local scripts/mux-upload.mjs <file-or-url>`, then paste the playback ID it prints into the MediaContent slice's "Mux playback ID" field in Prismic. Details are in the "Video (Mux)" section of `AGENTS.md`.
