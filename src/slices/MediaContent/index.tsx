@@ -161,8 +161,7 @@ function DoubleSlot({
 
 const MediaContent = ({ slice }: MediaContentProps): JSX.Element => {
   const { title, description, originalDimensions } = slice.primary
-  // A slot plays a video only when its Mux playback ID is filled. The older
-  // `video` / `video2` Link to Media fields are no longer read.
+  // A slot plays a video only when its Mux playback ID is filled.
   const singleVideoId =
     slice.variation === "default"
       ? muxPlaybackId(slice.primary.muxPlaybackId)

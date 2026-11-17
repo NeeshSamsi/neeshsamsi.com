@@ -696,16 +696,6 @@ export interface MediaContentSliceDefaultPrimary {
 	image: prismic.ImageField<never>;
 	
 	/**
-	 * Video (optional - overrides the image, which becomes the poster) field in *MediaContent → SingleMedia → Primary*
-	 *
-	 * - **Field Type**: Link to Media
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: media_content.default.primary.video
-	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
-	 */
-	video: prismic.LinkToMediaField<prismic.FieldState, never>;
-	
-	/**
 	 * Mux playback ID (optional, overrides the image, which becomes the poster) field in *MediaContent → SingleMedia → Primary*
 	 *
 	 * - **Field Type**: Text
@@ -782,16 +772,6 @@ export interface MediaContentSliceDoubleMediaPrimary {
 	image: prismic.ImageField<never>;
 	
 	/**
-	 * Video Left (optional - overrides Image Left, which becomes the poster) field in *MediaContent → DoubleMedia → Primary*
-	 *
-	 * - **Field Type**: Link to Media
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: media_content.doubleMedia.primary.video
-	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
-	 */
-	video: prismic.LinkToMediaField<prismic.FieldState, never>;
-	
-	/**
 	 * Mux playback ID Left (optional, overrides the left image, which becomes the poster) field in *MediaContent → DoubleMedia → Primary*
 	 *
 	 * - **Field Type**: Text
@@ -810,16 +790,6 @@ export interface MediaContentSliceDoubleMediaPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/image
 	 */
 	image2: prismic.ImageField<never>;
-	
-	/**
-	 * Video Right (optional - overrides Image Right, which becomes the poster) field in *MediaContent → DoubleMedia → Primary*
-	 *
-	 * - **Field Type**: Link to Media
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: media_content.doubleMedia.primary.video2
-	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
-	 */
-	video2: prismic.LinkToMediaField<prismic.FieldState, never>;
 	
 	/**
 	 * Mux playback ID Right (optional, overrides the right image, which becomes the poster) field in *MediaContent → DoubleMedia → Primary*

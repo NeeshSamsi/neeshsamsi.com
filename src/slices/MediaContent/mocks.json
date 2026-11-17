@@ -37,12 +37,6 @@
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
 			},
-			"video": {
-				"__TYPE__": "LinkContent",
-				"value": {
-					"__TYPE__": "EmptyLinkContent"
-				}
-			},
 			"description": {
 				"__TYPE__": "StructuredTextContent",
 				"value": [
@@ -110,12 +104,6 @@
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
 			},
-			"video": {
-				"__TYPE__": "LinkContent",
-				"value": {
-					"__TYPE__": "EmptyLinkContent"
-				}
-			},
 			"image2": {
 				"origin": {
 					"id": "main",
@@ -138,12 +126,6 @@
 				"credits": null,
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
-			},
-			"video2": {
-				"__TYPE__": "LinkContent",
-				"value": {
-					"__TYPE__": "EmptyLinkContent"
-				}
 			},
 			"originalDimensions": {
 				"__TYPE__": "BooleanContent",

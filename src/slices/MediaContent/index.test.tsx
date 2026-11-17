@@ -45,16 +45,6 @@ const image = (name: string) =>
     edit: { x: 0, y: 0, zoom: 1, background: "transparent" },
   }) as ImageField
 
-// A file in the old "Link to Media" field, which the slice no longer reads.
-const oldVideoFile = {
-  link_type: "Media",
-  kind: "file",
-  id: "file",
-  url: "https://neeshsamsi.cdn.prismic.io/neeshsamsi/clip.mp4",
-  name: "clip.mp4",
-  size: "1000",
-}
-
 function renderSlice(variation: string, primary: Record<string, unknown>) {
   const slice = {
     id: "media_content$test",
@@ -100,17 +90,6 @@ describe("MediaContent, single", () => {
     expect(images).toHaveLength(1)
     expect(images[0].dataset.url).toBe(image("still").url)
   })
-
-  it("ignores a file left in the old video field", () => {
-    const { videos, images } = renderSlice("default", {
-      image: image("still"),
-      video: oldVideoFile,
-      muxPlaybackId: "  ",
-      width: "Full",
-    })
-    expect(videos).toHaveLength(0)
-    expect(images).toHaveLength(1)
-  })
 })
 
 describe("MediaContent, double", () => {
@@ -119,7 +98,6 @@ describe("MediaContent, double", () => {
       layout: "Half & Half",
       image: image("left"),
       muxPlaybackId: null,
-      video: oldVideoFile,
       image2: image("right"),
       muxPlaybackId2: "right-id",
     })

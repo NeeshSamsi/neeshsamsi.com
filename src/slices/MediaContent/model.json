@@ -42,16 +42,6 @@
             "thumbnails": []
           }
         },
-        "video": {
-          "type": "Link",
-          "config": {
-            "label": "Video (optional - overrides the image, which becomes the poster)",
-            "placeholder": "",
-            "select": "media",
-            "allowText": false,
-            "repeat": false
-          }
-        },
         "muxPlaybackId": {
           "type": "Text",
           "config": {
@@ -118,16 +108,6 @@
             "thumbnails": []
           }
         },
-        "video": {
-          "type": "Link",
-          "config": {
-            "label": "Video Left (optional - overrides Image Left, which becomes the poster)",
-            "placeholder": "",
-            "select": "media",
-            "allowText": false,
-            "repeat": false
-          }
-        },
         "muxPlaybackId": {
           "type": "Text",
           "config": {
@@ -141,16 +121,6 @@
             "label": "Image Right",
             "constraint": {},
             "thumbnails": []
-          }
-        },
-        "video2": {
-          "type": "Link",
-          "config": {
-            "label": "Video Right (optional - overrides Image Right, which becomes the poster)",
-            "placeholder": "",
-            "select": "media",
-            "allowText": false,
-            "repeat": false
           }
         },
         "muxPlaybackId2": {
