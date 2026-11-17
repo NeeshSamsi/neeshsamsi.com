@@ -40,6 +40,7 @@
 
 - The Prismic Page Builder previews slices by framing `http://localhost:3000/slice-simulator` while `pnpm dev` is running, so `next.config.js` sends no frame-blocking headers and no CSP
 - Content edits happen in Prismic dashboard, not locally
+- Short links (`/instagram`, `/github`, `/linkedin`, `/susu`) are rewrites to Umami Links on https://umami.neeshsamsi.com, which count each click and redirect. Their destinations live in Umami (Links). To add one, create a Link there (slugs need at least 8 characters) and add the path and slug to the map in `next.config.js`
 
 ## Prismic data and caching
 

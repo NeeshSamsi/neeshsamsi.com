@@ -44,6 +44,18 @@ module.exports = {
       source: "/u/:path*",
       destination: "https://umami.neeshsamsi.com/:path*",
     },
+    // Short links. Each one is an Umami Link, which records the click and
+    // redirects to the destination set in Umami (Links in the dashboard).
+    // Proxying keeps the umami.neeshsamsi.com hop out of the visitor's way.
+    ...Object.entries({
+      instagram: "site-instagram",
+      github: "site-github",
+      linkedin: "site-linkedin",
+      susu: "site-susu",
+    }).map(([path, slug]) => ({
+      source: `/${path}`,
+      destination: `https://umami.neeshsamsi.com/q/${slug}`,
+    })),
   ],
   redirects: async () => [
     {
@@ -54,30 +66,12 @@ module.exports = {
       permanent: true,
     },
     {
+      // The site's Umami dashboard. Temporary, so a later change reaches
+      // browsers that have used it before.
       source: "/stats",
       destination:
-        "https://umami.neeshsamsi.com/websites/6a4f158b-409d-4cdb-a2f0-3c081e73e846",
-      permanent: true,
-    },
-    {
-      source: "/instagram",
-      destination: "https://instagram.com/neeshsamsi",
-      permanent: true,
-    },
-    {
-      source: "/github",
-      destination: "https://github.com/neeshsamsi",
-      permanent: true,
-    },
-    {
-      source: "/linkedin",
-      destination: "https://linkedin.com/in/neeshsamsi",
-      permanent: true,
-    },
-    {
-      source: "/susu",
-      destination: "/experiments/susu",
-      permanent: true,
+        "https://umami.neeshsamsi.com/websites/c98851cd-fce3-401d-aae0-6249488c14e1",
+      permanent: false,
     },
   ],
 }
